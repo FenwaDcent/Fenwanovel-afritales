@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>The Last Baobab - AfriTales</title>
+  <link rel="stylesheet" href="styles/main.css" />
+</head>
+<body>
+  <div class="coin-balance">
+    <span>💰 Coins: 85</span>
+    <span> | $0.43</span>
+  </div>
+
+  <div class="container">
+    <h1>The Last Baobab</h1>
+    <p class="author">By Chinua Achebe</p>
+    
+    <div class="story-content">
+      <h2>Chapter 1: Roots</h2>
+      <p>The sun rose over the savannah, casting long shadows across the ancient baobab tree. This was where it all began...</p>
+      
+      <p><em>Preview: First 10% of chapter shown here.</em></p>
+      
+      <div class="purchase-box">
+        <p>To continue reading, pay 30 coins or watch a video ad.</p>
+        <button onclick="alert('Purchase not implemented yet')">Pay 30 Coins</button>
+        <button onclick="alert('Watch ad not implemented yet')">Watch Video Ad</button>
+      </div>
+    </div>
+
+    <a href="index.html" class="back-link">← Back to Library</a>
+  </div>
+</body>
+</html>
