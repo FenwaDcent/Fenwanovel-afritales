@@ -3,33 +3,61 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>The Last Baobab - AfriTales</title>
-  <link rel="stylesheet" href="styles/main.css" />
+  <title>Billionaire in Disguise - Fenwa Novel</title>
+  <link rel="stylesheet" href="styles/style.css" />
 </head>
 <body>
+  <!-- Coin Balance -->
   <div class="coin-balance">
     <span>💰 Coins: 85</span>
-    <span> | $0.43</span>
   </div>
 
-  <div class="container">
-    <h1>The Last Baobab</h1>
-    <p class="author">By Chinua Achebe</p>
+  <div style="max-width: 800px; margin: 20px auto; padding: 20px;">
+    <h1 style="color: #D46F4D;">Billionaire in Disguise</h1>
+    <p><strong>By Ajibade Vincent Adefenwa</strong></p>
     
-    <div class="story-content">
-      <h2>Chapter 1: Roots</h2>
-      <p>The sun rose over the savannah, casting long shadows across the ancient baobab tree. This was where it all began...</p>
+    <p>A young woman’s world changes when a mysterious benefactor offers help — but can love survive secrets and a masquerade of wealth?</p>
+    
+    <h2 style="margin-top: 30px;">Chapters</h2>
+    <div style="background: white; padding: 15px; border-radius: 10px; box-shadow: 0 2px 6px rgba(0,0,0,0.1);">
+      <div style="padding: 10px 0; border-bottom: 1px solid #eee;">
+        <strong>Chapter 1: Prologue — The Gift</strong>
+        <p style="margin: 8px 0; color: #555;">She never expected a stranger to change her life forever...</p>
+        <button style="background:#D46F4D; color:white; border:none; padding:8px 16px; border-radius:6px; cursor:pointer;">Continue Reading</button>
+      </div>
       
-      <p><em>Preview: First 10% of chapter shown here.</em></p>
-      
-      <div class="purchase-box">
-        <p>To continue reading, pay 30 coins or watch a video ad.</p>
-        <button onclick="alert('Purchase not implemented yet')">Pay 30 Coins</button>
-        <button onclick="alert('Watch ad not implemented yet')">Watch Video Ad</button>
+      <div style="padding: 10px 0; border-bottom: 1px solid #eee;">
+        <strong>Chapter 2: A Chance Meeting</strong>
+        <p style="margin: 8px 0; color: #555;">On a rainy evening, their paths crossed again...</p>
+        <button style="background:#D46F4D; color:white; border:none; padding:8px 16px; border-radius:6px; cursor:pointer;">Unlock with 30 Coins</button>
       </div>
     </div>
 
-    <a href="index.html" class="back-link">← Back to Library</a>
+    <a href="index.html" style="display: inline-block; margin-top: 20px; color: #D46F4D; font-weight: bold;">← Back to Library</a>
+  </div>
+
+  <!-- Bottom Nav -->
+  <div class="bottom-nav">
+    <a href="index.html" class="nav-item active">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+      <span>Library</span>
+    </a>
+    <a href="#" class="nav-item">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+      <span>Discover</span>
+    </a>
+    <a href="#" class="nav-item">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+      <span>Short</span>
+    </a>
+    <a href="#" class="nav-item">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+      <span>Rank</span>
+    </a>
+    <a href="#" class="nav-item">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+      <span>Profile</span>
+    </a>
   </div>
 </body>
 </html>
