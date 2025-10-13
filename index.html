@@ -3,40 +3,99 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>AfriTales - African Stories</title>
+  <title>Fenwa Novel - African Stories</title>
   <link rel="stylesheet" href="styles/style.css" />
 </head>
 <body>
+  <!-- Coin Balance -->
   <div class="coin-balance">
     <span>💰 Coins: 85</span>
-    <span> | $0.43</span>
   </div>
 
-  <div class="container">
-    <h1>AfriTales</h1>
-    <p>Stories from Africa, told your way.</p>
-    
-    <div class="btn-group">
-      <a href="App/Auth/login.html" class="btn">Login</a>
-      <a href="App/Auth/register.html" class="btn btn-secondary">Register</a>
-    </div>
+  <!-- Header -->
+  <header>
+    <h1>Fenwa Novel</h1>
+    <p>African tales, Christian novels, romance — read now.</p>
+  </header>
 
-    <h2>Featured Stories</h2>
-    <div class="stories-grid">
-      <div class="story-card">
-        <img src="https://placehold.co/300x450/8B4513/FFFFFF?text=The+Last+Baobab" alt="The Last Baobab" />
-        <h3>The Last Baobab</h3>
-        <p>By Chinua Achebe</p>
+  <!-- Categories -->
+  <div class="categories">
+    <button class="category-btn active">📚 All</button>
+    <button class="category-btn">❤️ Romance</button>
+    <button class="category-btn">✝️ Christian Novels</button>
+    <button class="category-btn">🌍 African Tales</button>
+    <button class="category-btn">🎭 Fiction</button>
+  </div>
+
+  <!-- Books Grid -->
+  <div class="books-grid">
+    <!-- Book 1 -->
+    <div class="book-card">
+      <img src="https://placehold.co/300x450/8B4513/FFFFFF?text=Billionaire+in+Disguise" alt="Billionaire in Disguise" class="book-cover" />
+      <div class="book-info">
+        <h3>Billionaire in Disguise</h3>
+        <p class="book-author">By Ajibade Vincent Adefenwa</p>
+        <p class="book-desc">A young woman’s world changes when a mysterious benefactor offers help — but can love survive secrets and a masquerade of wealth?</p>
         <a href="story.html" class="read-btn">Read Now</a>
       </div>
+    </div>
 
-      <div class="story-card">
-        <img src="https://placehold.co/300x450/DC143C/FFFFFF?text=Queen+of+Dahomey" alt="Queen of Dahomey" />
-        <h3>Queen of Dahomey</h3>
-        <p>By Buchi Emecheta</p>
+    <!-- Book 2 -->
+    <div class="book-card">
+      <img src="https://placehold.co/300x450/DC143C/FFFFFF?text=When+Love" alt="When Love Stands the Test" class="book-cover" />
+      <div class="book-info">
+        <h3>WHEN LOVE STANDS THE TEST</h3>
+        <p class="book-author">By Ajibade Vincent Adefenwa</p>
+        <p class="book-desc">A faith-filled story of a couple whose love is tested through trials — finding hope, forgiveness, and a deeper calling.</p>
         <a href="story.html" class="read-btn">Read Now</a>
       </div>
     </div>
+
+    <!-- Book 3 -->
+    <div class="book-card">
+      <img src="https://placehold.co/300x450/4169E1/FFFFFF?text=Kingdom+of+Shadows" alt="The Kingdom of Shadows" class="book-cover" />
+      <div class="book-info">
+        <h3>The Kingdom of Shadows</h3>
+        <p class="book-author">By Ajibade Vincent Adefenwa</p>
+        <p class="book-desc">A young hero journeys through enchanted lands to restore light to a kingdom swallowed by shadows — rich with African lore.</p>
+        <a href="story.html" class="read-btn">Read Now</a>
+      </div>
+    </div>
+
+    <!-- Book 4 -->
+    <div class="book-card">
+      <img src="https://placehold.co/300x450/228B22/FFFFFF?text=Behind+the+Spotlight" alt="Behind the Spotlight" class="book-cover" />
+      <div class="book-info">
+        <h3>BEHIND THE SPOTLIGHT</h3>
+        <p class="book-author">By Ajibade Vincent Adefenwa</p>
+        <p class="book-desc">An inside look at fame, envy, and the cost of stardom — when the cameras stop rolling, what remains?</p>
+        <a href="story.html" class="read-btn">Read Now</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bottom Navigation -->
+  <div class="bottom-nav">
+    <a href="index.html" class="nav-item active">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+      <span>Library</span>
+    </a>
+    <a href="#" class="nav-item">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+      <span>Discover</span>
+    </a>
+    <a href="#" class="nav-item">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+      <span>Short</span>
+    </a>
+    <a href="#" class="nav-item">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+      <span>Rank</span>
+    </a>
+    <a href="#" class="nav-item">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+      <span>Profile</span>
+    </a>
   </div>
 </body>
 </html>
