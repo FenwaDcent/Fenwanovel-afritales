@@ -1,63 +1,244 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html><html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Billionaire in Disguise - Fenwa Novel</title>
-  <link rel="stylesheet" href="styles/style.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FenwaNovels | Read Stories that Touch the Soul</title>
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      margin: 0;
+      background: #0d0d0d;
+      color: #f2f2f2;
+      overflow-x: hidden;
+    }header {
+  background: linear-gradient(90deg, #111, #1a1a1a);
+  color: #f8c94a;
+  text-align: center;
+  padding: 1.2rem 0;
+  font-size: 1.5rem;
+  font-weight: bold;
+  letter-spacing: 1px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.6);
+}
+
+nav {
+  display: flex;
+  justify-content: center;
+  background: #151515;
+  padding: 0.6rem 0;
+  gap: 2rem;
+}
+
+nav a {
+  text-decoration: none;
+  color: #f2f2f2;
+  font-size: 0.95rem;
+  transition: color 0.3s;
+}
+
+nav a:hover {
+  color: #f8c94a;
+}
+
+.categories {
+  text-align: center;
+  margin: 2rem 1rem;
+}
+
+.categories h2 {
+  color: #f8c94a;
+  margin-bottom: 1rem;
+}
+
+.category-tags {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.8rem;
+}
+
+.category-tags span {
+  background: #222;
+  color: #f8c94a;
+  padding: 0.5rem 1rem;
+  border-radius: 25px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.category-tags span:hover {
+  background: #f8c94a;
+  color: #111;
+}
+
+.books {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1.5rem;
+  padding: 1.5rem;
+  max-width: 1200px;
+  margin: auto;
+}
+
+.book {
+  background: #1a1a1a;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.book:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 20px rgba(248, 201, 74, 0.2);
+}
+
+.book img {
+  width: 100%;
+  height: 320px;
+  object-fit: cover;
+}
+
+.book-info {
+  padding: 1rem;
+  text-align: center;
+}
+
+.book-info h3 {
+  margin: 0.5rem 0;
+  color: #f8c94a;
+}
+
+.book-info p {
+  font-size: 0.9rem;
+  color: #ccc;
+  height: 50px;
+  overflow: hidden;
+}
+
+.book-buttons {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 1rem;
+}
+
+.book-buttons button {
+  border: none;
+  border-radius: 20px;
+  padding: 0.5rem 1.2rem;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.3s;
+}
+
+.read-btn {
+  background: #f8c94a;
+  color: #111;
+}
+
+.read-btn:hover {
+  background: #ffd95a;
+}
+
+.unlock-btn {
+  background: transparent;
+  color: #f8c94a;
+  border: 1px solid #f8c94a;
+}
+
+.unlock-btn:hover {
+  background: #f8c94a;
+  color: #111;
+}
+
+footer {
+  text-align: center;
+  padding: 1rem;
+  margin-top: 2rem;
+  background: #111;
+  color: #aaa;
+  font-size: 0.9rem;
+}
+
+  </style>
 </head>
 <body>
-  <!-- Coin Balance -->
-  <div class="coin-balance">
-    <span>💰 Coins: 85</span>
-  </div>
-
-  <div style="max-width: 800px; margin: 20px auto; padding: 20px;">
-    <h1 style="color: #D46F4D;">Billionaire in Disguise</h1>
-    <p><strong>By Ajibade Vincent Adefenwa</strong></p>
-    
-    <p>A young woman’s world changes when a mysterious benefactor offers help — but can love survive secrets and a masquerade of wealth?</p>
-    
-    <h2 style="margin-top: 30px;">Chapters</h2>
-    <div style="background: white; padding: 15px; border-radius: 10px; box-shadow: 0 2px 6px rgba(0,0,0,0.1);">
-      <div style="padding: 10px 0; border-bottom: 1px solid #eee;">
-        <strong>Chapter 1: Prologue — The Gift</strong>
-        <p style="margin: 8px 0; color: #555;">She never expected a stranger to change her life forever...</p>
-        <button style="background:#D46F4D; color:white; border:none; padding:8px 16px; border-radius:6px; cursor:pointer;">Continue Reading</button>
-      </div>
-      
-      <div style="padding: 10px 0; border-bottom: 1px solid #eee;">
-        <strong>Chapter 2: A Chance Meeting</strong>
-        <p style="margin: 8px 0; color: #555;">On a rainy evening, their paths crossed again...</p>
-        <button style="background:#D46F4D; color:white; border:none; padding:8px 16px; border-radius:6px; cursor:pointer;">Unlock with 30 Coins</button>
-      </div>
+  <header>📚 FenwaNovels</header>
+  <nav>
+    <a href="#">Home</a>
+    <a href="#">Categories</a>
+    <a href="#">About</a>
+    <a href="#">Contact</a>
+  </nav>  <section class="categories">
+    <h2>Explore Categories</h2>
+    <div class="category-tags">
+      <span>Romance</span>
+      <span>Fiction</span>
+      <span>Christian Novels</span>
+      <span>African Tales</span>
+      <span>Drama</span>
     </div>
-
-    <a href="index.html" style="display: inline-block; margin-top: 20px; color: #D46F4D; font-weight: bold;">← Back to Library</a>
+  </section>  <section class="books">
+    <div class="book">
+      <img src="https://via.placeholder.com/300x400?text=Billionaire+in+Disguise" alt="Billionaire in Disguise">
+      <div class="book-info">
+        <h3>Billionaire in Disguise</h3>
+        <p>A tale of hidden identity, love, and destiny — where money meets true emotions.</p>
+        <div class="book-buttons">
+          <button class="read-btn">Read Now</button>
+          <button class="unlock-btn">Unlock Chapter</button>
+        </div>
+      </div>
+    </div><div class="book">
+  <img src="https://via.placeholder.com/300x400?text=When+Love+Stands+the+Test" alt="When Love Stands the Test">
+  <div class="book-info">
+    <h3>When Love Stands the Test</h3>
+    <p>Even time and distance couldn’t break what fate had already written.</p>
+    <div class="book-buttons">
+      <button class="read-btn">Read Now</button>
+      <button class="unlock-btn">Unlock Chapter</button>
+    </div>
   </div>
+</div>
 
-  <!-- Bottom Nav -->
-  <div class="bottom-nav">
-    <a href="index.html" class="nav-item active">
-      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
-      <span>Library</span>
-    </a>
-    <a href="#" class="nav-item">
-      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
-      <span>Discover</span>
-    </a>
-    <a href="#" class="nav-item">
-      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
-      <span>Short</span>
-    </a>
-    <a href="#" class="nav-item">
-      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
-      <span>Rank</span>
-    </a>
-    <a href="#" class="nav-item">
-      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
-      <span>Profile</span>
-    </a>
+<div class="book">
+  <img src="https://via.placeholder.com/300x400?text=Behind+the+Spotlight" alt="Behind the Spotlight">
+  <div class="book-info">
+    <h3>Behind the Spotlight</h3>
+    <p>The price of fame, the cost of love — and the story that hides behind the glamour.</p>
+    <div class="book-buttons">
+      <button class="read-btn">Read Now</button>
+      <button class="unlock-btn">Unlock Chapter</button>
+    </div>
   </div>
+</div>
+
+<div class="book">
+  <img src="https://via.placeholder.com/300x400?text=The+Kingdom+of+Shadows" alt="The Kingdom of Shadows">
+  <div class="book-info">
+    <h3>The Kingdom of Shadows</h3>
+    <p>An epic spiritual journey through darkness, light, and the fight for divine justice.</p>
+    <div class="book-buttons">
+      <button class="read-btn">Read Now</button>
+      <button class="unlock-btn">Unlock Chapter</button>
+    </div>
+  </div>
+</div>
+
+<div class="book">
+  <img src="https://via.placeholder.com/300x400?text=Echoes+of+Broken+Vows" alt="Echoes of Broken Vows">
+  <div class="book-info">
+    <h3>Echoes of Broken Vows</h3>
+    <p>Promises shattered, hearts torn — yet hope whispers through every echo.</p>
+    <div class="book-buttons">
+      <button class="read-btn">Read Now</button>
+      <button class="unlock-btn">Unlock Chapter</button>
+    </div>
+  </div>
+</div>
+
+  </section>  <footer>
+    © 2025 FenwaNovels. All Rights Reserved.
+  </footer>
 </body>
 </html>
