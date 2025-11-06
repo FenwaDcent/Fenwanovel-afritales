@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>The Anatomy of Power | Fenwanovels</title>
+  <link rel="stylesheet" href="/assets/styles.css"/>
+  <script defer src="/assets/app.js"></script>
+</head>
+<body>
+<header class="topbar">
+  <a class="brand" href="/">← Fenwanovels</a>
+  <div class="actions">
+    <button id="themeToggle" class="btn">🌙</button>
+    <span class="coins">💰 <b id="coinCount">85</b></span>
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="book-hero">
+    <img src="/assets/covers/anatomy-of-power.jpg" alt="The Anatomy of Power cover">
+    <div>
+      <h1>The Anatomy of Power</h1>
+      <p><b>By Ajibade Vincent Adefenwa</b></p>
+      <p>Inside Ekun State politics—money, godfathers, and a woman who refuses to be bought.</p>
+      <a href="/" class="btn back">← Back to Library</a>
+    </div>
+  </div>
+
+  <section class="chapter-list">
+    <div class="chapter">
+      <h4>Chapter 1: The Season of Money (FREE)</h4>
+      <p>Adebayo and the market pulse of power…</p>
+      <div class="row">
+        <button class="btn primary" onclick="readChapterInto('reader','Chapter 1: The Season of Money', `<p>Paste your full chapter here…</p>`)">Read now</button>
+        <span class="pill">Free</span>
+      </div>
+    </div>
+
+    <!-- Add your other chapters (Echoes of the Godfathers, The Primaries, etc.) -->
+  </section>
+
+  <section id="reader" class="read-area">
+    <em>Select a chapter to start reading…</em>
+  </section>
+
+  <a href="/" class="btn back">← Back to Library</a>
+</main>
+
+<footer class="footer">© <span id="year"></span> Fenwanovels</footer>
+</body>
+</html>
