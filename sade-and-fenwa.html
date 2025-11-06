@@ -1,61 +1,51 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Sade & Fenwa – A Legacy of Love</title>
-<link rel="stylesheet" href="../assets/css/style.css">
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Sade & Fenwa: A Legacy of Love | Fenwanovels</title>
+  <link rel="stylesheet" href="/assets/styles.css"/>
+  <script defer src="/assets/app.js"></script>
 </head>
 <body>
-  <header class="site-header">
-    <div class="brand"><span class="logo">❤️</span><h1>Sade & Fenwa</h1></div>
-    <div class="actions">
-      <button id="themeToggle">🌓</button>
-      <div class="coins">💰 <span id="coinBalance">0</span></div>
-      <a class="btn" href="../index.html">Library</a>
-    </div>
-  </header>
+<header class="topbar">
+  <a class="brand" href="/">← Fenwanovels</a>
+  <div class="actions">
+    <button id="themeToggle" class="btn">🌙</button>
+    <span class="coins">💰 <b id="coinCount">85</b></span>
+  </div>
+</header>
 
-  <section class="hero">
-    <div class="row">
-      <img src="../assets/img/sade-fenwa.jpg" alt="">
-      <div>
-        <h2>A Legacy of Love</h2>
-        <p>Humble beginnings to enduring impact. (First 2 chapters free)</p>
-        <small>Written by Brother Ajibade Vincent Adefenwa.</small>
+<main class="wrap">
+  <div class="book-hero">
+    <img src="/assets/covers/sade-and-fenwa.jpg" alt="Sade & Fenwa cover">
+    <div>
+      <h1>Sade & Fenwa: A Legacy of Love</h1>
+      <p><b>By Ajibade Vincent Adefenwa</b></p>
+      <p>120-chapter Nigerian romance of truth, humility, and destiny.</p>
+      <a href="/" class="btn back">← Back to Library</a>
+    </div>
+  </div>
+
+  <section class="chapter-list">
+    <div class="chapter">
+      <h4>Chapter 1: The Arrival (FREE)</h4>
+      <p>Fenwa arrives in Ìsẹ̀lú on a rusty bicycle…</p>
+      <div class="row">
+        <button class="btn primary" onclick="readChapterInto('reader','Chapter 1: The Arrival', `<p>Paste your full chapter 1 here…</p>`)">Read now</button>
+        <span class="pill">Free</span>
       </div>
     </div>
+
+    <!-- Add more free chapters (e.g., up to 12), then future paid ones -->
   </section>
 
-  <main class="reader" id="reader"></main>
+  <section id="reader" class="read-area">
+    <em>Select a chapter to start reading…</em>
+  </section>
 
-  <script src="../assets/js/app.js"></script>
-  <script>
-    const BOOK_KEY = "own_sadefenwa";
-    const FREE_UNTIL = 2;
-    const CH = [
-      {id:1,title:"The Arrival", text:`<!-- Paste Chapter 1 text -->`},
-      {id:2,title:"The First Glimpse", text:`<!-- Paste Chapter 2 text -->`},
-      {id:3,title:"The First Conversation", text:`...`},
-      {id:4,title:"The Village Market", text:`...`}
-    ];
+  <a href="/" class="btn back">← Back to Library</a>
+</main>
 
-    const el = document.getElementById("reader");
-    CH.forEach(c=>{
-      const locked = c.id>FREE_UNTIL && !Reader.has(BOOK_KEY, c.id);
-      el.insertAdjacentHTML("beforeend", `
-        <article class="chapter">
-          <h4>Chapter ${c.id}: ${c.title}</h4>
-          ${locked
-            ? `<p>This chapter is locked.</p><button class="unlock" onclick="unlock(${c.id})">Unlock (30 coins)</button>`
-            : `<div class="content"><p>${c.text}</p></div>`
-          }
-        </article>
-      `);
-    });
-
-    function unlock(id){
-      if (Reader.unlock(id, 30, BOOK_KEY)) location.reload();
-    }
-  </script>
+<footer class="footer">© <span id="year"></span> Fenwanovels</footer>
 </body>
 </html>
