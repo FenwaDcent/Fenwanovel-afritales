@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Login – Fenwanovels</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body data-theme="dark">
+  <header class="topbar">
+    <a href="index.html" class="brand">Fenwanovels</a>
+  </header>
+
+  <main class="container narrow">
+    <h2>Login</h2>
+    <form id="loginForm" class="card">
+      <label>Email <input type="email" id="loginEmail" required></label>
+      <label>Password <input type="password" id="loginPassword" required></label>
+      <button class="btn primary" type="submit">Login</button>
+      <button class="btn" type="button" id="googleBtn">Sign in with Google</button>
+      <p class="muted">No account? <a href="register.html">Create one</a></p>
+      <p id="loginError" class="error"></p>
+    </form>
+  </main>
+
+  <script type="module">
+    import { auth, signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from './firebase.js';
+
+    const form = document.getElementById('loginForm');
+    const err = document.getElementById('loginError');
+    const googleBtn = document.getElementById('googleBtn');
+
+    const params = new URLSearchParams(location.search);
+    const returnTo = params.get('returnTo') || 'index.html';
+
+    form.addEventListener('submit', async (e)=>{
+      e.preventDefault();
+      err.textContent='';
+      try{
+        const email = loginEmail.value.trim();
+        const pwd = loginPassword.value.trim();
+        await signInWithEmailAndPassword(auth, email, pwd);
+        location.href = returnTo;
+      }catch(e){ err.textContent = e.message; }
+    });
+
+    googleBtn.addEventListener('click', async ()=>{
+      try{
+        const provider = new GoogleAuthProvider();
+        await signInWithPopup(auth, provider);
+        location.href = returnTo;
+      }catch(e){ err.textContent = e.message; }
+    });
+  </script>
+</body>
+</html>
