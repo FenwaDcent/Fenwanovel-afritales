@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Create Account – Fenwanovels</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body data-theme="dark">
+  <header class="topbar">
+    <a href="index.html" class="brand">Fenwanovels</a>
+  </header>
+
+  <main class="container narrow">
+    <h2>Create Account</h2>
+    <form id="regForm" class="card">
+      <label>Name <input type="text" id="regName" required></label>
+      <label>Email <input type="email" id="regEmail" required></label>
+      <label>Password <input type="password" id="regPassword" minlength="6" required></label>
+      <button class="btn primary" type="submit">Register</button>
+      <p class="muted">Already have an account? <a href="login.html">Login</a></p>
+      <p id="regError" class="error"></p>
+    </form>
+  </main>
+
+  <script type="module">
+    import { auth, createUserWithEmailAndPassword, updateProfile } from './firebase.js';
+
+    const form = document.getElementById('regForm');
+    const err = document.getElementById('regError');
+
+    form.addEventListener('submit', async (e)=>{
+      e.preventDefault(); err.textContent='';
+      try{
+        const name = regName.value.trim();
+        const email = regEmail.value.trim();
+        const pwd = regPassword.value.trim();
+        const { user } = await createUserWithEmailAndPassword(auth, email, pwd);
+        if(name) await updateProfile(user, { displayName: name });
+        location.href = 'index.html';
+      }catch(e){ err.textContent = e.message; }
+    });
+  </script>
+</body>
+</html>
