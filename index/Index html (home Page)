@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Fenwanovels – African Love & Power Stories</title>
+  <link rel="stylesheet" href="assets/styles.css" />
+  <script defer src="assets/app.js"></script>
+  <!-- If your custom domain (fenwanovel.online) is live, root-links will work -->
+  <!-- If NOT yet live, change links like /books/... to books/... (remove the leading slash). -->
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">📚 Fenwanovels</div>
+    <div class="actions">
+      <button id="themeToggle" class="btn">🌙</button>
+      <a class="btn ghost" href="#">Login</a>
+      <span class="coins">💰 <b id="coinCount">85</b></span>
+    </div>
+  </header>
+
+  <nav class="nav">
+    <a href="/">Home</a>
+    <a href="#categories">Categories</a>
+    <a href="#about">About</a>
+    <a href="#contact">Contact</a>
+  </nav>
+
+  <section id="categories" class="wrap">
+    <h2>Explore Categories</h2>
+    <div class="tags">
+      <button class="tag">Romance</button>
+      <button class="tag">Fiction</button>
+      <button class="tag">African Tales</button>
+      <button class="tag">Christian</button>
+      <button class="tag">Drama</button>
+      <button class="tag">Political</button>
+    </div>
+  </section>
+
+  <section class="wrap">
+    <h2>Featured Books</h2>
+    <div class="grid">
+      <!-- Echoes of Broken Vows -->
+      <article class="card">
+        <img src="assets/covers/echoes-of-broken-vows.jpg" alt="Echoes of Broken Vows cover">
+        <div class="card-body">
+          <h3>Echoes of Broken Vows</h3>
+          <p>A moving tale of love, loss, and redemption — where broken promises echo louder than silence.</p>
+          <div class="row">
+            <a class="btn primary" href="/books/echoes-of-broken-vows/">Read now</a>
+            <span class="pill">Romance • Drama</span>
+          </div>
+        </div>
+      </article>
+
+      <!-- Sade & Fenwa: A Legacy of Love -->
+      <article class="card">
+        <img src="assets/covers/sade-and-fenwa.jpg" alt="Sade & Fenwa cover">
+        <div class="card-body">
+          <h3>Sade & Fenwa: A Legacy of Love</h3>
+          <p>120-chapter Nigerian romance of truth, humility, and destiny.</p>
+          <div class="row">
+            <a class="btn primary" href="/books/sade-and-fenwa/">Read now</a>
+            <span class="pill">Romance • African</span>
+          </div>
+        </div>
+      </article>
+
+      <!-- The Anatomy of Power -->
+      <article class="card">
+        <img src="assets/covers/anatomy-of-power.jpg" alt="The Anatomy of Power cover">
+        <div class="card-body">
+          <h3>The Anatomy of Power</h3>
+          <p>Inside Ekun State politics—money, godfathers, and a woman who refuses to be bought.</p>
+          <div class="row">
+            <a class="btn primary" href="/books/anatomy-of-power/">Read now</a>
+            <span class="pill">Political • Drama</span>
+          </div>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <section id="about" class="wrap">
+    <h2>About</h2>
+    <p>Fenwanovels publishes powerful African love and power stories by Ajibade Vincent Adefenwa. Read free chapters, unlock full books soon.</p>
+  </section>
+
+  <section id="contact" class="wrap">
+    <h2>Contact</h2>
+    <p>Email: hello@fenwanovel.online</p>
+  </section>
+
+  <footer class="footer">
+    © <span id="year"></span> Fenwanovels • Built with love in Nigeria
+  </footer>
+</body>
+</html>
