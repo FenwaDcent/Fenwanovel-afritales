@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Echoes of Broken Vows | Fenwanovels</title>
+  <link rel="stylesheet" href="/assets/styles.css"/>
+  <script defer src="/assets/app.js"></script>
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="/">← Fenwanovels</a>
+    <div class="actions">
+      <button id="themeToggle" class="btn">🌙</button>
+      <span class="coins">💰 <b id="coinCount">85</b></span>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <div class="book-hero">
+      <img src="/assets/covers/echoes-of-broken-vows.jpg" alt="Echoes of Broken Vows cover">
+      <div>
+        <h1>Echoes of Broken Vows</h1>
+        <p><b>By Ajibade Vincent Adefenwa</b></p>
+        <p>A moving tale of love, loss, and redemption — where broken promises echo louder than silence.</p>
+        <a href="/" class="btn back">← Back to Library</a>
+      </div>
+    </div>
+
+    <section class="chapter-list">
+      <div class="chapter">
+        <h4>Chapter 1: The Humble Beginning (FREE)</h4>
+        <p>The smell of sawdust filled the small compound behind the old carpenter’s shed... </p>
+        <div class="row">
+          <button class="btn primary" onclick="readChapterInto('reader',
+            'Chapter 1: The Humble Beginning',
+            `
+<p>The smell of sawdust filled the small compound behind the old carpenter’s shed. Hammers tapped softly against wood, echoing through the morning calm. That was the rhythm of Mr. Ajibola, the village carpenter — a man who built beds, chairs, and dreams with the same hands that raised his children.</p>
+<p>Among the sawdust and sweat, a young boy sat watching, eyes wide with wonder. His name was Samson Ajibola. At twelve, he had already learned how hard the world could be — but he also knew how determination could carve a name out of nothing.</p>
+<p>“Papa, why do you always work even on Sundays?” Samson asked, wiping his father’s brow with a rag.</p>
+<p>Mr. Ajibola smiled, his teeth bright against the dust.</p>
+<p>“My son,” he said gently, “poverty does not take holidays. If we stop today, hunger will not stop tomorrow.”</p>
+<p>Those words would stay with Samson forever.</p>
+<p>But fate has its own plans. Months later, the hammer stopped echoing. The sawdust settled. And the smell of fresh wood turned into the scent of sorrow.</p>
+<p>Mr. Ajibola — the carpenter, the dreamer, the father — was gone too soon.</p>
+<p>The village whispered that death had cheated the family.</p>
+<p>Samson’s mother, Mrs. Aina Ajibola, wept for days, her cries carrying across the dusty streets of Olowara Village.</p>
+<p>After the burial, Samson’s uncles gathered under the mango tree beside the family hut. They spoke in low tones, their voices laced with greed.</p>
+<p>“Ajibola had no real inheritance,” one said. “He was only a carpenter.”</p>
+<p>“So the lands are not for his children,” another added.</p>
+<p>And just like that, everything changed. The farmland his father had sweated for — gone. The respect once given to his family — gone.</p>
+<p>That night, Samson sat outside, staring at the moon. His younger brothers slept beside their mother, hungry.</p>
+<p>He clenched his small fists.</p>
+<p>“I will make Papa proud,” he whispered. “Even if the world forgets us.”</p>
+<p>The next morning, he left home. No ceremony, no farewell feast — just a bag of old clothes, a prayer from his mother, and a broken heart.</p>
+<p>He was heading north — to Abaji, a distant town where he hoped life would be kinder.</p>
+<p>But life, as he would soon learn, had its own tests waiting.</p>
+            `
+          )">Read now</button>
+          <span class="pill">Free</span>
+        </div>
+      </div>
+
+      <div class="chapter">
+        <h4>Chapter 2: The Boy from Abaji (FREE)</h4>
+        <p>The road to Abaji was long, dusty, and full of uncertainty...</p>
+        <div class="row">
+          <button class="btn primary" onclick="readChapterInto('reader',
+            'Chapter 2: The Boy from Abaji',
+            `
+<p>The road to Abaji was long, dusty, and full of uncertainty. Samson walked with tired legs and hungry eyes, carrying a small nylon bag that held all he owned.</p>
+<p>The sun above him was unforgiving, burning his skin until it stung like fire. But deep in his chest, his father’s words kept echoing — “Poverty does not take holidays.”</p>
+<p>By evening, he arrived at the edge of Abaji — a bustling town that seemed too alive for a boy like him. Buses honked. Women shouted prices in the market. The smell of roasted corn and suya filled the air.</p>
+<p>He found his way to a small carpenter’s shed near the central mosque. The signboard was faded but still readable: <b>Aliyu Furniture Works</b>.</p>
+<p>Inside, a man with strong arms and a sharp Hausa accent looked up. “Hey boy, what do you want?”</p>
+<p>Samson bowed slightly. “Good evening, sir. I can work. I can cut wood, I can sweep, I can learn.”</p>
+<p>Aliyu studied him, then pointed to a broom. “Start sweeping, boy. If you do well, I will think about it.”</p>
+<p>That evening, after everyone left, Samson slept on a wooden bench in the workshop. The scent of varnish filled his nostrils as he stared into the shadows.</p>
+<p>He whispered to himself — “This is where it begins.”</p>
+<p>Weeks turned into months. Samson became Aliyu’s best apprentice. He began to make tables that even customers admired.</p>
+<p>One night, he overheard: “Why you keep that boy? He no be from here,” a man said. Aliyu replied, “That boy is different. His spirit strong. I see something in him.”</p>
+<p>For the first time since his father’s death, Samson smiled genuinely. Someone believed in him again.</p>
+            `
+          )">Read now</button>
+          <span class="pill">Free</span>
+        </div>
+      </div>
+
+      <!-- Add more chapters later; paid/locked logic can come in future -->
+    </section>
+
+    <section id="reader" class="read-area">
+      <em>Select a chapter to start reading…</em>
+    </section>
+
+    <a href="/" class="btn back">← Back to Library</a>
+  </main>
+
+  <footer class="footer">© <span id="year"></span> Fenwanovels</footer>
+</body>
+</html>
