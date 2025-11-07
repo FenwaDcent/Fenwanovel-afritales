@@ -37,3 +37,37 @@ body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,'Poppin
 .narrow{max-width:520px}
 label{display:block;margin:10px 0}
 input{width:100%;padding:10px;border-radius:10px;border:1px solid #333;background:#111;color:var(--text)}
+/* --- Image sizing fixes --- */
+img{max-width:100%;height:auto;display:block}
+
+/* Home cards (from Script.js template uses <article class="book">) */
+.book{
+  display:flex; gap:14px; padding:12px; border-radius:14px;
+  background: var(--card-bg, rgba(255,255,255,0.03));
+  align-items:flex-start;
+}
+.book img{
+  width:120px;           /* cover width on phone */
+  height:160px;          /* keep a neat portrait look */
+  object-fit:cover;      /* crop, don’t stretch */
+  border-radius:10px;
+  flex-shrink:0;
+}
+
+/* Book page hero (book.html uses .hero) */
+.hero{
+  display:flex; gap:16px; align-items:flex-start; margin-bottom:18px;
+}
+.hero img{
+  width:150px;
+  height:210px;
+  object-fit:cover;
+  border-radius:12px;
+  box-shadow: 0 4px 16px rgba(0,0,0,.35);
+}
+
+/* Make it a bit smaller on very small screens */
+@media (max-width: 380px){
+  .book img{ width:100px; height:140px; }
+  .hero img{ width:130px; height:182px; }
+}
