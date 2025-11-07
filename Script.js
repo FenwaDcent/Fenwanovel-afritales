@@ -33,7 +33,8 @@ const books = [
     id: "echoes-of-broken-vows",
     title: "Echoes of Broken Vows",
     author: "Ajibade Vincent Adefenwa",
-    cover: "images/echoes-cover.jpg",
+    cover: - <img src="${b.cover}" alt="${b.title} cover">
++ <img src="${b.cover}" alt="${b.title} cover" width="120" height="160" loading="lazy">
     blurb: "A love betrayed, a promise reborn — healing, choices, and redemption.",
     tags: ["Romance","Christian","Drama"]
   },
@@ -41,7 +42,8 @@ const books = [
     id: "sade-and-fenwa",
     title: "Sade & Fenwa: A Legacy of Love",
     author: "Ajibade Vincent Adefenwa",
-    cover: "images/sade-fenwa-cover.jpg",
+    cover: - <img src="${b.cover}" alt="${b.title} cover">
++ <img src="${b.cover}" alt="${b.title} cover" width="120" height="160" loading="lazy">
     blurb: "Humble beginnings, true love, and a legacy that outlives power.",
     tags: ["Romance","African Tales"]
   },
@@ -49,7 +51,8 @@ const books = [
     id: "anatomy-of-power",
     title: "Anatomy of Power",
     author: "Ajibade Vincent Adefenwa",
-    cover: "images/anatomy-cover.jpg",
+    cover: "- <img src="${b.cover}" alt="${b.title} cover">
++ <img src="${b.cover}" alt="${b.title} cover" width="120" height="160" loading="lazy">g",
     blurb: "Ambition and betrayal collide in Ekun State’s high-stakes politics.",
     tags: ["Political","Drama","African"]
   }
