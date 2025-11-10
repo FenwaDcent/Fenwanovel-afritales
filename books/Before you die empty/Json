@@ -3,24 +3,23 @@
   "title": "Before You Die Empty",
   "author": "Ajibade Vincent Adefenwa",
   "cover": "covers/before-you-die-empty.jpg",
-  "blurb": "A motivational fiction about Samuel Akinwale—a rising voice whose success collides with emptiness—built around the hard truth that the graveyard is the richest place on earth unless we pour out our gifts while alive.",
+  "blurb": "A powerful story that challenges you to release every gift, dream, and purpose before leaving the earth. The tale of Samuel Akinwale — a carpenter’s son who learned that the graveyard is the richest place on earth.",
   "chapters": [
     {
-      "title": "Preface — Why I Wrote This Book",
-      "html": "<p>There comes a moment ... “Have I truly lived? Have I poured out everything I was meant to give before I die?” ... This story is a mirror.</p>"
+      "title": "Preface – The Wake-Up Call",
+      "html": "<p>There comes a moment when a man must ask himself — have I truly lived? Have I poured out everything I was created to give before I die?</p>"
     },
     {
-      "title": "Chapter One — The Old Wooden Chair",
-      "html": "<p>In Akinwale village, young Samuel drags his father’s worn chair under the mango tree. Pa Akinwale teaches: “Purpose endures pressure. Don’t go to the grave full—die empty.”</p>"
+      "title": "Chapter 1 – The Wooden Chair",
+      "html": "<p>Samuel Akinwale sat under the mango tree beside his father's old wooden chair, carving dreams from wood and faith from pain. Pa Akinwale often said, 'Purpose endures pressure. Don't go to the grave full — die empty.'</p>"
     },
     {
-      "title": "Chapter Two — The Story of the Empty Grave",
-      "html": "<p>Pa Akinwale tells the tale of Olowolagba, the talented craftsman who waited for perfect conditions until his gifts were buried with him.</p>"
+      "title": "Chapter 2 – The Story of Olowolagba",
+      "html": "<p>Pa Akinwale told of a man named Olowolagba, a craftsman who buried his gifts in excuses until his tomb became his warehouse of unfulfilled potential.</p>"
     },
     {
-      "title": "Chapter Three — Dreams and Warnings",
-      "html": "<p>Samuel’s warning dreams begin; his father’s counsel: the brighter the light, the darker the shadow that follows it.</p>"
+      "title": "Chapter 3 – Fire in the Heart",
+      "html": "<p>Samuel’s heart burned to prove his father’s words true. He would not die with his talents buried. He would give everything — until his name became a sermon.</p>"
     }
-    // 👉 Continue adding chapters this same way. You can paste cleaned paragraphs per chapter.
   ]
 }
