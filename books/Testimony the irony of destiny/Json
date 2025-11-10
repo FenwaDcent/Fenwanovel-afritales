@@ -2,25 +2,24 @@
   "slug": "testimony-the-irony-of-destiny",
   "title": "Testimony: The Irony of Destiny",
   "author": "Ajibade Vincent Adefenwa",
-  "cover": "covers/testimony.jpg",
-  "blurb": "Chioma chooses purpose over noise in Osogbo, survives betrayal and an abusive marriage, and rises again—naming her son Testimony and turning pain into a foundation that heals others.",
+  "cover": "covers/testimony-the-irony-of-destiny.jpg",
+  "blurb": "Chioma’s life was a love story written by destiny itself — full of faith, betrayal, and divine irony. When love fails and hope dies, a miracle is born — his name is Testimony.",
   "chapters": [
     {
-      "title": "Chapter One — Innocence in Osogbo",
-      "html": "<p>Chioma walks with purpose through UNIOSUN, resisting peer pressure and praying her way forward.</p>"
+      "title": "Chapter 1 – Innocence in Osogbo",
+      "html": "<p>Chioma was a dreamer from Osogbo who believed love could conquer fate. She prayed with tears and worked with faith, but destiny had its own plan.</p>"
     },
     {
-      "title": "Chapter Two — The Weekend of Temptation",
-      "html": "<p>Her friends chase nightlife; Chioma chooses quiet conviction.</p>"
+      "title": "Chapter 2 – The Weekend of Temptation",
+      "html": "<p>Her friends chased pleasure, but Chioma chased purpose. On a weekend meant for fun, she found the test that would define her life.</p>"
     },
     {
-      "title": "Chapter Three — When Love Turns Into Promise",
-      "html": "<p>Olabode vows marriage before leaving for Canada.</p>"
+      "title": "Chapter 3 – Love, Lies, and Letters",
+      "html": "<p>Olabode promised heaven. His letters were sweet until silence became his reply. The wedding photos she saw on Facebook crushed her world.</p>"
     },
     {
-      "title": "Chapter Four — The Empty Side of Love",
-      "html": "<p>Messages fade; a Facebook post reveals his wedding in Toronto.</p>"
+      "title": "Chapter 4 – From Pain to Purpose",
+      "html": "<p>When all seemed lost, God gave her a reason to live — a child she named Testimony. Her story became proof that purpose grows best in pain.</p>"
     }
-    // 👉 Continue with the remaining chapters (abuse, escape, Testimony’s birth, foundation, etc.).
   ]
 }
