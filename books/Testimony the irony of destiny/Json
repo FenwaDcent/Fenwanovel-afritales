@@ -1,0 +1,26 @@
+{
+  "slug": "testimony-the-irony-of-destiny",
+  "title": "Testimony: The Irony of Destiny",
+  "author": "Ajibade Vincent Adefenwa",
+  "cover": "covers/testimony.jpg",
+  "blurb": "Chioma chooses purpose over noise in Osogbo, survives betrayal and an abusive marriage, and rises again—naming her son Testimony and turning pain into a foundation that heals others.",
+  "chapters": [
+    {
+      "title": "Chapter One — Innocence in Osogbo",
+      "html": "<p>Chioma walks with purpose through UNIOSUN, resisting peer pressure and praying her way forward.</p>"
+    },
+    {
+      "title": "Chapter Two — The Weekend of Temptation",
+      "html": "<p>Her friends chase nightlife; Chioma chooses quiet conviction.</p>"
+    },
+    {
+      "title": "Chapter Three — When Love Turns Into Promise",
+      "html": "<p>Olabode vows marriage before leaving for Canada.</p>"
+    },
+    {
+      "title": "Chapter Four — The Empty Side of Love",
+      "html": "<p>Messages fade; a Facebook post reveals his wedding in Toronto.</p>"
+    }
+    // 👉 Continue with the remaining chapters (abuse, escape, Testimony’s birth, foundation, etc.).
+  ]
+}
