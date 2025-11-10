@@ -1,6 +1,21 @@
 <!-- Echoes of Broken Vows -->
 <article class="card">
   <img src="covers/echoes-of-broken-vows.jpg" alt="Echoes of Broken Vows cover">
+ <script>
+  function toggleTheme(){
+    const html = document.documentElement;
+    const next = html.dataset.theme === 'light' ? 'dark' : 'light';
+    html.dataset.theme = next;
+    localStorage.setItem('theme', next);
+    document.getElementById('themeText').textContent = next === 'dark' ? '🌙 Dark' : '☀️ Light';
+  }
+  // on load
+  (function(){
+    const saved = localStorage.getItem('theme') || 'dark';
+    document.documentElement.dataset.theme = saved;
+    document.getElementById('themeText').textContent = saved === 'dark' ? '🌙 Dark' : '☀️ Light';
+  })();
+</script>
   <div class="card-body">
     <h3>Echoes of Broken Vows</h3>
     <p>A moving tale of love, loss, and redemption — where broken promises echo louder than silence.</p>
@@ -15,6 +30,21 @@
 <!-- Ṣadé & Fenwa -->
 <article class="card">
   <img src="covers/sade-and-fenwa.jpg" alt="Ṣadé & Fenwa cover">
+  <script>
+  function toggleTheme(){
+    const html = document.documentElement;
+    const next = html.dataset.theme === 'light' ? 'dark' : 'light';
+    html.dataset.theme = next;
+    localStorage.setItem('theme', next);
+    document.getElementById('themeText').textContent = next === 'dark' ? '🌙 Dark' : '☀️ Light';
+  }
+  // on load
+  (function(){
+    const saved = localStorage.getItem('theme') || 'dark';
+    document.documentElement.dataset.theme = saved;
+    document.getElementById('themeText').textContent = saved === 'dark' ? '🌙 Dark' : '☀️ Light';
+  })();
+</script>
   <div class="card-body">
     <h3>Ṣadé &amp; Fenwa: A Legacy of Love</h3>
     <p>120-chapter Nigerian romance about humility, legacy, and true love that stands the test.</p>
@@ -29,6 +59,21 @@
 <!-- The Anatomy of Power -->
 <article class="card">
   <img src="covers/anatomy-of-power.jpg" alt="The Anatomy of Power cover">
+ <script>
+  function toggleTheme(){
+    const html = document.documentElement;
+    const next = html.dataset.theme === 'light' ? 'dark' : 'light';
+    html.dataset.theme = next;
+    localStorage.setItem('theme', next);
+    document.getElementById('themeText').textContent = next === 'dark' ? '🌙 Dark' : '☀️ Light';
+  }
+  // on load
+  (function(){
+    const saved = localStorage.getItem('theme') || 'dark';
+    document.documentElement.dataset.theme = saved;
+    document.getElementById('themeText').textContent = saved === 'dark' ? '🌙 Dark' : '☀️ Light';
+  })();
+</script>
   <div class="card-body">
     <h3>The Anatomy of Power</h3>
     <p>A bold, political fiction about godfathers, elections, and the price of truth in Ekun State.</p>
@@ -39,3 +84,4 @@
     </div>
   </div>
 </article>
+
