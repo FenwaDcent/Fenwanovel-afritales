@@ -116,5 +116,34 @@
 
 <script src="assets/app.js"></script>
 <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+<!-- Buy Coins Modal -->
+<div id="buyCoinsModal" class="modal" hidden>
+  <div class="modal-card">
+    <div class="modal-head">
+      <h3>Buy Coins</h3>
+      <button class="icon-btn" onclick="closeBuyCoins()">✕</button>
+    </div>
+
+    <p class="dim" style="margin-top:-6px">Choose a coin pack or redeem a voucher.</p>
+
+    <div class="packs">
+      <button class="pack" onclick="addCoins(50)">+50 Coins</button>
+      <button class="pack" onclick="addCoins(150)">+150 Coins</button>
+      <button class="pack" onclick="addCoins(300)">+300 Coins</button>
+    </div>
+
+    <div class="or"><span>or</span></div>
+
+    <label class="label">Redeem voucher</label>
+    <div class="row">
+      <input id="voucherInput" type="text" placeholder="Enter code e.g. FENWA100">
+      <button class="btn" onclick="redeemVoucher()">Redeem</button>
+    </div>
+
+    <div class="note dim" style="margin-top:10px">
+      Test mode is ON — packs add coins instantly (no payment yet). We’ll connect Paystack later.
+    </div>
+  </div>
+</div>
 </body>
 </html>
