@@ -71,3 +71,29 @@ img{max-width:100%;height:auto;display:block}
   .book img{ width:100px; height:140px; }
   .hero img{ width:130px; height:182px; }
 }
+/* ====== Minimal UI for Buy Coins modal & buttons ====== */
+.btn{padding:.55rem .9rem;border:1px solid #444;border-radius:10px;cursor:pointer;font-weight:600}
+.btn.primary{background:#f8c94a;color:#111;border-color:#f8c94a}
+.btn:disabled{opacity:.6;cursor:not-allowed}
+
+.badges{display:flex;gap:.5rem;align-items:center}
+.coin{background:#1e1e1e;padding:.35rem .6rem;border-radius:999px}
+.toggle{padding:.45rem .8rem;border-radius:999px;border:1px solid #444;background:transparent}
+
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.55);display:flex;align-items:center;justify-content:center;z-index:9999}
+.modal[hidden]{display:none}
+.modal-card{width:min(92vw,520px);background:#111;border:1px solid #333;border-radius:16px;padding:16px}
+.modal-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:.6rem}
+.icon-btn{border:1px solid #444;background:transparent;border-radius:8px;padding:.25rem .45rem}
+
+.packs{display:flex;gap:.5rem;flex-wrap:wrap;margin:.6rem 0}
+.pack{border:1px solid #444;border-radius:10px;padding:.6rem .9rem;background:#1a1a1a;cursor:pointer;font-weight:700}
+.pack:active{transform:scale(.98)}
+
+.label{display:block;font-size:.9rem;margin:.2rem 0}
+.row{display:flex;gap:.5rem}
+.row input{flex:1;padding:.55rem .7rem;border:1px solid #444;border-radius:10px;background:#151515;color:#ddd}
+
+.dim{opacity:.75}
+.or{display:flex;align-items:center;gap:.6rem;margin:.6rem 0}
+.or::before,.or::after{content:"";height:1px;background:#333;flex:1}
