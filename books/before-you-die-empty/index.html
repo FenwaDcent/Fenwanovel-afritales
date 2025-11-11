@@ -20,6 +20,64 @@
     .chapter p{line-height:1.8;font-size:1.05rem;margin:1rem 0;text-align:justify}
   </style>
 </head>
+  <script>
+  // === Simple per-book unlock store ===
+  const BOOK_KEY = 'before-you-die-empty';
+  const UNLOCK_KEY = 'unlocked_' + BOOK_KEY;
+
+  // Read & write coins (shared site-wide)
+  function getCoins() {
+    return parseInt(localStorage.getItem('coins') || '85', 10);
+  }
+  function setCoins(n) {
+    localStorage.setItem('coins', String(n));
+    const el = document.querySelector('.coin-amount');
+    if (el) el.textContent = n;
+  }
+
+  // Unlock management
+  function getUnlocked() {
+    try { return JSON.parse(localStorage.getItem(UNLOCK_KEY) || '[]'); }
+    catch { return []; }
+  }
+  function saveUnlocked(arr) {
+    localStorage.setItem(UNLOCK_KEY, JSON.stringify([...new Set(arr)]));
+  }
+
+  function showContent(ch) {
+    const lock = document.getElementById('lock-' + ch);
+    const body = document.getElementById('content-' + ch);
+    if (lock) lock.hidden = true;
+    if (body) body.hidden = false;
+  }
+
+  function renderLocks() {
+    const unlocked = getUnlocked();
+    unlocked.forEach(showContent);
+  }
+
+  // Called by the Unlock buttons
+  function unlock(chapter, price) {
+    let coins = getCoins();
+    if (coins < price) {
+      alert('❌ Not enough coins to unlock this chapter.');
+      return;
+    }
+    coins -= price;
+    setCoins(coins);
+    const unlocked = getUnlocked();
+    unlocked.push(chapter);
+    saveUnlocked(unlocked);
+    showContent(chapter);
+    alert('🔓 Chapter ' + chapter + ' unlocked!');
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    // Ensure header coin count reflects localStorage
+    setCoins(getCoins());
+    renderLocks();
+  });
+  </script>
 <body>
 <header>
   <div class="header-inner">
@@ -274,26 +332,119 @@
   <p>Samuel placed the paper chair beside the old wooden one. “Baba,” he whispered, “we are emptying—one action at a time.”</p>
 </section>
 
-    <section id="ch7" class="chapter">
-      <h3>Chapter 7: <span class="meta">[Title]</span></h3>
-      <p>[Paste Chapter 7 here.]</p>
-    </section>
+<!-- ===================== -->
+<!-- CHAPTER 7 (LOCKED)   -->
+<!-- ===================== -->
+<section id="ch7" class="chapter" data-locked="true" data-ch="7">
+  <h3>Chapter 7: <span class="meta">The War Against Distraction</span></h3>
 
-    <section id="ch8" class="chapter">
-      <h3>Chapter 8: <span class="meta">[Title]</span></h3>
-      <p>[Paste Chapter 8 here.]</p>
-    </section>
+  <!-- Lock view -->
+  <div class="lock" id="lock-7">
+    <p class="dim">This chapter is locked. Unlock with <strong>30 Coins</strong>.</p>
+    <button class="btn primary" onclick="unlock(7, 30)">Unlock (30 Coins)</button>
+  </div>
 
-    <section id="ch9" class="chapter">
-      <h3>Chapter 9: <span class="meta">[Title]</span></h3>
-      <p>[Paste Chapter 9 here.]</p>
-    </section>
+  <!-- Full content (hidden until unlocked) -->
+  <div class="content" id="content-7" hidden>
+    <p>The harmattan dust settled on the zinc roofs like light ash, and Samuel noticed something about time: it was either spent with intention, or it disappeared through distraction.</p>
+    <p>Distraction never looks like an enemy. It looks like “just five minutes” on your phone. It looks like “I’ll start after I eat.” It looks like “let me check one more message.”</p>
+    <p>Purpose is a jealous master—it refuses to share a day with procrastination. Every great life is built with hours that were protected like treasure.</p>
+    <p><strong>Three daily rules to kill distraction:</strong></p>
+    <p><em>1) The First Hour is Holy:</em> No social media, no chats, no trivial tasks. Pray. Plan. Produce.</p>
+    <p><em>2) The 3–3–3 System:</em> Three deep-work tasks (90 minutes each), three short tasks (15–20 minutes), three people to bless or follow up.</p>
+    <p><em>3) The Evening Audit:</em> What stole my time today? What will I defend tomorrow?</p>
+    <p>Samuel wrote in his small notebook: “If I do not schedule my purpose, distraction will schedule my failure.” That night, he put his phone in another room and slept with peace he had not felt in months.</p>
+  </div>
+</section>
 
-    <section id="ch10" class="chapter">
-      <h3>Chapter 10: <span class="meta">[Title]</span></h3>
-      <p>[Paste Chapter 10 here.]</p>
-    </section>
+<!-- ===================== -->
+<!-- CHAPTER 8 (LOCKED)   -->
+<!-- ===================== -->
+<section id="ch8" class="chapter" data-locked="true" data-ch="8">
+  <h3>Chapter 8: <span class="meta">The 1,000-Day Rule</span></h3>
 
+  <div class="lock" id="lock-8">
+    <p class="dim">This chapter is locked. Unlock with <strong>30 Coins</strong>.</p>
+    <button class="btn primary" onclick="unlock(8, 30)">Unlock (30 Coins)</button>
+  </div>
+
+  <div class="content" id="content-8" hidden>
+    <p>Greatness is not an explosion; it is a slow, faithful fire. People see the day you shine and call it luck. They rarely see the thousand days you burned quietly.</p>
+    <p><strong>The 1,000-Day Rule:</strong> give your calling three focused years of consistent action—no disappearing, no excuses, no drama. Just daily obedience.</p>
+    <p>Day 1–100: discovery and mistakes. Day 101–400: rhythm and small wins. Day 401–800: respect and mastery. Day 801–1000: favor and visibility.</p>
+    <p>For Samuel, day 1 began with a wooden table, a cheap pen, and a schedule. He chose a sacred time daily when he would create, study, or serve—no matter how he felt.</p>
+    <p>Destiny does not respond to feelings. Destiny responds to faithfulness.</p>
+    <p>Write this down: “If I give God 1,000 focused days, He will give me a life I could never design.”</p>
+  </div>
+</section>
+
+<!-- ===================== -->
+<!-- CHAPTER 9 (LOCKED)   -->
+<!-- ===================== -->
+<section id="ch9" class="chapter" data-locked="true" data-ch="9">
+  <h3>Chapter 9: <span class="meta">Mentors, Models & Mirrors</span></h3>
+
+  <div class="lock" id="lock-9">
+    <p class="dim">This chapter is locked. Unlock with <strong>30 Coins</strong>.</p>
+    <button class="btn primary" onclick="unlock(9, 30)">Unlock (30 Coins)</button>
+  </div>
+
+  <div class="content" id="content-9" hidden>
+    <p>God hides answers in people. Your future is trapped in voices you’ve not met or you’ve not honored.</p>
+    <p><strong>Mentors</strong> correct direction. <strong>Models</strong> show patterns. <strong>Mirrors</strong> tell the truth about your present state.</p>
+    <p>Samuel learned to ask three questions whenever he met a wise person: “What would you do if you were me?” “What mistake should I avoid this year?” “What single habit changed your life?”</p>
+    <p>Never ask a mentor for money. Ask for methods. Methods create money.</p>
+    <p>And find mirrors—honest friends who love you enough to say, “You are drifting.” Without mirrors, zeal becomes self-deception.</p>
+    <p>Honor is the currency that opens doors training cannot. Sow honor; reap access.</p>
+  </div>
+</section>
+
+<!-- ===================== -->
+<!-- CHAPTER 10 (LOCKED)  -->
+<!-- ===================== -->
+<section id="ch10" class="chapter" data-locked="true" data-ch="10">
+  <h3>Chapter 10: <span class="meta">Systems, Not Motivation</span></h3>
+
+  <div class="lock" id="lock-10">
+    <p class="dim">This chapter is locked. Unlock with <strong>30 Coins</strong>.</p>
+    <button class="btn primary" onclick="unlock(10, 30)">Unlock (30 Coins)</button>
+  </div>
+
+  <div class="content" id="content-10" hidden>
+    <p>Motivation is a good visitor but a poor tenant. If you build your destiny on motivation, your life will live in mood swings. Build it on systems.</p>
+    <p><strong>A simple purpose system (SPP):</strong></p>
+    <p><em>Schedule:</em> Fixed time block daily for your gift. Treat it like a meeting with your future.</p>
+    <p><em>Pipeline:</em> Keep a running list of next actions so you never waste time deciding what to do.</p>
+    <p><em>Proof:</em> Track outputs weekly (pages written, clients served, hours practiced). What you measure grows.</p>
+    <p>Samuel drew a table on paper: Time, Task, Output, Feedback. In one month, his progress doubled—not because he “felt inspired,” but because he built rails for his train.</p>
+  </div>
+</section>
+
+<!-- ===================== -->
+<!-- CHAPTER 11 (LOCKED)  -->
+<!-- ===================== -->
+<section id="ch11" class="chapter" data-locked="true" data-ch="11">
+  <h3>Chapter 11: <span class="meta">The Emptying Exercises</span></h3>
+
+  <div class="lock" id="lock-11">
+    <p class="dim">This chapter is locked. Unlock with <strong>30 Coins</strong>.</p>
+    <button class="btn primary" onclick="unlock(11, 30)">Unlock (30 Coins)</button>
+  </div>
+
+  <div class="content" id="content-11" hidden>
+    <p>Emptying is intentional. You don’t die empty by accident; you die empty by practice.</p>
+    <p><strong>Weekly Emptying Plan:</strong></p>
+    <p>• <em>Give Knowledge:</em> Teach one person what you learned this week (offline or online).  
+       • <em>Create Output:</em> Publish one thing (a page, a design, a recording).  
+       • <em>Serve Quietly:</em> Do one act of kindness without announcement.  
+       • <em>Protect Focus:</em> One 3-hour deep-work block without your phone.  
+       • <em>Spiritual Refill:</em> One hour of prayer + scripture meditation, undistracted.</p>
+    <p>Samuel realized: “If I pour weekly, I won’t need to panic yearly.” Destiny belongs to those who treat purpose like a covenant, not a hobby.</p>
+    <p><strong>Prayer:</strong> “Lord, help me to pour daily what You poured into me—until nothing You gave me returns to the grave.”</p>
+  </div>
+</section>
+    
+    
   </article>
 </main>
 
@@ -305,42 +456,8 @@
 <script src="../../assets/app.js"></script>
 <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
 </body>
-</html>    <h3>Chapter 5: <span class="meta">Faith that Works</span></h3>
-      <p>[PASTE Chapter 5 here.]</p>
-    </section>
+</html>    
 
-    <section id="ch5" class="chapter">
-      <h3>Chapter 5: <span class="meta">Faith that Works</span></h3>
-      <p>[PASTE Chapter 5 here.]</p>
-    </section>
-
-    <section id="ch5" class="chapter">
-      <h3>Chapter 5: <span class="meta">Faith that Works</span></h3>
-      <p>[PASTE Chapter 5 here.]</p>
-    </section>
-
-    <section id="ch5" class="chapter">
-      <h3>Chapter 5: <span class="meta">Faith that Works</span></h3>
-      <p>[PASTE Chapter 5 here.]</p>
-    </section>
-
-<section id="ch5" class="chapter">
-      <h3>Chapter 5: <span class="meta">Faith that Works</span></h3>
-      <p>[PASTE Chapter 5 here.]</p>
-</section>
-
-    <section id="ch5" class="chapter">
-      <h3>Chapter 5: <span class="meta">Faith that Works</span></h3>
-      <p>[PASTE Chapter 5 here.]</p>
-    </section>
-
-    <section id="ch5" class="chapter">
-      <h3>Chapter 5: <span class="meta">Faith that Works</span></h3>
-      <p>[PASTE Chapter 5 here.]</p>
-    </section>
-
-    
-    <!-- Keep adding chapters (ch6, ch7, … ch200+) until the full book is in -->
   </article>
 </main>
 
