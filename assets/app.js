@@ -85,3 +85,91 @@
   </div>
 </article>
 
+/* ======== COIN STORAGE ======== */
+const LS_KEY_COINS = "fenwa:coins";
+function getCoins() {
+  const v = parseInt(localStorage.getItem(LS_KEY_COINS) || "0", 10);
+  return isNaN(v) ? 0 : v;
+}
+function setCoins(v) {
+  localStorage.setItem(LS_KEY_COINS, String(v));
+  // update all coin displays on page
+  document.querySelectorAll(".coin-amount").forEach(el => el.textContent = v);
+}
+function addCoins(n) { setCoins(getCoins() + n); alert(`✅ Added ${n} coins`); closeBuyCoins(); }
+function spendCoins(n) {
+  const bal = getCoins();
+  if (bal < n) return false;
+  setCoins(bal - n);
+  return true;
+}
+
+/* ======== INIT COIN DISPLAY ======== */
+document.addEventListener("DOMContentLoaded", () => {
+  if (!localStorage.getItem(LS_KEY_COINS)) setCoins(85); // initial free coins
+  else setCoins(getCoins());
+});
+
+/* ======== BUY COINS MODAL ======== */
+function openBuyCoins(){ document.getElementById("buyCoinsModal").hidden = false; }
+function closeBuyCoins(){ document.getElementById("buyCoinsModal").hidden = true; }
+window.openBuyCoins = openBuyCoins;
+window.closeBuyCoins = closeBuyCoins;
+window.addCoins = addCoins;
+
+/* ======== VOUCHERS (simple demo) ======== */
+const VOUCHERS = {
+  "FENWA100": 100,
+  "WELCOME50": 50,
+  "BLESSED150": 150
+};
+function redeemVoucher(){
+  const input = document.getElementById("voucherInput");
+  const code = (input.value || "").trim().toUpperCase();
+  if (!code) return alert("Enter a voucher code.");
+  const amount = VOUCHERS[code];
+  if (!amount) return alert("❌ Invalid or used code.");
+  addCoins(amount);
+  alert(`🎉 Voucher applied: +${amount} coins`);
+  input.value = "";
+}
+window.redeemVoucher = redeemVoucher;
+
+/* ======== UNLOCK CHAPTERS ========
+   Mark unlocked chapters in localStorage using: fenwa:unlocked:<bookId>
+*/
+function getUnlocked(bookId){
+  try {
+    return JSON.parse(localStorage.getItem(`fenwa:unlocked:${bookId}`) || "[]");
+  } catch { return []; }
+}
+function setUnlocked(bookId, list){
+  localStorage.setItem(`fenwa:unlocked:${bookId}`, JSON.stringify(list));
+}
+function isUnlocked(bookId, chapterId){
+  return getUnlocked(bookId).includes(chapterId);
+}
+function unlockChapter(bookId, chapterId, price){
+  if (isUnlocked(bookId, chapterId)) {
+    alert("Already unlocked ✔");
+    return true;
+  }
+  if (!spendCoins(price)) {
+    alert("Not enough coins. Tap ‘Buy Coins’ to top up.");
+    openBuyCoins();
+    return false;
+  }
+  const list = getUnlocked(bookId);
+  list.push(chapterId);
+  setUnlocked(bookId, list);
+  alert(`🔓 Chapter ${chapterId} unlocked!`);
+  return true;
+}
+window.unlockChapter = unlockChapter;
+
+/* ======== THEME TOGGLE (optional) ======== */
+function toggleTheme(){
+  const dark = document.documentElement.classList.toggle("dark");
+  document.getElementById("themeText").textContent = dark ? "☀️ Light" : "🌙 Dark";
+}
+window.toggleTheme = toggleTheme;
