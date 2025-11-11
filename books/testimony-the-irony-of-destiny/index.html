@@ -1,22 +1,173 @@
-<!DOCTYPE html><html lang="en"><head>
-<meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>Testimony: The Irony of Destiny – Fenwanovels</title>
-<link rel="stylesheet" href="../../assets/styles.css"/>
-</head><body>
-<header><div class="header-inner">
-  <div class="brand"><div class="logo"></div><div class="title">Fenwanovels</div></div>
-  <div class="badges"><div class="coin">💰 <span class="coin-amount">85</span> Coins</div></div>
-</div></header>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Testimony: The Irony of Destiny – Fenwanovels</title>
+  <meta name="description" content="Testimony: The Irony of Destiny by Ajibade Vincent Adefenwa">
+  <link rel="stylesheet" href="../../assets/styles.css"/>
+  <style>
+    .book-hero img{width:100%;max-width:420px;height:auto;border-radius:14px;display:block}
+    .chips{display:flex;gap:.5rem;flex-wrap:wrap;margin:.5rem 0 1rem}
+    .chip{background:var(--chip-bg,#262626);color:#ddd;border-radius:999px;padding:.35rem .7rem;font-size:.85rem}
+    .chapter{background:var(--card-bg,#111);padding:16px;border-radius:14px;margin:18px 0}
+    .chapter h3{margin:0 0 .3rem}
+    .chapter .meta{opacity:.7;font-size:.9rem;margin-bottom:.6rem}
+    .toolbar{display:flex;gap:.75rem;align-items:center;margin:.5rem 0 1rem}
+    .toolbar a,.toolbar button{font-weight:600}
+    .toc{margin:12px 0 18px;display:flex;flex-wrap:wrap;gap:.5rem}
+    .toc a{background:var(--chip-bg,#262626);padding:.3rem .6rem;border-radius:999px;font-size:.85rem}
+    .chapter p{line-height:1.8;font-size:1.05rem;margin:1rem 0;text-align:justify}
+    /* light mode dash borders */
+    html[data-theme="light"] .lock{border:2px dashed #c9c9cf}
+  </style>
+</head>
+
+<script>
+  // === Per-book coin/unlock (same pattern as BYDE) ===
+  const BOOK_KEY = 'testimony-the-irony-of-destiny';
+  const UNLOCK_KEY = 'unlocked_' + BOOK_KEY;
+
+  function getCoins(){ return parseInt(localStorage.getItem('coins')||'85',10); }
+  function setCoins(n){
+    localStorage.setItem('coins', String(n));
+    const el=document.querySelector('.coin-amount'); if(el) el.textContent=n;
+  }
+  function getUnlocked(){ try{ return JSON.parse(localStorage.getItem(UNLOCK_KEY)||'[]'); }catch{ return []; } }
+  function saveUnlocked(arr){ localStorage.setItem(UNLOCK_KEY, JSON.stringify([...new Set(arr)])); }
+  function showContent(ch){ const a=document.getElementById('lock-'+ch),b=document.getElementById('content-'+ch); if(a) a.hidden=true; if(b) b.hidden=false; }
+  function renderLocks(){ getUnlocked().forEach(showContent); }
+  function unlock(ch, price){
+    let coins=getCoins();
+    if(coins<price){ alert('❌ Not enough coins. Tap “Buy Coins” on home.'); return; }
+    setCoins(coins-price);
+    const u=getUnlocked(); u.push(ch); saveUnlocked(u); showContent(ch);
+    alert('🔓 Chapter '+ch+' unlocked!');
+  }
+  document.addEventListener('DOMContentLoaded', ()=>{ setCoins(getCoins()); renderLocks(); });
+</script>
+
+<body>
+<header>
+  <div class="header-inner">
+    <div class="brand">
+      <div class="logo" aria-hidden="true"></div>
+      <div class="title">Fenwanovels</div>
+    </div>
+    <div class="badges">
+      <div class="coin">💰 <span class="coin-amount">85</span> Coins</div>
+      <button class="toggle" onclick="toggleTheme()"><span id="themeText">🌙 Dark</span></button>
+    </div>
+  </div>
+</header>
 
 <main>
   <article>
     <h1>Testimony: The Irony of Destiny</h1>
-    <p class="dim">By Ajibade Vincent Adefenwa</p>
-    <div class="toolbar"><a class="btn" href="../../index.html">← Back to Library</a></div>
 
-    <!-- add your chapters here -->
+    <div class="book-hero">
+      <img src="../../assets/covers/testimony-the-irony-of-destiny.jpg" alt="Testimony: The Irony of Destiny cover"/>
+    </div>
+
+    <div class="chips">
+      <span class="chip">Inspirational Fiction</span>
+      <span class="chip">Faith</span>
+      <span class="chip">Drama</span>
+    </div>
+
+    <p class="dim">
+      By Ajibade Vincent Adefenwa. A powerful story of faith, struggle, and divine irony — where pain becomes purpose.
+    </p>
+
+    <div class="toolbar">
+      <a class="btn" href="../../index.html">← Back to Library</a>
+      <a class="btn" href="#toc">Jump to Chapters</a>
+    </div>
+
+    <!-- TOC -->
+    <div id="toc" class="toc">
+      <a href="#ch1">Ch. 1</a><a href="#ch2">Ch. 2</a><a href="#ch3">Ch. 3</a>
+      <a href="#ch4">Ch. 4</a><a href="#ch5">Ch. 5</a><a href="#ch6">Ch. 6</a>
+      <a href="#ch7">Ch. 7 🔒</a><a href="#ch8">Ch. 8 🔒</a><a href="#ch9">Ch. 9 🔒</a>
+      <a href="#ch10">Ch. 10 🔒</a><a href="#ch11">Ch. 11 🔒</a><a href="#ch12">Ch. 12 🔒</a>
+    </div>
+
+    <!-- ===== FREE CHAPTERS (1–6) ===== -->
+    <section id="ch1" class="chapter">
+      <h3>Chapter 1: <span class="meta">Beginnings</span></h3>
+      <p>[Paste your Chapter 1 text here.]</p>
+    </section>
+
+    <section id="ch2" class="chapter">
+      <h3>Chapter 2: <span class="meta">A Door and a Detour</span></h3>
+      <p>[Paste Chapter 2.]</p>
+    </section>
+
+    <section id="ch3" class="chapter">
+      <h3>Chapter 3: <span class="meta">When Heaven is Silent</span></h3>
+      <p>[Paste Chapter 3.]</p>
+    </section>
+
+    <section id="ch4" class="chapter">
+      <h3>Chapter 4: <span class="meta">The Test of Motives</span></h3>
+      <p>[Paste Chapter 4.]</p>
+    </section>
+
+    <section id="ch5" class="chapter">
+      <h3>Chapter 5: <span class="meta">Wounds that Worship</span></h3>
+      <p>[Paste Chapter 5.]</p>
+    </section>
+
+    <section id="ch6" class="chapter">
+      <h3>Chapter 6: <span class="meta">The Turn</span></h3>
+      <p>[Paste Chapter 6.]</p>
+    </section>
+
+    <!-- ===== LOCKED CHAPTERS (7+) – 30 coins each ===== -->
+    <section id="ch7" class="chapter">
+      <h3>Chapter 7: <span class="meta">Edges of Hope</span></h3>
+      <div class="lock" id="lock-7"><p class="dim">Unlock with <strong>30 Coins</strong>.</p><button class="btn primary" onclick="unlock(7,30)">Unlock (30)</button></div>
+      <div class="content" id="content-7" hidden><p>[Full Chapter 7 text…]</p></div>
+    </section>
+
+    <section id="ch8" class="chapter">
+      <h3>Chapter 8: <span class="meta">A Strange Answer</span></h3>
+      <div class="lock" id="lock-8"><p class="dim">Unlock with <strong>30 Coins</strong>.</p><button class="btn primary" onclick="unlock(8,30)">Unlock (30)</button></div>
+      <div class="content" id="content-8" hidden><p>[Chapter 8 text…]</p></div>
+    </section>
+
+    <section id="ch9" class="chapter">
+      <h3>Chapter 9: <span class="meta">Broken, Not Buried</span></h3>
+      <div class="lock" id="lock-9"><p class="dim">Unlock with <strong>30 Coins</strong>.</p><button class="btn primary" onclick="unlock(9,30)">Unlock (30)</button></div>
+      <div class="content" id="content-9" hidden><p>[Chapter 9 text…]</p></div>
+    </section>
+
+    <section id="ch10" class="chapter">
+      <h3>Chapter 10: <span class="meta">Irony & Destiny</span></h3>
+      <div class="lock" id="lock-10"><p class="dim">Unlock with <strong>30 Coins</strong>.</p><button class="btn primary" onclick="unlock(10,30)">Unlock (30)</button></div>
+      <div class="content" id="content-10" hidden><p>[Chapter 10 text…]</p></div>
+    </section>
+
+    <section id="ch11" class="chapter">
+      <h3>Chapter 11: <span class="meta">Testimony</span></h3>
+      <div class="lock" id="lock-11"><p class="dim">Unlock with <strong>30 Coins</strong>.</p><button class="btn primary" onclick="unlock(11,30)">Unlock (30)</button></div>
+      <div class="content" id="content-11" hidden><p>[Chapter 11 text…]</p></div>
+    </section>
+
+    <section id="ch12" class="chapter">
+      <h3>Chapter 12: <span class="meta">New Wine</span></h3>
+      <div class="lock" id="lock-12"><p class="dim">Unlock with <strong>30 Coins</strong>.</p><button class="btn primary" onclick="unlock(12,30)">Unlock (30)</button></div>
+      <div class="content" id="content-12" hidden><p>[Chapter 12 text…]</p></div>
+    </section>
   </article>
 </main>
 
+<footer>
+  <div>© <span id="year"></span> Fenwanovels • All rights reserved.</div>
+  <div class="credit">Written by Ajibade Vincent Adefenwa</div>
+</footer>
+
 <script src="../../assets/app.js"></script>
-</body></html>
+<script>document.getElementById('year').textContent=new Date().getFullYear();</script>
+</body>
+</html>
