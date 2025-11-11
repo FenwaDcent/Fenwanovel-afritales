@@ -16,7 +16,7 @@
     .nav a{padding:6px 10px;border-radius:999px;background:var(--pill);text-decoration:none}
     .cover{width:100%;max-width:520px;aspect-ratio:3/4;object-fit:cover;border-radius:16px;display:block;margin:8px 0}
     .actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
-    button{padding:8px 12px;border-radius:10px;border:0;background:var(--accent);color:#111;font-weight:600}
+    button{padding:8px 12px;border-radius:10px;border:0;background:var(--accent);color:#111;font-weight:600;cursor:pointer}
     :root{--bg:#0b0b0c;--card:#161618;--pill:#222229;--text:#efefef;--accent:#f4c430}
     html[data-theme="light"]{--bg:#ffffff;--card:#f6f7f9;--pill:#eceef2;--text:#111;--accent:#f4c430}
     body{color:var(--text);background:var(--bg);font-family:system-ui,-apple-system,Segoe UI,Roboto,Inter,Arial}
@@ -24,22 +24,29 @@
 </head>
 <body>
   <div class="topbar">
-    <a href="./" aria-label="Home">🏠</a>
+    <a href="index.html" aria-label="Home">🏠</a>
     <div id="book-title" class="meta"></div>
     <div style="margin-left:auto"></div>
-    <button id="toggle">Toggle theme</button>
+    <button id="toggle" type="button">Toggle theme</button>
   </div>
 
   <img id="book-cover" class="cover" alt="" />
   <div id="book-blurb" class="meta"></div>
+
   <div class="actions">
-    <button id="prev">◀ Prev</button>
-    <button id="next">Next ▶</button>
+    <button id="prev" type="button">◀ Prev</button>
+    <button id="next" type="button">Next ▶</button>
+    <div style="margin-left:auto"></div>
+    <div class="coin">💰 <span class="coin-amount">0</span> Coins</div>
+    <button type="button" onclick="openBuyCoins()">Buy Coins</button>
   </div>
 
   <div id="toc" class="nav"></div>
   <div id="content" class="chapters"></div>
 
+  <!-- Include Paystack + app.js + reader.js -->
+  <script src="https://js.paystack.co/v1/inline.js"></script>
+  <script src="assets/app.js"></script>
   <script src="reader.js"></script>
 </body>
 </html>
