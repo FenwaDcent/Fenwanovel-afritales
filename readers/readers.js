@@ -106,4 +106,8 @@ async function main() {
   }
 }
 
+document.addEventListener("DOMContentLoaded", main);    console.error(e);
+  }
+}
+
 document.addEventListener("DOMContentLoaded", main);
