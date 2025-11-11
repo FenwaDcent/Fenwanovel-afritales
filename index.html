@@ -14,12 +14,13 @@
       <div class="logo" aria-hidden="true"></div>
       <div class="title">Fenwanovels – African Love &amp; Power Stories</div>
     </div>
+
+    <!-- ✅ single badges row -->
     <div class="badges">
-      <div class="badges">
-  <div class="coin">💰 <span class="coin-amount">85</span> Coins</div>
-  <button class="btn" onclick="openBuyCoins()">Buy Coins</button>
-  <button class="toggle" onclick="toggleTheme()"><span id="themeText">🌙 Dark</span></button>
-</div>
+      <div class="coin">💰 <span class="coin-amount">85</span> Coins</div>
+      <button class="btn" onclick="openBuyCoins()">Buy Coins</button>
+      <button class="toggle" onclick="toggleTheme()"><span id="themeText">🌙 Dark</span></button>
+    </div>
   </div>
 </header>
 
@@ -31,33 +32,34 @@
     </div>
 
     <div class="grid">
-<!-- Before You Die Empty -->
-<article class="card">
-  <img src="assets/covers/before-you-die-empty.jpg" alt="Before You Die Empty cover">
-  <div class="card-body">
-    <h3>Before You Die Empty</h3>
-    <p>A life-changing message on purpose, faith, and fulfillment before time runs out.</p>
-    <div class="meta">By Ajibade Vincent Adefenwa • Motivation / Faith</div>
-    <div class="actions">
-      <a class="btn primary" href="books/before-you-die-empty/index.html">Read now</a>
-      <a class="btn" href="mailto:vfenwa100@gmail.com">Contact</a>
-    </div>
-  </div>
-</article>
+      <!-- Before You Die Empty -->
+      <article class="card">
+        <img src="assets/covers/before-you-die-empty.jpg" alt="Before You Die Empty cover">
+        <div class="card-body">
+          <h3>Before You Die Empty</h3>
+          <p>A life-changing message on purpose, faith, and fulfillment before time runs out.</p>
+          <div class="meta">By Ajibade Vincent Adefenwa • Motivation / Faith</div>
+          <div class="actions">
+            <a class="btn primary" href="books/before-you-die-empty/index.html">Read now</a>
+            <a class="btn" href="mailto:vfenwa100@gmail.com">Contact</a>
+          </div>
+        </div>
+      </article>
 
-<!-- Testimony: The Irony of Destiny -->
-<article class="card">
-  <img src="assets/covers/testimony-the-irony-of-destiny.jpg" alt="Testimony: The Irony of Destiny cover">
-  <div class="card-body">
-    <h3>Testimony: The Irony of Destiny</h3>
-    <p>A powerful story of faith, struggle, and divine irony — where pain becomes purpose.</p>
-    <div class="meta">By Ajibade Vincent Adefenwa • Inspirational Fiction</div>
-    <div class="actions">
-      <a class="btn primary" href="books/testimony-the-irony-of-destiny/index.html">Read now</a>
-      <a class="btn" href="mailto:vfenwa100@gmail.com">Contact</a>
-    </div>
-  </div>
-</article>
+      <!-- Testimony: The Irony of Destiny -->
+      <article class="card">
+        <img src="assets/covers/testimony-the-irony-of-destiny.jpg" alt="Testimony: The Irony of Destiny cover">
+        <div class="card-body">
+          <h3>Testimony: The Irony of Destiny</h3>
+          <p>A powerful story of faith, struggle, and divine irony — where pain becomes purpose.</p>
+          <div class="meta">By Ajibade Vincent Adefenwa • Inspirational Fiction</div>
+          <div class="actions">
+            <a class="btn primary" href="books/testimony-the-irony-of-destiny/index.html">Read now</a>
+            <a class="btn" href="mailto:vfenwa100@gmail.com">Contact</a>
+          </div>
+        </div>
+      </article>
+
       <!-- Echoes of Broken Vows -->
       <article class="card">
         <img src="assets/covers/echoes-of-broken-vows.svg" alt="Echoes of Broken Vows cover">
@@ -114,9 +116,7 @@
   <div class="credit">Written by Ajibade Vincent Adefenwa</div>
 </footer>
 
-<script src="assets/app.js"></script>
-<script>document.getElementById('year').textContent = new Date().getFullYear();</script>
-<!-- Buy Coins Modal -->
+<!-- ✅ Single Buy Coins Modal (Paystack version) -->
 <div id="buyCoinsModal" class="modal" hidden>
   <div class="modal-card">
     <div class="modal-head">
@@ -127,9 +127,9 @@
     <p class="dim" style="margin-top:-6px">Choose a coin pack or redeem a voucher.</p>
 
     <div class="packs">
-      <button class="pack" onclick="addCoins(50)">+50 Coins</button>
-      <button class="pack" onclick="addCoins(150)">+150 Coins</button>
-      <button class="pack" onclick="addCoins(300)">+300 Coins</button>
+      <button class="pack" onclick="buyCoinsPaystack({label:'50 Coins',  coins:50,  amountKobo:  50000})">+50 Coins (₦500)</button>
+      <button class="pack" onclick="buyCoinsPaystack({label:'150 Coins', coins:150, amountKobo: 120000})">+150 Coins (₦1,200)</button>
+      <button class="pack" onclick="buyCoinsPaystack({label:'300 Coins', coins:300, amountKobo: 200000})">+300 Coins (₦2,000)</button>
     </div>
 
     <div class="or"><span>or</span></div>
@@ -141,9 +141,35 @@
     </div>
 
     <div class="note dim" style="margin-top:10px">
-      Test mode is ON — packs add coins instantly (no payment yet). We’ll connect Paystack later.
+      Payments credit coins instantly after success. Having issues?
+      <a href="mailto:vfenwa100@gmail.com">Contact support</a>.
     </div>
   </div>
 </div>
-</body>
+
+<!-- Scripts -->
+<script src="assets/app.js"></script>
+<script src="https://js.paystack.co/v1/inline.js"></script>
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  // Paystack checkout
+  function buyCoinsPaystack(pack) {
+    const handler = PaystackPop.setup({
+      key: 'pk_test_xxxxxx', // ← replace with your Paystack Public Key
+      email: getCurrentUserEmail() || 'reader@example.com',
+      amount: pack.amountKobo,   // in kobo
+      currency: 'NGN',
+      ref: 'FENWA_' + Date.now(),
+      callback: function(res){
+        addCoins(pack.coins);   // from assets/app.js
+        alert('✅ Payment successful! Ref: ' + res.reference);
+        closeBuyCoins();
+      },
+      onClose: function(){ /* user closed */ }
+    });
+    handler.openIframe();
+  }
+</script>
+</body>  
 </html>
