@@ -1,0 +1,10 @@
+{
+  "id": "testimony-the-irony-of-destiny",
+  "title": "Testimony: The Irony of Destiny",
+  "author": "Ajibade Vincent Adefenwa",
+  "cover": "../../assets/covers/testimony-the-irony-of-destiny.jpg",
+  "tags": ["Inspirational Fiction", "Faith", "Drama"],
+  "blurb": "A powerful story of faith, struggle, and divine irony — where pain becomes purpose.",
+  "freeChapters": [1,2,3,4,5,6],
+  "paid": { "pricePerChapter": 30 }
+}
