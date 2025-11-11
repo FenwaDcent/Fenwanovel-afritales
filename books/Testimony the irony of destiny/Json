@@ -1,25 +1,22 @@
-{
-  "slug": "testimony-the-irony-of-destiny",
-  "title": "Testimony: The Irony of Destiny",
-  "author": "Ajibade Vincent Adefenwa",
-  "cover": "covers/testimony-the-irony-of-destiny.jpg",
-  "blurb": "Chioma’s life was a love story written by destiny itself — full of faith, betrayal, and divine irony. When love fails and hope dies, a miracle is born — his name is Testimony.",
-  "chapters": [
-    {
-      "title": "Chapter 1 – Innocence in Osogbo",
-      "html": "<p>Chioma was a dreamer from Osogbo who believed love could conquer fate. She prayed with tears and worked with faith, but destiny had its own plan.</p>"
-    },
-    {
-      "title": "Chapter 2 – The Weekend of Temptation",
-      "html": "<p>Her friends chased pleasure, but Chioma chased purpose. On a weekend meant for fun, she found the test that would define her life.</p>"
-    },
-    {
-      "title": "Chapter 3 – Love, Lies, and Letters",
-      "html": "<p>Olabode promised heaven. His letters were sweet until silence became his reply. The wedding photos she saw on Facebook crushed her world.</p>"
-    },
-    {
-      "title": "Chapter 4 – From Pain to Purpose",
-      "html": "<p>When all seemed lost, God gave her a reason to live — a child she named Testimony. Her story became proof that purpose grows best in pain.</p>"
-    }
-  ]
-}
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Testimony: The Irony of Destiny – Fenwanovels</title>
+<link rel="stylesheet" href="../../assets/styles.css"/>
+</head><body>
+<header><div class="header-inner">
+  <div class="brand"><div class="logo"></div><div class="title">Fenwanovels</div></div>
+  <div class="badges"><div class="coin">💰 <span class="coin-amount">85</span> Coins</div></div>
+</div></header>
+
+<main>
+  <article>
+    <h1>Testimony: The Irony of Destiny</h1>
+    <p class="dim">By Ajibade Vincent Adefenwa</p>
+    <div class="toolbar"><a class="btn" href="../../index.html">← Back to Library</a></div>
+
+    <!-- add your chapters here -->
+  </article>
+</main>
+
+<script src="../../assets/app.js"></script>
+</body></html>
