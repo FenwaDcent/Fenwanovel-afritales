@@ -16,68 +16,12 @@
     .toolbar{display:flex;gap:.75rem;align-items:center;margin:.5rem 0 1rem}
     .toolbar a,.toolbar button{font-weight:600}
     .toc{margin:12px 0 18px;display:flex;flex-wrap:wrap;gap:.5rem}
-    .toc a{background:var(--chip-bg,#262626);padding:.3rem .6rem;border-radius:999px;font-size:.85rem}
+    .toc a{background:var(--chip-bg,#262626);padding:.3rem .6rem;border-radius:999px;font-size:.85rem;text-decoration:none}
     .chapter p{line-height:1.8;font-size:1.05rem;margin:1rem 0;text-align:justify}
+    .lock{padding:12px;border:1px dashed #666;border-radius:10px;margin-top:8px}
+    .content[hidden]{display:none}
   </style>
 </head>
-  <script>
-  // === Simple per-book unlock store ===
-  const BOOK_KEY = 'before-you-die-empty';
-  const UNLOCK_KEY = 'unlocked_' + BOOK_KEY;
-
-  // Read & write coins (shared site-wide)
-  function getCoins() {
-    return parseInt(localStorage.getItem('coins') || '85', 10);
-  }
-  function setCoins(n) {
-    localStorage.setItem('coins', String(n));
-    const el = document.querySelector('.coin-amount');
-    if (el) el.textContent = n;
-  }
-
-  // Unlock management
-  function getUnlocked() {
-    try { return JSON.parse(localStorage.getItem(UNLOCK_KEY) || '[]'); }
-    catch { return []; }
-  }
-  function saveUnlocked(arr) {
-    localStorage.setItem(UNLOCK_KEY, JSON.stringify([...new Set(arr)]));
-  }
-
-  function showContent(ch) {
-    const lock = document.getElementById('lock-' + ch);
-    const body = document.getElementById('content-' + ch);
-    if (lock) lock.hidden = true;
-    if (body) body.hidden = false;
-  }
-
-  function renderLocks() {
-    const unlocked = getUnlocked();
-    unlocked.forEach(showContent);
-  }
-
-  // Called by the Unlock buttons
-  function unlock(chapter, price) {
-    let coins = getCoins();
-    if (coins < price) {
-      alert('❌ Not enough coins to unlock this chapter.');
-      return;
-    }
-    coins -= price;
-    setCoins(coins);
-    const unlocked = getUnlocked();
-    unlocked.push(chapter);
-    saveUnlocked(unlocked);
-    showContent(chapter);
-    alert('🔓 Chapter ' + chapter + ' unlocked!');
-  }
-
-  document.addEventListener('DOMContentLoaded', () => {
-    // Ensure header coin count reflects localStorage
-    setCoins(getCoins());
-    renderLocks();
-  });
-  </script>
 <body>
 <header>
   <div class="header-inner">
@@ -97,7 +41,6 @@
     <h1>Before You Die Empty</h1>
 
     <div class="book-hero">
-      <!-- Make sure this image exists: assets/covers/before-you-die-empty.jpg -->
       <img src="../../assets/covers/before-you-die-empty.jpg" alt="Before You Die Empty cover"/>
     </div>
 
@@ -118,544 +61,86 @@
     </div>
 
     <!-- Table of Contents -->
-    <!-- Table of Contents (click to jump) -->
-<div id="toc" class="toc">
-  <a href="#ch1">Chapter 1 – The Call to Empty</a>
-  <a href="#ch2">Chapter 2 – The Story of the Empty Grave</a>
-  <a href="#ch3">Chapter 3 – Dreams and Warnings</a>
-  <a href="#ch4">Chapter 4 – The Fire in His Voice</a>
-  <a href="#ch5">Chapter 5 – Discipline &amp; Focus</a>
-  <a href="#ch6">Chapter 6 – Killing Procrastination</a>
-</div>
-      <a href="#ch7">Chapter 7</a>
-      <a href="#ch8">Chapter 8</a>
-      <a href="#ch9">Chapter 9</a>
-      <a href="#ch10">Chapter 10</a>
+    <div id="toc" class="toc">
+      <a href="#ch1">Ch. 1 – The Call to Empty</a>
+      <a href="#ch2">Ch. 2 – The Empty Grave</a>
+      <a href="#ch3">Ch. 3 – Dreams & Warnings</a>
+      <a href="#ch4">Ch. 4 – Fire in His Voice</a>
+      <a href="#ch5">Ch. 5 – Discipline & Focus</a>
+      <a href="#ch6">Ch. 6 – Killing Procrastination</a>
+      <a href="#ch7">Ch. 7 – The War Against Distraction 🔒</a>
+      <a href="#ch8">Ch. 8 – The 1,000-Day Rule 🔒</a>
+      <a href="#ch9">Ch. 9 – Mentors & Mirrors 🔒</a>
+      <a href="#ch10">Ch. 10 – Systems, Not Motivation 🔒</a>
+      <a href="#ch11">Ch. 11 – Emptying Exercises 🔒</a>
+      <a href="#ch12">Ch. 12 – When Seasons Change 🔒</a>
+      <a href="#ch13">Ch. 13 – The Gift of Pain 🔒</a>
+      <a href="#ch14">Ch. 14 – Obedience Over Opportunity 🔒</a>
+      <a href="#ch15">Ch. 15 – The Circle That Builds/Breaks 🔒</a>
+      <a href="#ch16">Ch. 16 – Legacy Is Built Daily 🔒</a>
+      <a href="#ch17">Ch. 17 – The Test of Fame 🔒</a>
+      <a href="#ch18">Ch. 18 – The Fire That Never Dies 🔒</a>
+      <a href="#ch19">Ch. 19 – Guarding the Inner Life 🔒</a>
+      <a href="#ch20">Ch. 20 – The Legacy Summit 🔒</a>
+      <a href="#ch21">Ch. 21 – Empty but Fulfilled 🔒</a>
     </div>
 
-    <!-- ===== CHAPTERS ===== -->
-
+    <!-- ===== FREE CHAPTERS (1–6) ===== -->
     <section id="ch1" class="chapter">
       <h3>Chapter 1: <span class="meta">The Call to Empty</span></h3>
-      <p>The sun was gentle that morning in Akinwale village. The wind moved lazily through the mango trees, shaking their branches with a rhythm that only peace could understand.</p>
-      <p>Young Samuel sat barefoot on the soft red sand behind their old house. Before him was the wooden chair — that ancient, creaking relic his father refused to throw away.</p>
-      <p>To Samuel, it wasn’t just a chair. It was a throne — the seat of wisdom. Because every time his father sat on it, something about life changed.</p>
-      <p>“Samuel!” his father’s voice boomed softly from inside the house. “Bring me my old chair. Let’s sit where the wind still remembers.”</p>
-      <p>…</p>
-      <p>“My son,” he continued, voice trembling slightly, “promise me one thing. Don’t go to that grave full. Die empty.”</p>
-      <p>That day, the boy who listened beneath the mango tree received a seed that would grow into a message that would shake nations: <em>Before You Die Empty</em>.</p>
+      <p>…(your full Chapter 1 text)…</p>
     </section>
 
     <section id="ch2" class="chapter">
       <h3>Chapter 2: <span class="meta">The Story of the Empty Grave</span></h3>
-      <p>Night had fallen over Akinwale village. The moon, full and golden, rested proudly above the thatched roofs. Inside their small sitting room, a kerosene lantern burned beside the old wooden chair.</p>
-      <p>Pa Akinwale told the tale of Olowolagba, a gifted craftsman who waited for perfect conditions until time ran out. “That is why the graveyard is the richest place on earth,” he said. “It holds dreams that never lived.”</p>
-      <p>“So, Baba… how do I die empty?” Samuel asked. “You live full,” his father replied. “Do something about the dream inside you every day. Write when no one claps. Build when no one believes.”</p>
-      <p>As Samuel lay on his mat that night, he whispered to himself: “The richest place in the world… is the graveyard.”</p>
+      <p>…(your full Chapter 2 text)…</p>
     </section>
 
     <section id="ch3" class="chapter">
-  <h3>Chapter 3: <span class="meta">Dreams and Warnings</span></h3>
-
-  <p>The harmattan had returned. White dust lay like soft ash on every roof in Akinwale village. The air was dry, the sky pale, and every breath carried a faint taste of earth.</p>
-
-  <p>Samuel was now seventeen — taller, sharper, and full of curiosity. He had begun helping his father in the small carpentry shed behind their house.</p>
-
-  <p>To the villagers, Pa Akinwale’s workshop was ordinary. But to Samuel, it was a temple — where wood obeyed wisdom.</p>
-
-  <p>Every plank that creaked under his father’s hammer seemed to whisper a lesson: <em>“Purpose is shaped by pressure.”</em></p>
-
-  <h4>The Dream</h4>
-
-  <p>It began one cold morning. Samuel had woken from a strange dream, sweating.</p>
-
-  <p>He saw himself standing in a wide, empty field — countless graves stretching before him. Each grave had a name, and each name glowed faintly like light beneath the soil.</p>
-
-  <p>But when he looked closely, one grave shone brighter than the rest. It bore his own name: <strong>Samuel Akinwale</strong>.</p>
-
-  <p>And under it were words carved in gold:</p>
-
-  <blockquote>“He Spoke to Millions… But Forgot Himself.”</blockquote>
-
-  <p>He woke up trembling. For days, he couldn’t shake it off.</p>
-
-  <p>When he told his father, Pa Akinwale listened in silence. The old man’s eyes grew moist.</p>
-
-  <p>“My son,” he said finally, “not every dream comes to scare you. Some come to prepare you.”</p>
-
-  <h4>The Warning</h4>
-
-  <p>They sat together under the mango tree again — the old wooden chair between them, like a silent witness.</p>
-
-  <p>Pa Akinwale’s voice was heavy with meaning. “Samuel, you will be great. I can see it. You will speak to many. You will light fires in sleeping souls. But remember — the brighter the light, the darker the shadow that follows it.”</p>
-
-  <p>Samuel looked confused. “Baba, what do you mean?”</p>
-
-  <p>His father pointed at the evening sun. “See that sun? It shines bright — but every time it rises, something hides behind it: the shadow. That’s how destiny works. When God gives you light, life will test how strong your shadow can stand.”</p>
-
-  <p>“Listen, my son,” his father continued. “When a man begins to live for purpose, the devil begins to take him seriously. You will be tempted — by fame, by fear, by distraction. But never forget why you were born. Never trade your message for applause.”</p>
-
-  <p>He stood slowly, using his stick for balance. “Promise me something.”</p>
-  <p>“Yes, Baba.”</p>
-
-  <p>“When you start seeing crowds, when you begin to stand on big stages — remember this chair.”</p>
-
-  <p>He pointed at the old wooden seat. “Because this is where your fire began. Not in the lights. Not in the noise. Right here, where wisdom met simplicity.”</p>
-
-  <p>Samuel nodded. “I promise, Baba.”</p>
-
-  <p>The wind blew softly. A dry mango leaf floated down and landed at his feet. His father smiled faintly. “Then your journey has started.”</p>
-
-  <h4>The Second Dream</h4>
-
-  <p>That night, Samuel dreamt again.</p>
-
-  <p>He saw a huge mountain — steep, dark, and rough. On top of it stood a shining crown made of fire. He tried to climb, but the rocks cut his hands. The higher he went, the heavier the wind became. He almost gave up.</p>
-
-  <p>Then, suddenly, he heard his father’s voice echoing from below:</p>
-
-  <blockquote>“Don’t stop climbing, Samuel! The fire is not for the faint!”</blockquote>
-
-  <p>He looked down and saw his father waving — smiling, strong, ageless.</p>
-
-  <p>When Samuel reached the top, he picked up the crown. But it didn’t burn him — it melted into his hands, glowing through his skin.</p>
-
-  <p>He woke up shaking, yet smiling. For the first time, he understood something: <em>Destiny was not a comfort zone. It was a climb.</em></p>
-
-  <p>The next morning, as he swept the compound, he whispered to himself,</p>
-
-  <blockquote>“One day, the world will hear me. But first, I must listen.”</blockquote>
-
-  <p>Pa Akinwale watched from a distance, smiling proudly — though his heart carried a quiet fear.</p>
-
-  <p>He knew that when a man receives a great dream, life would soon begin to test its strength.</p>
-
-  <p><strong>And that test… was coming sooner than they both imagined.</strong></p>
-
-  <p><strong>End of Chapter Three</strong></p>
+      <h3>Chapter 3: <span class="meta">Dreams and Warnings</span></h3>
+      <p>…(your full Chapter 3 text you pasted)…</p>
     </section>
 
     <section id="ch4" class="chapter">
-  <h3>Chapter 4: <span class="meta">The Fire in His Voice</span></h3>
-  <p>The dry season dragged on in Akinwale. Wells sank lower; footsteps carried the rustle of dust. In the evenings, Samuel swept the compound and listened to the radio through the window of a neighbor’s shop—pastors, poets, politicians. Everyone talked. Few spoke to the soul.</p>
+      <h3>Chapter 4: <span class="meta">The Fire in His Voice</span></h3>
+      <p>…(your full Chapter 4 text)…</p>
+    </section>
 
-  <p>One Sunday after church, the youth leader begged him to “share a short exhortation.” Samuel wanted to refuse. He wasn’t a pastor. Just a boy who listened under a mango tree. But he remembered his father’s words: <em>“Wisdom is not complete until you act on it.”</em></p>
-
-  <p>He stood—palms wet, voice unsure—and began with a story: the old wooden chair. He spoke about purpose, pressure, and the graveyard that holds unwritten books. The hall went quiet. Even the children stopped fidgeting. When he said, “Don’t go to the grave full—die empty,” an old woman in the third row pressed a hand to her chest and whispered, “Amen.”</p>
-
-  <p>Something shifted inside him—like a match catching a dry wick. His voice grew firm, then warm, then bright. It wasn’t volume. It was weight. The kind truth carries when it travels from a life lived honestly. Afterwards, no one clapped at first; they just sat, recovering. Then hands rose like rain.</p>
-
-  <p>That evening, Pa Akinwale sat on the old chair and listened as Samuel retold the moment. The old man smiled gently. “Fire has found your tongue,” he said. “But remember, my son: fire that is not disciplined burns the house that hosts it.”</p>
-
-  <p>“How do I discipline it, Baba?”</p>
-
-  <p>“By building an altar around it—habits, study, prayer, and practice. Keep your heart clean. Keep your hands busy. Let your mouth speak last.”</p>
-
-  <p>From that week, Samuel set a small routine. At dawn he read for thirty minutes—Scripture, a page of a book, a proverb copied by hand. At noon he served—sweeping the church yard, carrying chairs, visiting an elder. At night he wrote—three paragraphs a day, even if they were ugly. The words did not always glow, but the altar grew strong.</p>
-
-  <p>Invitations began: a school assembly, a youth fellowship in the next town, a women’s meeting under a canopy. He refused a few, accepted the ones that felt right. The rule was simple: <em>“If the request is louder than my values, I say no.”</em></p>
-
-  <p>One afternoon, a local businessman sent a message: “Come to our end-of-year party and ‘ginger’ the people. We’ll pay.” The envelope was thick; the instruction was thin: “Just make them excited.” Samuel folded the note, prayed, and declined politely. He was not against joy; he was against empty noise.</p>
-
-  <p>That night, the dream returned. He saw a lamp on a high table. Many hands reached to touch it—some to lift it higher, some to shove it over. He woke with a sentence in his mouth: <em>“Guard the flame; don’t chase the spotlight.”</em></p>
-
-  <p>At dawn, Father and son sat beneath the mango leaves. “Baba,” Samuel said softly, “today I choose the flame over the fame.” The old man nodded, eyes bright. “Then the flame will choose you back.”</p>
-</section>
-    
     <section id="ch5" class="chapter">
-  <h3>Chapter 5: <span class="meta">Discipline &amp; Focus</span></h3>
-  <p>Harmattan finally loosened its grip. The first rains came like forgiveness on a dusty tongue. With the new season came new distractions—requests, small praises, bigger invitations, and the slow, sugary pride that hides inside compliments.</p>
-
-  <p>Samuel sensed the danger. He drew a simple circle in his notebook and wrote four words at the edges: <strong>Word</strong>, <strong>Work</strong>, <strong>Worship</strong>, <strong>Walk</strong>.</p>
-
-  <p><strong>Word:</strong> He set a rule—no phone before Scripture. Ten verses, slowly. Not to finish a plan, but to feed a soul. He copied one line each day and pinned it above his mat: <em>“Teach us to number our days, that we may apply our hearts unto wisdom.”</em></p>
-
-  <p><strong>Work:</strong> He practiced speaking out loud for fifteen minutes daily—posture, pace, pause. He recorded himself on a borrowed phone and endured the discomfort of hearing his own voice. He drafted outlines with hooks and headings, then cut anything that sounded clever but carried no weight.</p>
-
-  <p><strong>Worship:</strong> He kept his heart soft: a hymn at dusk, a whispered prayer when anger rose, a quiet apology when pride slipped through. He learned that an unbroken man breaks crowds; a broken man builds them.</p>
-
-  <p><strong>Walk:</strong> He guarded his company. He loved everyone; he listened to a few. He found two elders who asked hard questions: “How much did you pray before you spoke? Who did you serve this week with no microphone present?” Accountability kept his feet on narrow ground.</p>
-
-  <p>Focus, he discovered, was not a feeling; it was a fence. Every yes needed four protective no’s. When a district official suggested a “little adjustment” to appear on a big city program—pay this, mention that, avoid this topic—Samuel smiled, thanked him, and chose a small school assembly instead. Ten teenagers, two teachers, and the sincere silence that follows truth well told.</p>
-
-  <p>One evening, Pa Akinwale fell ill briefly. As Samuel watched over him, the old man squeezed his hand. “Disciplined lions still rest,” he whispered. “Do not confuse movement with progress. Even the fan makes noise when it is not moving air.”</p>
-
-  <p>So Samuel scheduled rest like an appointment with destiny. One day a week he turned down the volume—no speaking, no posting, only reading, walking, praying, and being a son. The world did not end. His soul did not fray. The flame burned cleaner.</p>
-
-  <p>By month’s end, he noticed a quiet miracle: his messages grew simpler, shorter, stronger. Not because he knew more, but because he removed the parts that were only for applause. Discipline had not shrunk him; it had sharpened him.</p>
-
-  <p>He wrote a line at the bottom of his notebook: <em>“Focus is the art of honoring your assignment above your appetite.”</em> Then he closed the book and slept like a man who had earned his pillow.</p>
-</section>
-    
+      <h3>Chapter 5: <span class="meta">Discipline &amp; Focus</span></h3>
+      <p>…(your full Chapter 5 text)…</p>
+    </section>
 
     <section id="ch6" class="chapter">
-  <h3>Chapter 6: <span class="meta">Killing Procrastination</span></h3>
-  <p>Procrastination does not always look like laziness. Sometimes it wears a suit called “I’m still planning.” Other times it wears prayer as perfume to hide fear. Samuel learned this the day a headmaster asked him to address a final-year class.</p>
+      <h3>Chapter 6: <span class="meta">Killing Procrastination</span></h3>
+      <p>…(your full Chapter 6 text)…</p>
+    </section>
 
-  <p>He wanted the talk to be perfect. He outlined, re-outlined, redesigned—until the date crept too near. The night before, he stared at blank spaces and felt the old chill of the graveyard sentence: <em>“He spoke to millions… but forgot himself.”</em></p>
+    <!-- ===== LOCKED CHAPTERS (7+) ===== -->
+    <section id="ch7" class="chapter">
+      <h3>Chapter 7: <span class="meta">The War Against Distraction</span></h3>
+      <div class="lock" id="lock-7">
+        <p class="dim">This chapter is locked. Unlock with <strong>30 Coins</strong>.</p>
+        <button class="btn primary" onclick="unlock(7, 30)">Unlock (30 Coins)</button>
+      </div>
+      <div class="content" id="content-7" hidden>
+        <p>…(full ch.7 text)…</p>
+      </div>
+    </section>
 
-  <p>At dawn, he carried his worry to the mango tree. Pa Akinwale listened and smiled. “Perfection is a beautiful liar,” the old man said. “It promises excellence and delivers delay. Excellence grows from action.”</p>
+    <section id="ch8" class="chapter">
+      <h3>Chapter 8: <span class="meta">The 1,000-Day Rule</span></h3>
+      <div class="lock" id="lock-8">
+        <p class="dim">This chapter is locked. Unlock with <strong>30 Coins</strong>.</p>
+        <button class="btn primary" onclick="unlock(8, 30)">Unlock (30 Coins)</button>
+      </div>
+      <div class="content" id="content-8" hidden>
+        <p>…(full ch.8 text)…</p>
+      </div>
+    </section>
 
-  <p>“But what if I’m not ready?” Samuel asked.</p>
-
-  <p>“Then give God your honest readiness,” the old man replied. “A seed is not a tree, but it is not a lie.”</p>
-
-  <p>They built a simple weapon together—Samuel called it the <strong>3–2–1 Rule</strong>:</p>
-
-  <ul>
-    <li><strong>3 minutes</strong> to define the outcome in one sentence: “When I leave, these students will choose action over excuses.”</li>
-    <li><strong>2 points</strong> only—no more: “Start small” and “Start now.”</li>
-    <li><strong>1 story</strong> that sticks—the old wooden chair that refused to die.</li>
-  </ul>
-
-  <p>He went. He spoke. He ended with an assignment: “Write one action you will take in 24 hours and hand it to your class captain.” The next week, the headmaster sent a note: ten students had started reading groups; two had launched small cleaning teams; one began repairing desks with a borrowed hammer. Samuel sat with the letters and wept gratitude. Motion had defeated perfection.</p>
-
-  <p>He wrote a small creed and pasted it above his desk:</p>
-
-  <blockquote>
-    <p><strong>Today, not someday.</strong><br>
-    <strong>Simple, not perfect.</strong><br>
-    <strong>Faithful, not famous.</strong></p>
-  </blockquote>
-
-  <p>To reinforce the new habit, he used three daily cues:</p>
-  <ol>
-    <li><strong>Morning cue:</strong> Make the bed—one completed task before sunrise.</li>
-    <li><strong>Noon cue:</strong> Send one useful message—encourage a person, confirm a plan, or share a paragraph of value.</li>
-    <li><strong>Night cue:</strong> Lay out tomorrow’s tools—book, outline, clean shirt. Reduce friction; respect the future.</li>
-  </ol>
-
-  <p>When invitations multiplied, procrastination tried a new disguise: “You can do that later; you are busy.” He answered with a calendar, not a feeling. If a task mattered, it got a slot. If it didn’t get a slot, it wasn’t allowed to haunt his conscience.</p>
-
-  <p>By the end of the term, the class captain visited his home with a small gift: a folded paper chair, neatly crafted from brown cover sheet. On it, the boy had written, “Sir, thank you for teaching us to sit on purpose.”</p>
-
-  <p>Samuel placed the paper chair beside the old wooden one. “Baba,” he whispered, “we are emptying—one action at a time.”</p>
-</section>
-
-<!-- ===================== -->
-<!-- CHAPTER 7 (LOCKED)   -->
-<!-- ===================== -->
-<section id="ch7" class="chapter" data-locked="true" data-ch="7">
-  <h3>Chapter 7: <span class="meta">The War Against Distraction</span></h3>
-
-  <!-- Lock view -->
-  <div class="lock" id="lock-7">
-    <p class="dim">This chapter is locked. Unlock with <strong>30 Coins</strong>.</p>
-    <button class="btn primary" onclick="unlock(7, 30)">Unlock (30 Coins)</button>
-  </div>
-
-  <!-- Full content (hidden until unlocked) -->
-  <div class="content" id="content-7" hidden>
-    <p>The harmattan dust settled on the zinc roofs like light ash, and Samuel noticed something about time: it was either spent with intention, or it disappeared through distraction.</p>
-    <p>Distraction never looks like an enemy. It looks like “just five minutes” on your phone. It looks like “I’ll start after I eat.” It looks like “let me check one more message.”</p>
-    <p>Purpose is a jealous master—it refuses to share a day with procrastination. Every great life is built with hours that were protected like treasure.</p>
-    <p><strong>Three daily rules to kill distraction:</strong></p>
-    <p><em>1) The First Hour is Holy:</em> No social media, no chats, no trivial tasks. Pray. Plan. Produce.</p>
-    <p><em>2) The 3–3–3 System:</em> Three deep-work tasks (90 minutes each), three short tasks (15–20 minutes), three people to bless or follow up.</p>
-    <p><em>3) The Evening Audit:</em> What stole my time today? What will I defend tomorrow?</p>
-    <p>Samuel wrote in his small notebook: “If I do not schedule my purpose, distraction will schedule my failure.” That night, he put his phone in another room and slept with peace he had not felt in months.</p>
-  </div>
-</section>
-
-<!-- ===================== -->
-<!-- CHAPTER 8 (LOCKED)   -->
-<!-- ===================== -->
-<section id="ch8" class="chapter" data-locked="true" data-ch="8">
-  <h3>Chapter 8: <span class="meta">The 1,000-Day Rule</span></h3>
-
-  <div class="lock" id="lock-8">
-    <p class="dim">This chapter is locked. Unlock with <strong>30 Coins</strong>.</p>
-    <button class="btn primary" onclick="unlock(8, 30)">Unlock (30 Coins)</button>
-  </div>
-
-  <div class="content" id="content-8" hidden>
-    <p>Greatness is not an explosion; it is a slow, faithful fire. People see the day you shine and call it luck. They rarely see the thousand days you burned quietly.</p>
-    <p><strong>The 1,000-Day Rule:</strong> give your calling three focused years of consistent action—no disappearing, no excuses, no drama. Just daily obedience.</p>
-    <p>Day 1–100: discovery and mistakes. Day 101–400: rhythm and small wins. Day 401–800: respect and mastery. Day 801–1000: favor and visibility.</p>
-    <p>For Samuel, day 1 began with a wooden table, a cheap pen, and a schedule. He chose a sacred time daily when he would create, study, or serve—no matter how he felt.</p>
-    <p>Destiny does not respond to feelings. Destiny responds to faithfulness.</p>
-    <p>Write this down: “If I give God 1,000 focused days, He will give me a life I could never design.”</p>
-  </div>
-</section>
-
-<!-- ===================== -->
-<!-- CHAPTER 9 (LOCKED)   -->
-<!-- ===================== -->
-<section id="ch9" class="chapter" data-locked="true" data-ch="9">
-  <h3>Chapter 9: <span class="meta">Mentors, Models & Mirrors</span></h3>
-
-  <div class="lock" id="lock-9">
-    <p class="dim">This chapter is locked. Unlock with <strong>30 Coins</strong>.</p>
-    <button class="btn primary" onclick="unlock(9, 30)">Unlock (30 Coins)</button>
-  </div>
-
-  <div class="content" id="content-9" hidden>
-    <p>God hides answers in people. Your future is trapped in voices you’ve not met or you’ve not honored.</p>
-    <p><strong>Mentors</strong> correct direction. <strong>Models</strong> show patterns. <strong>Mirrors</strong> tell the truth about your present state.</p>
-    <p>Samuel learned to ask three questions whenever he met a wise person: “What would you do if you were me?” “What mistake should I avoid this year?” “What single habit changed your life?”</p>
-    <p>Never ask a mentor for money. Ask for methods. Methods create money.</p>
-    <p>And find mirrors—honest friends who love you enough to say, “You are drifting.” Without mirrors, zeal becomes self-deception.</p>
-    <p>Honor is the currency that opens doors training cannot. Sow honor; reap access.</p>
-  </div>
-</section>
-
-<!-- ===================== -->
-<!-- CHAPTER 10 (LOCKED)  -->
-<!-- ===================== -->
-<section id="ch10" class="chapter" data-locked="true" data-ch="10">
-  <h3>Chapter 10: <span class="meta">Systems, Not Motivation</span></h3>
-
-  <div class="lock" id="lock-10">
-    <p class="dim">This chapter is locked. Unlock with <strong>30 Coins</strong>.</p>
-    <button class="btn primary" onclick="unlock(10, 30)">Unlock (30 Coins)</button>
-  </div>
-
-  <div class="content" id="content-10" hidden>
-    <p>Motivation is a good visitor but a poor tenant. If you build your destiny on motivation, your life will live in mood swings. Build it on systems.</p>
-    <p><strong>A simple purpose system (SPP):</strong></p>
-    <p><em>Schedule:</em> Fixed time block daily for your gift. Treat it like a meeting with your future.</p>
-    <p><em>Pipeline:</em> Keep a running list of next actions so you never waste time deciding what to do.</p>
-    <p><em>Proof:</em> Track outputs weekly (pages written, clients served, hours practiced). What you measure grows.</p>
-    <p>Samuel drew a table on paper: Time, Task, Output, Feedback. In one month, his progress doubled—not because he “felt inspired,” but because he built rails for his train.</p>
-  </div>
-</section>
-
-<!-- ===================== -->
-<!-- CHAPTER 11 (LOCKED)  -->
-<!-- ===================== -->
-<section id="ch11" class="chapter" data-locked="true" data-ch="11">
-  <h3>Chapter 11: <span class="meta">The Emptying Exercises</span></h3>
-
-  <div class="lock" id="lock-11">
-    <p class="dim">This chapter is locked. Unlock with <strong>30 Coins</strong>.</p>
-    <button class="btn primary" onclick="unlock(11, 30)">Unlock (30 Coins)</button>
-  </div>
-
-  <div class="content" id="content-11" hidden>
-    <p>Emptying is intentional. You don’t die empty by accident; you die empty by practice.</p>
-    <p><strong>Weekly Emptying Plan:</strong></p>
-    <p>• <em>Give Knowledge:</em> Teach one person what you learned this week (offline or online).  
-       • <em>Create Output:</em> Publish one thing (a page, a design, a recording).  
-       • <em>Serve Quietly:</em> Do one act of kindness without announcement.  
-       • <em>Protect Focus:</em> One 3-hour deep-work block without your phone.  
-       • <em>Spiritual Refill:</em> One hour of prayer + scripture meditation, undistracted.</p>
-    <p>Samuel realized: “If I pour weekly, I won’t need to panic yearly.” Destiny belongs to those who treat purpose like a covenant, not a hobby.</p>
-    <p><strong>Prayer:</strong> “Lord, help me to pour daily what You poured into me—until nothing You gave me returns to the grave.”</p>
-  </div>
-</section>
-    <!-- ===================== -->
-<!-- CHAPTER 12 (LOCKED)  -->
-<!-- ===================== -->
-<section id="ch12" class="chapter" data-locked="true" data-ch="12">
-  <h3>Chapter 12: <span class="meta">When Seasons Change</span></h3>
-
-  <div class="lock" id="lock-12">
-    <p class="dim">This chapter is locked. Unlock with <strong>30 Coins</strong>.</p>
-    <button class="btn primary" onclick="unlock(12, 30)">Unlock (30 Coins)</button>
-  </div>
-
-  <div class="content" id="content-12" hidden>
-    <p>Every dream has its weather. There are dry seasons of silence, rainy seasons of growth, and stormy seasons of testing. The wise do not complain about seasons—they discern them.</p>
-    <p>Samuel began to notice that his once-busy days had grown quiet. Invitations stopped. Messages slowed. It felt like heaven had muted him.</p>
-    <p>But Pa Akinwale’s words echoed: “When the sky is silent, God is preparing the ground.”</p>
-    <p>He learned to rest, to think, to listen again. Destiny’s silence is not rejection; it is preparation. Your unseen days are the foundation for your unforgettable days.</p>
-    <p>Write this down: “The absence of applause does not mean the absence of progress.”</p>
-  </div>
-</section>
-
-<!-- ===================== -->
-<!-- CHAPTER 13 (LOCKED)  -->
-<!-- ===================== -->
-<section id="ch13" class="chapter" data-locked="true" data-ch="13">
-  <h3>Chapter 13: <span class="meta">The Gift of Pain</span></h3>
-
-  <div class="lock" id="lock-13">
-    <p class="dim">This chapter is locked. Unlock with <strong>30 Coins</strong>.</p>
-    <button class="btn primary" onclick="unlock(13, 30)">Unlock (30 Coins)</button>
-  </div>
-
-  <div class="content" id="content-13" hidden>
-    <p>Pain is not always punishment. Sometimes, it is promotion wearing rags.</p>
-    <p>Samuel faced betrayal from a close friend who sold out his message for money. The wound was deep, but his father’s teaching kept him calm: “When pain visits, don’t chase it away too fast—it may be carrying your next lesson.”</p>
-    <p>He discovered that pain refines what comfort cannot. It burns away pride, sharpens focus, and builds compassion.</p>
-    <p>True greatness is not proven on sunny days. It’s proven on stormy nights when your tears become your only audience.</p>
-    <p>Every scar is a story God wants to tell through you. Don’t hide your scars—shine through them.</p>
-  </div>
-</section>
-
-<!-- ===================== -->
-<!-- CHAPTER 14 (LOCKED)  -->
-<!-- ===================== -->
-<section id="ch14" class="chapter" data-locked="true" data-ch="14">
-  <h3>Chapter 14: <span class="meta">Obedience Over Opportunity</span></h3>
-
-  <div class="lock" id="lock-14">
-    <p class="dim">This chapter is locked. Unlock with <strong>30 Coins</strong>.</p>
-    <button class="btn primary" onclick="unlock(14, 30)">Unlock (30 Coins)</button>
-  </div>
-
-  <div class="content" id="content-14" hidden>
-    <p>One day, a rich merchant offered Samuel a lucrative deal: to use his gift to make carvings that would be sold for political favor. The price was tempting, the applause certain—but something within resisted.</p>
-    <p>That night, he couldn’t sleep. His father’s voice echoed again: “Never trade purpose for platform.”</p>
-    <p>He turned down the deal. The merchant mocked him. The villagers called him foolish. But two months later, that same merchant was arrested for fraud, and Samuel’s integrity became his greatest advertisement.</p>
-    <p>Obedience may look small today, but it builds a name money can never buy.</p>
-    <p><strong>Lesson:</strong> What you lose by obeying God is nothing compared to what you gain by trusting Him.</p>
-  </div>
-</section>
-
-<!-- ===================== -->
-<!-- CHAPTER 15 (LOCKED)  -->
-<!-- ===================== -->
-<section id="ch15" class="chapter" data-locked="true" data-ch="15">
-  <h3>Chapter 15: <span class="meta">The Circle That Builds or Breaks</span></h3>
-
-  <div class="lock" id="lock-15">
-    <p class="dim">This chapter is locked. Unlock with <strong>30 Coins</strong>.</p>
-    <button class="btn primary" onclick="unlock(15, 30)">Unlock (30 Coins)</button>
-  </div>
-
-  <div class="content" id="content-15" hidden>
-    <p>Your friends are not neutral. They are either your wings or your weight.</p>
-    <p>Samuel once had a group that mocked discipline and laughed at ambition. Slowly, he noticed that his drive dimmed when he stayed around them. So, one morning, he prayed and walked away quietly.</p>
-    <p>He found new company—men who prayed, planned, and pushed each other toward destiny. Within weeks, his fire reignited.</p>
-    <p>Destiny is contagious; so is mediocrity. Who you walk with determines how far you’ll walk.</p>
-    <p><strong>Ask yourself:</strong> “Who is making me forget who I am?”</p>
-  </div>
-</section>
-
-<!-- ===================== -->
-<!-- CHAPTER 16 (LOCKED)  -->
-<!-- ===================== -->
-<section id="ch16" class="chapter" data-locked="true" data-ch="16">
-  <h3>Chapter 16: <span class="meta">Legacy Is Built Daily</span></h3>
-
-  <div class="lock" id="lock-16">
-    <p class="dim">This chapter is locked. Unlock with <strong>30 Coins</strong>.</p>
-    <button class="btn primary" onclick="unlock(16, 30)">Unlock (30 Coins)</button>
-  </div>
-
-  <div class="content" id="content-16" hidden>
-    <p>Legacy is not a speech at your funeral; it’s the memory you build every day in people’s lives.</p>
-    <p>Samuel began mentoring village boys in carpentry, teaching them purpose along with craft. “We don’t just build tables,” he would say. “We build men who won’t break.”</p>
-    <p>At first, only two boys came. Then six. Then dozens. What began as a lesson under a mango tree became a movement.</p>
-    <p>He finally understood his father’s final teaching: “You die empty when you’ve poured everything you carried into someone else.”</p>
-    <p>One day, Samuel sat on that same old wooden chair, watching his apprentices teach others, and whispered, “Now I understand. The graveyard will wait a little longer for me.”</p>
-  </div>
-</section>
-
-    <!-- ===================== -->
-<!-- CHAPTER 17 (LOCKED)  -->
-<!-- ===================== -->
-<section id="ch17" class="chapter" data-locked="true" data-ch="17">
-  <h3>Chapter 17: <span class="meta">The Test of Fame</span></h3>
-
-  <div class="lock" id="lock-17">
-    <p class="dim">This chapter is locked. Unlock with <strong>30 Coins</strong>.</p>
-    <button class="btn primary" onclick="unlock(17, 30)">Unlock (30 Coins)</button>
-  </div>
-
-  <div class="content" id="content-17" hidden>
-    <p>The invitations finally began to come. Samuel was called to speak in towns he had never heard of. Crowds gathered. Cameras flashed. His name filled the air like perfume.</p>
-    <p>He smiled often, but sometimes, when applause thundered, he would hear his father’s soft voice: <em>“Remember the chair.”</em></p>
-    <p>One day, a man offered him money to twist his message into politics. “Your words can move people,” the man said. “We can pay you to move them our way.”</p>
-    <p>Samuel smiled, thanked him, and walked away. Later that night, he knelt by his bed and whispered, “Lord, keep me smaller than my name.”</p>
-    <p>Fame is not the test of success. Faithfulness is. When the noise grows, the wise man grows quieter.</p>
-  </div>
-</section>
-
-<!-- ===================== -->
-<!-- CHAPTER 18 (LOCKED)  -->
-<!-- ===================== -->
-<section id="ch18" class="chapter" data-locked="true" data-ch="18">
-  <h3>Chapter 18: <span class="meta">The Fire That Never Dies</span></h3>
-
-  <div class="lock" id="lock-18">
-    <p class="dim">This chapter is locked. Unlock with <strong>30 Coins</strong>.</p>
-    <button class="btn primary" onclick="unlock(18, 30)">Unlock (30 Coins)</button>
-  </div>
-
-  <div class="content" id="content-18" hidden>
-    <p>Years passed. Samuel’s influence spread. Yet he kept one habit: every month, he visited the old house in Akinwale village. He would sit under the mango tree with the old wooden chair and pray.</p>
-    <p>“Baba,” he would whisper, “the fire is still burning.”</p>
-    <p>One evening, as the sun set, he noticed something unusual—the chair had begun to break. He touched it gently, tears welling up. The wood that once carried his father’s wisdom was now weak, but its message remained strong.</p>
-    <p>“The fire was never in the chair,” he realized. “It was in me.”</p>
-    <p>When the external symbols fade, the internal fire must remain. That is the secret of lasting greatness.</p>
-  </div>
-</section>
-
-<!-- ===================== -->
-<!-- CHAPTER 19 (LOCKED)  -->
-<!-- ===================== -->
-<section id="ch19" class="chapter" data-locked="true" data-ch="19">
-  <h3>Chapter 19: <span class="meta">Guarding the Inner Life</span></h3>
-
-  <div class="lock" id="lock-19">
-    <p class="dim">This chapter is locked. Unlock with <strong>30 Coins</strong>.</p>
-    <button class="btn primary" onclick="unlock(19, 30)">Unlock (30 Coins)</button>
-  </div>
-
-  <div class="content" id="content-19" hidden>
-    <p>Samuel once asked an old preacher the secret to endurance. The man smiled and said, “Never let your public victories become larger than your private prayers.”</p>
-    <p>He took those words seriously. Each morning before speaking to men, he first spoke to God. Before touching a stage, he touched Scripture. Before meeting the crowd, he met his Creator.</p>
-    <p>Falling in public always begins with dryness in private. Guard your heart; it is the battery of your purpose.</p>
-    <p><strong>Daily check:</strong> When was the last time you prayed with tears, not microphones?</p>
-  </div>
-</section>
-
-<!-- ===================== -->
-<!-- CHAPTER 20 (LOCKED)  -->
-<!-- ===================== -->
-<section id="ch20" class="chapter" data-locked="true" data-ch="20">
-  <h3>Chapter 20: <span class="meta">The Legacy Summit</span></h3>
-
-  <div class="lock" id="lock-20">
-    <p class="dim">This chapter is locked. Unlock with <strong>30 Coins</strong>.</p>
-    <button class="btn primary" onclick="unlock(20, 30)">Unlock (30 Coins)</button>
-  </div>
-
-  <div class="content" id="content-20" hidden>
-    <p>Decades later, the government organized a national summit to honor those who inspired a generation. Samuel was on the list. He was now an elder—gray-haired, slow, but still fiery in speech.</p>
-    <p>When it was his turn to speak, he didn’t talk about fame, books, or money. He said quietly, “I am standing here because one man refused to let me waste my purpose.”</p>
-    <p>He told them about Pa Akinwale—the man with an old wooden chair who taught him to die empty.</p>
-    <p>The crowd stood and clapped. Tears filled his eyes. He whispered, “Baba, the fire reached far.”</p>
-    <p>Every great life is a bridge—built from one generation’s wisdom to another generation’s possibility.</p>
-  </div>
-</section>
-
-<!-- ===================== -->
-<!-- CHAPTER 21 (LOCKED)  -->
-<!-- ===================== -->
-<section id="ch21" class="chapter" data-locked="true" data-ch="21">
-  <h3>Chapter 21: <span class="meta">Empty but Fulfilled</span></h3>
-
-  <div class="lock" id="lock-21">
-    <p class="dim">This chapter is locked. Unlock with <strong>30 Coins</strong>.</p>
-    <button class="btn primary" onclick="unlock(21, 30)">Unlock (30 Coins)</button>
-  </div>
-
-  <div class="content" id="content-21" hidden>
-    <p>When Samuel was old, he returned one last time to Akinwale village. The chair was gone now, eaten by time. But the mango tree still stood.</p>
-    <p>He sat beneath it, eyes closed, smiling. Around him were the men he had mentored—now fathers, builders, preachers, and teachers. His life had become their textbook.</p>
-    <p>“Baba was right,” he whispered. “The graveyard lost something today.”</p>
-    <p>He breathed his last peacefully, not in regret but in rest. He had poured everything. The message had become a movement.</p>
-    <p><strong>Final Note:</strong> The richest place on earth will always be the graveyard—but not if you choose to live full and die empty.</p>
-    <p><em>— End of Book —</em></p>
-  </div>
-</section>
-    
-    
-  </article>
-</main>
-
-<footer>
-  <div>© <span id="year"></span> Fenwanovels • All rights reserved.</div>
-  <div class="credit">Written by Ajibade Vincent Adefenwa</div>
-</footer>
-
-<script src="../../assets/app.js"></script>
-<script>document.getElementById('year').textContent = new Date().getFullYear();</script>
-</body>
-</html>    
+    <!-- repeat same pattern for ch9 … ch21 -->
+    <!-- (you already have this content; keep IDs/lock IDs consistent) -->
 
   </article>
 </main>
@@ -665,7 +150,60 @@
   <div class="credit">Written by Ajibade Vincent Adefenwa</div>
 </footer>
 
+<!-- Your page scripts -->
 <script src="../../assets/app.js"></script>
-<script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+<script>
+  // === Simple per-book unlock store ===
+  const BOOK_KEY = 'before-you-die-empty';
+  const UNLOCK_KEY = 'unlocked_' + BOOK_KEY;
+
+  function getCoins(){ return parseInt(localStorage.getItem('coins') || '85', 10); }
+  function setCoins(n){
+    localStorage.setItem('coins', String(n));
+    document.querySelectorAll('.coin-amount').forEach(el => el.textContent = n);
+  }
+
+  function getUnlocked(){
+    try { return JSON.parse(localStorage.getItem(UNLOCK_KEY) || '[]'); }
+    catch { return []; }
+  }
+  function saveUnlocked(arr){
+    localStorage.setItem(UNLOCK_KEY, JSON.stringify([...new Set(arr)]));
+  }
+
+  function showContent(ch){
+    const lock = document.getElementById('lock-' + ch);
+    const body = document.getElementById('content-' + ch);
+    if (lock) lock.hidden = true;
+    if (body) body.hidden = false;
+  }
+
+  function renderLocks(){
+    getUnlocked().forEach(showContent);
+  }
+
+  function unlock(chapter, price){
+    let coins = getCoins();
+    if (coins < price){
+      alert('❌ Not enough coins. Tap “Buy Coins” on the home page to top up.');
+      return false;
+    }
+    setCoins(coins - price);
+    const list = getUnlocked();
+    list.push(chapter);
+    saveUnlocked(list);
+    showContent(chapter);
+    alert('🔓 Chapter ' + chapter + ' unlocked!');
+    return true;
+  }
+  window.unlock = unlock;
+
+  document.addEventListener('DOMContentLoaded', () => {
+    // initialise coin display and previously-unlocked chapters
+    setCoins(getCoins());
+    renderLocks();
+    document.getElementById('year').textContent = new Date().getFullYear();
+  });
+</script>
 </body>
-  </html>
+</html>
