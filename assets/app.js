@@ -1,21 +1,17 @@
-/* ===========================
-   THEME
-=========================== */
-function applySavedTheme() {
-  const saved = localStorage.getItem("fenwa:theme") || "dark";
-  document.documentElement.dataset.theme = saved;
-  const t = document.getElementById("themeText");
-  if (t) t.textContent = saved === "dark" ? "🌙 Dark" : "☀️ Light";
-}
-function toggleTheme() {
+function toggleTheme(){
   const html = document.documentElement;
-  const next = html.dataset.theme === "light" ? "dark" : "light";
+  const next = html.dataset.theme === 'light' ? 'dark' : 'light';
   html.dataset.theme = next;
-  localStorage.setItem("fenwa:theme", next);
-  const t = document.getElementById("themeText");
-  if (t) t.textContent = next === "dark" ? "🌙 Dark" : "☀️ Light";
+  localStorage.setItem('theme', next);
+  const t = document.getElementById('themeText');
+  if (t) t.textContent = next === 'dark' ? '🌙 Dark' : '☀️ Light';
 }
-window.toggleTheme = toggleTheme;
+(function(){
+  const saved = localStorage.getItem('theme') || 'dark';
+  document.documentElement.dataset.theme = saved;
+  const t = document.getElementById('themeText');
+  if (t) t.textContent = saved === 'dark' ? '🌙 Dark' : '☀️ Light';
+})();
 
 /* ===========================
    COINS (localStorage)
@@ -159,3 +155,4 @@ document.addEventListener("DOMContentLoaded", () => {
   if (!localStorage.getItem(LS_KEY_COINS)) setCoins(85);
   else updateCoinBadges(getCoins());
 });
+
