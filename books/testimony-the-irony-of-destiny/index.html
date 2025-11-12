@@ -71,15 +71,6 @@
     </div>
   </section>
 
-  <!-- === COIN MODAL === -->
-  <div id="buyCoinsModal" hidden style="position:fixed;inset:0;background:rgba(0,0,0,.7);display:flex;align-items:center;justify-content:center;">
-    <div style="background:var(--card);padding:20px;border-radius:12px;max-width:320px">
-      <h3>Buy Coins</h3>
-      <p>Support the author and unlock more chapters.</p>
-      <button onclick="addCoins(100)">Buy 100 Coins</button>
-      <button onclick="closeBuyCoins()">Close</button>
-    </div>
-  </div>
 
   <script>
   /* ==== THEME ==== */
@@ -87,7 +78,40 @@
     const html=document.documentElement;
     const next=html.dataset.theme==='light'?'dark':'light';
     html.dataset.theme=next;
-    localStorage.setItem('theme',next);
+    localStorage.setItem<!-- Buy Coins Modal -->
+<div id="buyCoinsModal" class="modal" hidden style="position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,.7);z-index:9999">
+  <div class="card" style="background:var(--card);padding:20px;border-radius:14px;max-width:340px;width:90%">
+    <h3 style="margin-top:0">Buy Coins</h3>
+    <p class="dim">Support the author and unlock more chapters.</p>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px">
+      <button onclick="addCoins(100)">Buy 100 Coins</button>
+      <button onclick="closeBuyCoins()">Close</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  const _modal = document.getElementById('buyCoinsModal');
+
+  function openBuyCoins(){
+    _modal.hidden = false;
+    _modal.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+  }
+  function closeBuyCoins(){
+    _modal.style.display = 'none';
+    _modal.hidden = true;
+    document.body.style.overflow = '';
+  }
+  // Close when clicking the dark backdrop (not the inner card)
+  _modal.addEventListener('click', (e)=>{ if(e.target === _modal) closeBuyCoins(); });
+  // Close on Esc
+  document.addEventListener('keydown', (e)=>{ if(e.key === 'Escape') closeBuyCoins(); });
+  // expose for inline onclick
+  window.openBuyCoins = openBuyCoins;
+  window.closeBuyCoins = closeBuyCoins;
+      </script>
+  ('theme',next);
     document.getElementById('themeBtn').textContent=next==='dark'?'☀️ Light':'🌙 Dark';
   }
   (function(){
