@@ -120,7 +120,7 @@
   <div class="modal-card">
     <div class="modal-head">
       <h3>Buy Coins</h3>
-      <button class="icon-btn" onclick="closeBuyCoins()">✕</button>
+  
     </div>
 
     <p class="dim" style="margin-top:-6px">Choose a coin pack or redeem a voucher.</p>
@@ -129,8 +129,10 @@
       <button class="pack" onclick="buyCoinsPaystack({label:'50 Coins',  coins:50,  amountKobo:  50000})">+50 Coins (₦500)</button>
       <button class="pack" onclick="buyCoinsPaystack({label:'150 Coins', coins:150, amountKobo: 120000})">+150 Coins (₦1,200)</button>
       <button class="pack" onclick="buyCoinsPaystack({label:'300 Coins', coins:300, amountKobo: 200000})">+300 Coins (₦2,000)</button>
+       <button class="icon-btn" onclick="closeBuyCoins()">✕</button>
     </div>
 
+    <button class="btn" onclick="location.href='store.html'">Buy Coins</button>
     <div class="or"><span>or</span></div>
 
     <label class="label">Redeem voucher</label>
