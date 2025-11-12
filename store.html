@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Buy Coins – Fenwanovels</title>
+  <meta name="description" content="Buy and earn coins for Fenwanovels."/>
+  <link rel="stylesheet" href="assets/styles.css"/>
+  <style>
+    /* Minimal, clean store styles */
+    body{max-width:880px;margin:0 auto;padding:16px;font-family:system-ui,-apple-system,Segoe UI,Roboto,Inter,Arial}
+    .top{display:flex;gap:12px;align-items:center;position:sticky;top:0;background:var(--bg,#0b0b0c);padding:10px 0;z-index:5}
+    .top .spacer{margin-left:auto}
+    .balance{background:var(--card,#161618);padding:14px 16px;border-radius:14px;margin:12px 0;display:flex;align-items:center;gap:10px}
+    .balance strong{font-size:1.1rem}
+    .packs{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin:10px 0 18px}
+    .pack{background:var(--card,#161618);border-radius:14px;padding:14px;display:flex;flex-direction:column;gap:8px}
+    .pack h4{margin:0;font-size:1rem}
+    .pack small{opacity:.75}
+    .btn-buy{padding:10px 12px;border:0;border-radius:10px;font-weight:700;background:var(--accent,#f4c430);color:#111;cursor:pointer}
+    .badge{display:inline-block;padding:2px 8px;border-radius:999px;background:#23452a;color:#c9ffcf;font-size:.75rem;margin-left:6px}
+    .section h3{margin:12px 0 6px}
+    .tasks{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:10px}
+    .task{background:var(--card,#161618);border-radius:14px;padding:12px;display:flex;gap:10px;align-items:center;justify-content:space-between}
+    .task .meta{font-size:.95rem}
+    .task button{padding:8px 10px;border:0;border-radius:10px;background:var(--pill,#222229);color:var(--text,#efefef);font-weight:600}
+    .dim{opacity:.75}
+    :root{--bg:#0b0b0c;--text:#efefef}
+    html[data-theme="light"]{--bg:#ffffff;--text:#111}
+    body{color:var(--text);background:var(--bg)}
+    a.home{padding:8px 12px;border-radius:10px;background:var(--pill,#222229);text-decoration:none;color:var(--text)}
+  </style>
+</head>
+<body>
+  <div class="top">
+    <a class="home" href="index.html">← Library</a>
+    <div class="spacer"></div>
+    <button id="toggleTheme" class="home">Toggle theme</button>
+  </div>
+
+  <h1>Coin Store</h1>
+  <div class="balance">💰 <strong><span class="coin-amount">0</span> Coins</strong> <span class="dim">Use coins to unlock chapters.</span></div>
+
+  <!-- SUBSCRIBE (optional – later) -->
+  <!-- <div class="section">
+    <h3>Subscribe (weekly)</h3>
+  </div> -->
+
+  <div class="section">
+    <h3>Top-up Packs</h3>
+    <div class="packs">
+      <div class="pack">
+        <h4>200 Coins <small>₦830</small></h4>
+        <button class="btn-buy" onclick="buyCoinsPaystack({label:'200 Coins', coins:200, amountKobo:83000})">Buy with Paystack</button>
+      </div>
+
+      <div class="pack">
+        <h4>500 Coins <small>₦2,080</small> <span class="badge">+5% Bonus</span></h4>
+        <button class="btn-buy" onclick="buyCoinsPaystack({label:'500 +5%', coins:525, amountKobo:208000})">Buy with Paystack</button>
+      </div>
+
+      <div class="pack">
+        <h4>1,000 Coins <small>₦4,170</small> <span class="badge">+15% Bonus</span></h4>
+        <button class="btn-buy" onclick="buyCoinsPaystack({label:'1000 +15%', coins:1150, amountKobo:417000})">Buy with Paystack</button>
+      </div>
+
+      <div class="pack">
+        <h4>2,000 Coins <small>₦9,500</small> <span class="badge">+40% Bonus</span></h4>
+        <button class="btn-buy" onclick="buyCoinsPaystack({label:'2000 +40%', coins:2800, amountKobo:950000})">Buy with Paystack</button>
+      </div>
+
+      <div class="pack">
+        <h4>5,000 Coins <small>₦21,000</small> <span class="badge">+50% Bonus</span></h4>
+        <button class="btn-buy" onclick="buyCoinsPaystack({label:'5000 +50%', coins:7500, amountKobo:2100000})">Buy with Paystack</button>
+      </div>
+    </div>
+    <p class="dim">We’ll add Flutterwave buttons next to each Paystack button if you want both gateways.</p>
+  </div>
+
+  <div class="section">
+    <h3>Earn Free Bonus</h3>
+    <div class="tasks">
+      <div class="task">
+        <div class="meta">Daily Check-in <span class="dim">+10 coins</span></div>
+        <button onclick="claimDaily()">Claim</button>
+      </div>
+      <div class="task">
+        <div class="meta">Read 20 minutes <span class="dim">+5 coins</span></div>
+        <button onclick="claimRead20()">Claim</button>
+      </div>
+      <div class="task">
+        <div class="meta">Follow on Facebook <span class="dim">+3 coins</span></div>
+        <button onclick="claimOnce('fb_follow',3,'https://facebook.com/')">Go</button>
+      </div>
+      <div class="task">
+        <div class="meta">Subscribe on YouTube <span class="dim">+3 coins</span></div>
+        <button onclick="claimOnce('yt_sub',3,'https://youtube.com/')">Go</button>
+      </div>
+    </div>
+    <p class="dim" style="margin-top:8px">Note: bonuses are tracked on your device (local storage).</p>
+  </div>
+
+  <script src="assets/app.js"></script>
+  <script src="https://js.paystack.co/v1/inline.js"></script>
+  <script>
+    // --- theme toggle (uses your existing style variables) ---
+    const root = document.documentElement;
+    const btn = document.getElementById('toggleTheme');
+    (function initTheme(){
+      const saved = localStorage.getItem('theme') || 'dark';
+      document.documentElement.setAttribute('data-theme', saved);
+      btn.onclick = () => {
+        const next = (document.documentElement.getAttribute('data-theme') === 'light') ? 'dark' : 'light';
+        document.documentElement.setAttribute('data-theme', next);
+        localStorage.setItem('theme', next);
+      };
+    })();
+
+    // --- refresh balance on open ---
+    document.addEventListener('DOMContentLoaded', () => {
+      if (typeof setCoins === 'function') setCoins(getCoins());
+    });
+
+    // --- Paystack purchase ---
+    function buyCoinsPaystack(pack){
+      const handler = PaystackPop.setup({
+        key: 'pk_test_xxxxxxxxxxxxxxxxxxxxx', // ← replace with your Paystack PUBLIC key
+        email: (localStorage.getItem('fenwa:userEmail') || 'buyer@example.com'),
+        amount: pack.amountKobo,        // in kobo
+        currency: 'NGN',
+        ref: 'FENWA_'+Date.now(),
+        callback: function(response){
+          // credit coins after successful payment
+          if (typeof addCoins === 'function') addCoins(pack.coins);
+          alert('Payment successful: ' + response.reference);
+        },
+        onClose: function(){ /* user closed */ }
+      });
+      handler.openIframe();
+    }
+    window.buyCoinsPaystack = buyCoinsPaystack;
+
+    // --- Rewards (simple local tracking) ---
+    function credit(n,msg){ if(typeof addCoins==='function'){ addCoins(n); } alert('+'+n+' coins — '+msg); }
+
+    function todayKey(s){ const d=new Date(); return s+'_'+d.getFullYear()+('_'+(d.getMonth()+1))+'_'+d.getDate(); }
+
+    function claimDaily(){
+      const key = todayKey('daily_claim');
+      if(localStorage.getItem(key)) return alert('You already checked in today ✅');
+      localStorage.setItem(key,'1');
+      credit(10,'Daily check-in');
+    }
+    function claimRead20(){
+      const key = todayKey('read20_claim');
+      if(localStorage.getItem(key)) return alert('Already claimed today ✅');
+      // later you can gate this by real reading time
+      localStorage.setItem(key,'1');
+      credit(5,'Reading reward');
+    }
+    function claimOnce(flag,coins,url){
+      const key='once_'+flag;
+      if(localStorage.getItem(key)) return alert('Already claimed ✅');
+      localStorage.setItem(key,'1');
+      if(url) window.open(url,'_blank');
+      credit(coins,'Social bonus');
+    }
+  </script>
+</body>
+</html>
