@@ -1,107 +1,133 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
-  <meta charset="utf-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <title>Testimony: The Irony of Destiny – Fenwanovels</title>
-  <meta name="description" content="Testimony: The Irony of Destiny by Ajibade Vincent Adefenwa">
-  <link rel="stylesheet" href="../../assets/styles.css"/>
-
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Testimony: The Irony of Destiny | FenwaNovels</title>
+  <link rel="stylesheet" href="../../assets/styles.css">
   <style>
-    /* small fixes so light mode looks clean */
-    :root{--chip-bg:#eceef2;--card-bg:#f6f7f9}
-    html[data-theme="dark"]{--chip-bg:#262626;--card-bg:#111}
-    .book-hero img{width:100%;max-width:420px;height:auto;border-radius:14px;display:block}
-    .chips{display:flex;gap:.5rem;flex-wrap:wrap;margin:.5rem 0 1rem}
-    .chip{background:var(--chip-bg);color:inherit;border-radius:999px;padding:.35rem .7rem;font-size:.85rem}
-    .chapter{background:var(--card-bg);padding:16px;border-radius:14px;margin:18px 0}
-    .chapter h3{margin:0 0 .35rem}
-    .chapter .meta{opacity:.75;font-size:.92rem;margin-bottom:.6rem}
-    .toolbar{display:flex;gap:.75rem;align-items:center;margin:.75rem 0 1rem}
-    .toolbar a,.toolbar button{font-weight:600}
-    .toc{margin:12px 0 18px;display:flex;flex-wrap:wrap;gap:.5rem}
-    .toc a{background:var(--chip-bg);padding:.35rem .6rem;border-radius:999px;font-size:.86rem;text-decoration:none}
-    .lock{border:2px dashed #6663;border-radius:12px;padding:14px}
-    .content p{line-height:1.8}
+    body{max-width:820px;margin:0 auto;padding:16px;color:var(--text);background:var(--bg);font-family:system-ui,-apple-system,Segoe UI,Roboto,Inter,Arial}
+    .topbar{display:flex;align-items:center;justify-content:space-between;padding:12px 0;position:sticky;top:0;background:var(--bg);z-index:5}
+    button{border:0;padding:8px 12px;border-radius:10px;background:var(--accent);color:#111;font-weight:600;cursor:pointer}
+    h3{margin-top:0.5em}
+    .chapter{margin:28px 0;padding:16px;border-radius:14px;background:var(--card)}
+    .meta{opacity:.8}
+    .dim{opacity:.7}
+    .toc a{margin-right:6px;display:inline-block;padding:6px 10px;border-radius:999px;background:var(--pill);text-decoration:none;color:var(--text)}
+    :root{--bg:#0b0b0c;--card:#161618;--pill:#222229;--text:#efefef;--accent:#f4c430}
+    html[data-theme='light']{--bg:#fff;--card:#f6f7f9;--pill:#eceef2;--text:#111;--accent:#f4c430}
   </style>
 </head>
 <body>
-<header>
-  <div class="header-inner">
-    <div class="brand">
-      <div class="logo" aria-hidden="true"></div>
-      <div class="title">Fenwanovels</div>
+  <div class="topbar">
+    <a href="../../" aria-label="Home">🏠 Home</a>
+    <strong>Testimony: The Irony of Destiny</strong>
+    <button id="themeBtn" onclick="toggleTheme()">☀️ Light</button>
+  </div>
+
+  <img src="cover.jpg" alt="Book cover" style="width:100%;max-width:480px;border-radius:16px;display:block;margin:0 auto 10px">
+
+  <div class="meta" style="text-align:center;margin-bottom:20px">
+    <p><em>By Ajibade Vincent Adefenwa</em></p>
+    <p>Genre: Inspirational Drama / Faith</p>
+    <p><span class="coin-amount">0</span> 💰 Coins</p>
+    <button onclick="openBuyCoins()">Buy Coins</button>
+  </div>
+
+  <div id="toc" class="toc">
+    <a href="#ch1">Ch. 1 – Innocence in Osogbo</a>
+    <a href="#ch2">Ch. 2 – The Weekend of Temptation</a>
+    <a href="#ch3">Ch. 3 – When Love Turns Into Promise</a>
+    <a href="#ch4">Ch. 4 – The Empty Side of Love</a>
+    <a href="#ch5">Ch. 5 – The Man from Kogi</a>
+    <a href="#ch6">Ch. 6 🔒</a>
+    <a href="#ch7">Ch. 7 🔒</a>
+    <a href="#ch8">Ch. 8 🔒</a>
+    <a href="#ch9">Ch. 9 🔒</a>
+    <a href="#ch10">Ch. 10 🔒</a>
+  </div>
+
+  <!-- === FREE CHAPTERS (1-5) === -->
+  <!-- Paste the full text blocks I gave for Chapters 1-5 here -->
+  <!-- Example below (chapter 1 only shown for brevity) -->
+  <section id="ch1" class="chapter">
+    <h3>Chapter 1: <span class="meta">Innocence in Osogbo</span></h3>
+    <p><em>Written by Ajibade Vincent Adefenwa</em></p>
+    <p>…(full Chapter 1 text from earlier)…</p>
+  </section>
+  <!-- Then 2–5 below as given before -->
+
+  <!-- === LOCKED CHAPTERS (6-10) === -->
+  <!-- Paste the locked 6-10 code blocks from previous answer -->
+  <!-- Example placeholder -->
+  <section id="ch6" class="chapter" data-locked="true" data-ch="6">
+    <h3>Chapter 6: <span class="meta">Scars and Silence</span></h3>
+    <div class="lock" id="lock-6">
+      <p class="dim">Locked. Unlock with <strong>30 Coins</strong>.</p>
+      <button class="btn primary" onclick="unlock(6,30)">Unlock (30 Coins)</button>
     </div>
-    <div class="badges">
-      <div class="coin">💰 <span class="coin-amount">85</span> Coins</div>
-      <button class="toggle" onclick="toggleTheme()"><span id="themeText">🌙 Dark</span></button>
+    <div class="content" id="content-6" hidden>
+      <p>…full text…</p>
+    </div>
+  </section>
+
+  <!-- === COIN MODAL === -->
+  <div id="buyCoinsModal" hidden style="position:fixed;inset:0;background:rgba(0,0,0,.7);display:flex;align-items:center;justify-content:center;">
+    <div style="background:var(--card);padding:20px;border-radius:12px;max-width:320px">
+      <h3>Buy Coins</h3>
+      <p>Support the author and unlock more chapters.</p>
+      <button onclick="addCoins(100)">Buy 100 Coins</button>
+      <button onclick="closeBuyCoins()">Close</button>
     </div>
   </div>
-</header>
 
-<main>
-  <article>
-    <h1>Testimony: The Irony of Destiny</h1>
+  <script>
+  /* ==== THEME ==== */
+  function toggleTheme(){
+    const html=document.documentElement;
+    const next=html.dataset.theme==='light'?'dark':'light';
+    html.dataset.theme=next;
+    localStorage.setItem('theme',next);
+    document.getElementById('themeBtn').textContent=next==='dark'?'☀️ Light':'🌙 Dark';
+  }
+  (function(){
+    const saved=localStorage.getItem('theme')||'dark';
+    document.documentElement.dataset.theme=saved;
+    document.getElementById('themeBtn').textContent=saved==='dark'?'☀️ Light':'🌙 Dark';
+  })();
 
-    <div class="book-hero">
-      <img src="../../assets/covers/testimony-the-irony-of-destiny.jpg" alt="Testimony: The Irony of Destiny cover">
-    </div>
+  /* ==== COINS ==== */
+  const LS_KEY_COINS="fenwa:coins";
+  function getCoins(){return parseInt(localStorage.getItem(LS_KEY_COINS)||"0",10)||0;}
+  function setCoins(v){localStorage.setItem(LS_KEY_COINS,v);document.querySelectorAll('.coin-amount').forEach(e=>e.textContent=v);}
+  function addCoins(n){setCoins(getCoins()+n);alert(`✅ Added ${n} coins`);closeBuyCoins();}
+  function spendCoins(n){const b=getCoins();if(b<n){alert("Not enough coins.");openBuyCoins();return false;}setCoins(b-n);return true;}
+  document.addEventListener('DOMContentLoaded',()=>{if(!localStorage.getItem(LS_KEY_COINS))setCoins(85);else setCoins(getCoins());});
 
-    <div class="chips">
-      <span class="chip">Faith</span>
-      <span class="chip">Romance</span>
-      <span class="chip">Inspiration</span>
-    </div>
+  /* ==== MODAL ==== */
+  function openBuyCoins(){document.getElementById('buyCoinsModal').hidden=false;}
+  function closeBuyCoins(){document.getElementById('buyCoinsModal').hidden=true;}
 
-    <p class="dim">
-      By Ajibade Vincent Adefenwa. A powerful Nigerian story of love, betrayal, redemption, and the faith that turns pain into purpose.
-    </p>
-
-    <div class="toolbar">
-      <a class="btn" href="../../index.html">← Back to Library</a>
-      <a class="btn" href="#toc">Jump to Chapters</a>
-    </div>
-
-    <!-- TOC will be generated here -->
-    <div id="toc" class="toc"></div>
-
-    <!-- Chapters will be generated here -->
-    <div id=""></div>
-      <section id="ch1" class="chapter">
-  <h3>Chapter 1: <span class="meta">Innocence in Osogbo</span></h3>
-  <p><em>Testimony: the irony of destiny — Written by Ajibade Vincent Adefenwa</em></p>
-
-  <p>The afternoon sun of Osogbo had a way of sitting quietly on the roofs — warm, soft, almost peaceful. Students moved in clusters across the UNIOSUN campus, some laughing, some hurrying, some pretending to hurry. But Chioma walked differently. She wasn’t in a rush, yet she wasn’t slow. She walked with purpose — her steps measured, her books neatly held against her chest, her scarf perfectly tied.</p>
-
-  <p><strong>“Chioma, abeg, no vex o, we dey go Club D-Point tonight!”</strong></p>
-
-  <p>That was Abiola’s voice, loud as always, breaking the silence of the path between the library and the hostel. Victoria, beside her, was already giggling.</p>
-
-  <p>Chioma smiled gently. “You two will never change. Is that why you came to school?”</p>
-
-  <p>Abiola rolled her eyes. “Ah ah, my sister, life is not all about books na. You too dey carry everything for head like exam. You no go enjoy small?”</p>
-
-  <p>Victoria joined in, “Abeg leave her jare, Chioma na pastor pikin.”</p>
-
-  <p>They all laughed. But Chioma’s smile faded quickly. She wasn’t offended; she was thinking.</p>
-
-  <p><strong>“If I start following every noise, will my life have meaning?”</strong> she said quietly. “My mother’s prayer will be wasted if I fail in this school.”</p>
-
-  <p>Abiola groaned, “See this girl. You dey talk as if we no get sense.”</p>
-
-  <p>Chioma chuckled. “You have sense. But your sense needs direction.”</p>
-
-  <p>That day, after classes, while Abiola and Victoria went to meet their boyfriends near Oke-Baale, Chioma returned to her small hostel room. She placed her books on the bed, knelt down, and whispered a short prayer.</p>
-
-  <p><strong>“Lord, I didn’t come here to impress men. I came to build my future. Keep me focused. Let my heart not go where my destiny will not follow.”</strong></p>
-
-  <p>It was a quiet prayer — but heaven heard.</p>
-
-  <hr>
-
-  <p>Later that week, everything changed. That was the day she met Olabode. It was during a group project in the Faculty of Management Sciences. He was tall, calm, and well-spoken — the kind of man whose confidence was natural, not loud. When he smiled, he did it with his eyes more than his lips.</p>
-
-  <p>After their first discussion, Chioma noticed her heart beating faster than usual. She ignored it. She told herself, “Don’t be foolish. You came to study.” But destiny smiled a little that day — a kind of smile that humans often mistake for love.</p>
+  /* ==== UNLOCK ==== */
+  function unlock(chId,price){
+    const section=document.getElementById(`ch${chId}`);
+    if(!spendCoins(price))return;
+    section.querySelector('.lock').hidden=true;
+    section.querySelector('.content').hidden=false;
+    alert(`🔓 Chapter ${chId} unlocked!`);
+    const u=JSON.parse(localStorage.getItem('unlocked:testimony')||"[]");
+    if(!u.includes(chId)){u.push(chId);localStorage.setItem('unlocked:testimony',JSON.stringify(u));}
+  }
+  (function restore(){
+    const u=JSON.parse(localStorage.getItem('unlocked:testimony')||"[]");
+    u.forEach(ch=>{
+      const s=document.getElementById(`ch${ch}`);
+      if(s){const l=s.querySelector('.lock'),c=s.querySelector('.content');if(l&&c){l.hidden=true;c.hidden=false;}}
+    });
+  })();
+  </script>
+</body>
+</html>  <p>After their first discussion, Chioma noticed her heart beating faster than usual. She ignored it. She told herself, “Don’t be foolish. You came to study.” But destiny smiled a little that day — a kind of smile that humans often mistake for love.</p>
 
   <p>Weeks passed. They became friends. Then closer friends. Then one evening, by the school fountain, under the fading light of Osogbo’s sunset, he said softly: <strong>“Chioma, I don’t know how to explain this… but you’ve been the peace I didn’t know I needed.”</strong></p>
 
