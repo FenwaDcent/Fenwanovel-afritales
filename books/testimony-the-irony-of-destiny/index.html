@@ -1,356 +1,92 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Testimony: The Irony of Destiny | FenwaNovels</title>
-  <link rel="stylesheet" href="../../assets/styles.css">
-  <style>
-    body{max-width:820px;margin:0 auto;padding:16px;color:var(--text);background:var(--bg);font-family:system-ui,-apple-system,Segoe UI,Roboto,Inter,Arial}
-    .topbar{display:flex;align-items:center;justify-content:space-between;padding:12px 0;position:sticky;top:0;background:var(--bg);z-index:5}
-    button{border:0;padding:8px 12px;border-radius:10px;background:var(--accent);color:#111;font-weight:600;cursor:pointer}
-    h3{margin-top:0.5em}
-    .chapter{margin:28px 0;padding:16px;border-radius:14px;background:var(--card)}
-    .meta{opacity:.8}
-    .dim{opacity:.7}
-    .toc a{margin-right:6px;display:inline-block;padding:6px 10px;border-radius:999px;background:var(--pill);text-decoration:none;color:var(--text)}
-    :root{--bg:#0b0b0c;--card:#161618;--pill:#222229;--text:#efefef;--accent:#f4c430}
-    html[data-theme='light']{--bg:#fff;--card:#f6f7f9;--pill:#eceef2;--text:#111;--accent:#f4c430}
-  </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Testimony: The Irony of Destiny</title>
+  <link rel="stylesheet" href="../../assets/styles.css" />
 </head>
+
 <body>
-  <div class="topbar">
-    <a href="../../" aria-label="Home">🏠 Home</a>
-    <strong>Testimony: The Irony of Destiny</strong>
-    <button id="themeBtn" onclick="toggleTheme()">☀️ Light</button>
-  </div>
 
-  <img src="cover.jpg" alt="Book cover" style="width:100%;max-width:480px;border-radius:16px;display:block;margin:0 auto 10px">
+  <!-- Header -->
+  <header>
+    <h1>Testimony: The Irony of Destiny</h1>
+    <button id="themeToggle">🌙 Dark</button>
+  </header>
 
-  <div class="meta" style="text-align:center;margin-bottom:20px">
-    <p><em>By Ajibade Vincent Adefenwa</em></p>
-    <p>Genre: Inspirational Drama / Faith</p>
-    <p><span class="coin-amount">0</span> 💰 Coins</p>
-    <button onclick="openBuyCoins()">Buy Coins</button>
-  </div>
+  <!-- Main content area -->
+  <main>
+    <!-- ✅ All your chapter sections go here -->
+    <section id="ch1" class="chapter"> ... </section>
+    <section id="ch2" class="chapter"> ... </section>
+    <section id="ch3" class="chapter"> ... </section>
+    <section id="ch4" class="chapter"> ... </section>
+    <!-- etc -->
+  </main>
 
-  <div id="toc" class="toc">
-    <a href="#ch1">Ch. 1 – Innocence in Osogbo</a>
-    <a href="#ch2">Ch. 2 – The Weekend of Temptation</a>
-    <a href="#ch3">Ch. 3 – When Love Turns Into Promise</a>
-    <a href="#ch4">Ch. 4 – The Empty Side of Love</a>
-    <a href="#ch5">Ch. 5 – The Man from Kogi</a>
-    <a href="#ch6">Ch. 6 🔒</a>
-    <a href="#ch7">Ch. 7 🔒</a>
-    <a href="#ch8">Ch. 8 🔒</a>
-    <a href="#ch9">Ch. 9 🔒</a>
-    <a href="#ch10">Ch. 10 🔒</a>
-  </div>
-
-  <!-- === FREE CHAPTERS (1-5) === -->
-  <!-- Paste the full text blocks I gave for Chapters 1-5 here -->
-  <!-- Example below (chapter 1 only shown for brevity) -->
-  <section id="ch1" class="chapter">
-    <h3>Chapter 1: <span class="meta">Innocence in Osogbo</span></h3>
-    <p><em>Written by Ajibade Vincent Adefenwa</em></p>
-    <p>…(full Chapter 1 text from earlier)…</p>
-  </section>
-  <!-- Then 2–5 below as given before -->
-
-  <!-- === LOCKED CHAPTERS (6-10) === -->
-  <!-- Paste the locked 6-10 code blocks from previous answer -->
-  <!-- Example placeholder -->
-  <section id="ch6" class="chapter" data-locked="true" data-ch="6">
-    <h3>Chapter 6: <span class="meta">Scars and Silence</span></h3>
-    <div class="lock" id="lock-6">
-      <p class="dim">Locked. Unlock with <strong>30 Coins</strong>.</p>
-      <button class="btn primary" onclick="unlock(6,30)">Unlock (30 Coins)</button>
+  <!-- ✅ Now the Buy Coins Modal (AFTER your content, before </body>) -->
+  <div id="buyCoinsModal" class="modal" hidden style="position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,.7);z-index:9999">
+    <div class="card" style="background:var(--card);padding:20px;border-radius:14px;max-width:340px;width:90%">
+      <h3 style="margin-top:0">Buy Coins</h3>
+      <p class="dim">Support the author and unlock more chapters.</p>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px">
+        <button onclick="addCoins(100)">Buy 100 Coins</button>
+        <button onclick="closeBuyCoins()">Close</button>
+      </div>
     </div>
-    <div class="content" id="content-6" hidden>
-      <p>…full text…</p>
-    </div>
-  </section>
+  </div>
 
-
+  <!-- ✅ All JavaScript should be placed *after* the modal, just before </body> -->
   <script>
-  /* ==== THEME ==== */
-  function toggleTheme(){
-    const html=document.documentElement;
-    const next=html.dataset.theme==='light'?'dark':'light';
-    html.dataset.theme=next;
-    localStorage.setItem<!-- Buy Coins Modal -->
-<div id="buyCoinsModal" class="modal" hidden style="position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,.7);z-index:9999">
-  <div class="card" style="background:var(--card);padding:20px;border-radius:14px;max-width:340px;width:90%">
-    <h3 style="margin-top:0">Buy Coins</h3>
-    <p class="dim">Support the author and unlock more chapters.</p>
-    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px">
-      <button onclick="addCoins(100)">Buy 100 Coins</button>
-      <button onclick="closeBuyCoins()">Close</button>
-    </div>
-  </div>
-</div>
+    // Coin logic
+    const LS_KEY = 'coins:testimony';
+    const LS_UNLOCKED = 'unlocked:testimony';
 
-<script>
-  const _modal = document.getElementById('buyCoinsModal');
+    function getCoins(){return parseInt(localStorage.getItem(LS_KEY) || '0');}
+    function setCoins(n){localStorage.setItem(LS_KEY,n);updateCoinDisplay();}
+    function addCoins(n){setCoins(getCoins()+n);alert(`✅ Added ${n} coins`);closeBuyCoins();}
+    function spendCoins(n){
+      const balance=getCoins();
+      if(balance < n){alert('Not enough coins!');openBuyCoins();return false;}
+      setCoins(balance - n);return true;
+    }
 
-  function openBuyCoins(){
-    _modal.hidden = false;
-    _modal.style.display = 'flex';
-    document.body.style.overflow = 'hidden';
-  }
-  function closeBuyCoins(){
-    _modal.style.display = 'none';
-    _modal.hidden = true;
-    document.body.style.overflow = '';
-  }
-  // Close when clicking the dark backdrop (not the inner card)
-  _modal.addEventListener('click', (e)=>{ if(e.target === _modal) closeBuyCoins(); });
-  // Close on Esc
-  document.addEventListener('keydown', (e)=>{ if(e.key === 'Escape') closeBuyCoins(); });
-  // expose for inline onclick
-  window.openBuyCoins = openBuyCoins;
-  window.closeBuyCoins = closeBuyCoins;
-      </script>
-  ('theme',next);
-    document.getElementById('themeBtn').textContent=next==='dark'?'☀️ Light':'🌙 Dark';
-  }
-  (function(){
-    const saved=localStorage.getItem('theme')||'dark';
-    document.documentElement.dataset.theme=saved;
-    document.getElementById('themeBtn').textContent=saved==='dark'?'☀️ Light':'🌙 Dark';
-  })();
+    function updateCoinDisplay(){
+      const el=document.querySelector('#coinDisplay');
+      if(el) el.textContent = getCoins();
+    }
 
-  /* ==== COINS ==== */
-  const LS_KEY_COINS="fenwa:coins";
-  function getCoins(){return parseInt(localStorage.getItem(LS_KEY_COINS)||"0",10)||0;}
-  function setCoins(v){localStorage.setItem(LS_KEY_COINS,v);document.querySelectorAll('.coin-amount').forEach(e=>e.textContent=v);}
-  function addCoins(n){setCoins(getCoins()+n);alert(`✅ Added ${n} coins`);closeBuyCoins();}
-  function spendCoins(n){const b=getCoins();if(b<n){alert("Not enough coins.");openBuyCoins();return false;}setCoins(b-n);return true;}
-  document.addEventListener('DOMContentLoaded',()=>{if(!localStorage.getItem(LS_KEY_COINS))setCoins(85);else setCoins(getCoins());});
+    // Modal controls
+    function openBuyCoins(){
+      const m=document.getElementById('buyCoinsModal');
+      m.hidden=false;m.style.display='flex';document.body.style.overflow='hidden';
+    }
+    function closeBuyCoins(){
+      const m=document.getElementById('buyCoinsModal');
+      m.style.display='none';m.hidden=true;document.body.style.overflow='';
+    }
 
-  /* ==== MODAL ==== */
-  function openBuyCoins(){document.getElementById('buyCoinsModal').hidden=false;}
-  function closeBuyCoins(){document.getElementById('buyCoinsModal').hidden=true;}
+    // Unlock logic
+    function unlock(chId,price){
+      if(!spendCoins(price))return;
+      const s=document.getElementById(`ch${chId}`);
+      s.querySelector('.lock').hidden=true;
+      s.querySelector('.content').hidden=false;
+      alert(`🔓 Chapter ${chId} unlocked!`);
+      const u=JSON.parse(localStorage.getItem(LS_UNLOCKED)||'[]');
+      if(!u.includes(chId)){u.push(chId);localStorage.setItem(LS_UNLOCKED,JSON.stringify(u));}
+    }
 
-  /* ==== UNLOCK ==== */
-  function unlock(chId,price){
-    const section=document.getElementById(`ch${chId}`);
-    if(!spendCoins(price))return;
-    section.querySelector('.lock').hidden=true;
-    section.querySelector('.content').hidden=false;
-    alert(`🔓 Chapter ${chId} unlocked!`);
-    const u=JSON.parse(localStorage.getItem('unlocked:testimony')||"[]");
-    if(!u.includes(chId)){u.push(chId);localStorage.setItem('unlocked:testimony',JSON.stringify(u));}
-  }
-  (function restore(){
-    const u=JSON.parse(localStorage.getItem('unlocked:testimony')||"[]");
-    u.forEach(ch=>{
-      const s=document.getElementById(`ch${ch}`);
-      if(s){const l=s.querySelector('.lock'),c=s.querySelector('.content');if(l&&c){l.hidden=true;c.hidden=false;}}
-    });
-  })();
+    // Restore unlocked chapters
+    (function restore(){
+      const u=JSON.parse(localStorage.getItem(LS_UNLOCKED)||'[]');
+      u.forEach(ch=>{
+        const s=document.getElementById(`ch${ch}`);
+        if(s){s.querySelector('.lock').hidden=true;s.querySelector('.content').hidden=false;}
+      });
+      updateCoinDisplay();
+    })();
   </script>
-</body>
-</html>  <p>After their first discussion, Chioma noticed her heart beating faster than usual. She ignored it. She told herself, “Don’t be foolish. You came to study.” But destiny smiled a little that day — a kind of smile that humans often mistake for love.</p>
-
-  <p>Weeks passed. They became friends. Then closer friends. Then one evening, by the school fountain, under the fading light of Osogbo’s sunset, he said softly: <strong>“Chioma, I don’t know how to explain this… but you’ve been the peace I didn’t know I needed.”</strong></p>
-
-  <p>She didn’t answer immediately. She looked down, then up again — her eyes clear, her voice steady. “If this is about love, Bode… I only believe in one kind of love — the one that doesn’t destroy destiny.”</p>
-
-  <p>He smiled. “Then let me be part of that destiny.” That was how it began. No club, no hookup, no drama — just two souls who believed love could be pure.</p>
-
-  <p>But love, like Osogbo’s weather, can change without warning. Sometimes the same sun that warmed your skin will later burn it.</p>
-
-  <p><strong>💭 Moral (end of Chapter 1):</strong> A pure heart may not stop the storms of life — but it keeps you standing when they come. In a world where many chase pleasure, Chioma chose purpose. But destiny… had its own script.</p>
-</section>
-
-<section id="ch2" class="chapter">
-  <h3>Chapter 2: <span class="meta">The Weekend of Temptation</span></h3>
-  <p><em>Written by Ajibade Vincent Adefenwa</em></p>
-
-  <p>Friday nights at Osun State University had a heartbeat of their own. It began from the buzzing generator sounds to the laughter of students getting ready to “enjoy life.” In Osogbo, even the moon looked like it had rhythm.</p>
-
-  <p>Inside Room 12 of the female hostel, Abiola and Victoria were painting their faces into confidence.</p>
-
-  <p><strong>“Victoria, hurry up jare! You know how those D-Point boys hate waiting!”</strong></p>
-
-  <p>Victoria, in a tight red gown, smiled into the mirror. <strong>“Ah, Bayo said his friend from Lagos will be there tonight. The guy get money! I must look irresistible.”</strong></p>
-
-  <p>Then she turned to Chioma, who sat quietly at the edge of her bed, wearing a plain gown, reading a book titled <em>The Woman of Purpose</em>.</p>
-
-  <p><strong>“Chioma,”</strong> she teased, <strong>“you no dey tire for all these motivational books? Na so you go carry holy spirit write exam?”</strong></p>
-
-  <p>Chioma smiled faintly. <strong>“I’d rather carry Holy Spirit than carry shame.”</strong></p>
-
-  <p>Abiola laughed. “See preacher! You no go come out small? Just small fun. You too dey act like grandma!”</p>
-
-  <p>Chioma looked at them lovingly, her tone gentle but full of truth. <strong>“I’m not judging you, my friends. But you see, when we go to certain places, we leave part of ourselves there. Sometimes, the part that never returns.”</strong></p>
-
-  <p>They left for Club D-Point. The door slammed. Silence returned. Chioma sighed and stared at the campus lights. Down the street, music blared. For a moment, loneliness whispered, <em>Maybe I’m missing out…</em></p>
-
-  <p>Her phone vibrated. A message from Olabode: <strong>“Hey, Angel, hope your day was fine?”</strong> … <strong>“You’re not out with your friends?”</strong> … <strong>“And that’s why you’re different. I like that about you.”</strong></p>
-
-  <p>By midnight, the girls stumbled back in, makeup smeared, laughter thin.</p>
-
-  <p><strong>“Did you enjoy it?”</strong> Chioma asked softly.</p>
-
-  <p>Abiola hesitated, then giggled, “Well… let’s just say we tried.” Victoria kicked off her heels. “One guy just dey toast me, but he no even get sense. I swear, boys are all the same.”</p>
-
-  <p>Chioma covered them with a blanket. <strong>“Sleep. Your body may be tired, but make sure your heart doesn’t get tired too.”</strong></p>
-
-  <p>She whispered to herself, <strong>“Some people dance their pain away… others read their way out of it.”</strong></p>
-
-  <p><strong>💭 Message of Chapter 2:</strong> Not every fun is joy. Not every noise is happiness. Some peace looks boring until life’s storms come — then you’ll know what real joy feels like.</p>
-</section>
-
-<section id="ch3" class="chapter">
-  <h3>Chapter 3: <span class="meta">When Love Turns Into Promise</span></h3>
-  <p><em>Written by Ajibade Vincent Adefenwa</em></p>
-
-  <p>The semester wound down; exams neared. Chioma found her peace: lectures, study groups, evening walks with Olabode — quiet, grounded, sincere. To others, their love looked too calm; to them, it was deep.</p>
-
-  <p>One evening at Oke-Baale, Olabode said, <strong>“I’ve been given an opportunity to travel. Canada.”</strong> Her spoon froze. <strong>“When?”</strong> — “Soon… I’m trying to raise the rest.”</p>
-
-  <p>She believed and helped: saved allowances, cooked, filled forms, even sold clothes. Friends mocked gently: <strong>“Open your eyes o. Men that travel don’t always come back the same.”</strong> Chioma smiled: <strong>“Love is not about who gives more. It’s about who believes more.”</strong></p>
-
-  <p>Visa approved. Under the mango tree, on his last night, she said, <strong>“Promise me you won’t forget me.”</strong> He held her hands: <strong>“You’re my home… When I return, I’ll marry you.”</strong></p>
-
-  <p>That night she cried quietly and prayed, <strong>“God, please let this be love — not another test of faith.”</strong></p>
-
-  <p><strong>💭 Message of Chapter 3:</strong> Sometimes love looks like a promise, but destiny sees it as a lesson. When you give your heart, make sure it’s not the only thing you have left to live with.</p>
-</section>
-
-<section id="ch4" class="chapter">
-  <h3>Chapter 4: <span class="meta">The Empty Side of Love</span></h3>
-  <p><em>Written by Ajibade Vincent Adefenwa</em></p>
-
-  <p>Three months after Olabode travelled, distance became a stranger between them. Calls faded into “Network is bad” and “Talk later.” Later never came.</p>
-
-  <p>Chioma wrote in her diary at the campus library: <em>“Dear Bode… I’m proud of you. I pray for you every night. Sometimes, I just wish I could hear you say ‘Chioma, I’m fine.’”</em></p>
-
-  <p>By December, the ache burned quietly. Friends warned gently: <strong>“Sometimes patience is how we spell denial.”</strong> That night she cried for the first time: <strong>“If this is love, let it return. If not, give me peace to let it go.”</strong></p>
-
-  <p>Then Victoria arrived with a phone in hand — a Facebook post: <strong>“Congratulations to Mr. &amp; Mrs. Olabode Adeshina – Just Married, Toronto, Canada.”</strong></p>
-
-  <p>Chioma stared, lips trembling. <strong>“So that’s how promises die… quietly.”</strong></p>
-
-  <p>Later, she wrote: <em>“Dear Bode, I’m happy you found someone. Maybe I was your peace, but not your future. I don’t hate you. Life has taught me the lesson your absence couldn’t. Love still lives in me. It’s just wiser now.”</em></p>
-
-  <p><strong>💭 Message of Chapter 4:</strong> Sometimes love doesn’t die suddenly — it fades quietly, one ignored message at a time. People will leave, but the lessons will stay. Heartbreak becomes holy when it purifies what’s left of your soul.</p>
-</section>
-      
-  </article>
-</main>
-
-<footer>
-  <div>© <span id="year"></span> Fenwanovels • All rights reserved.</div>
-  <div class="credit">Written by Ajibade Vincent Adefenwa</div>
-</footer>
-
-<script src="../../assets/app.js"></script>
-<script>
-  document.getElementById('year').textContent = new Date().getFullYear();
-
-  // ==== Page config ====
-  const BOOK_KEY = 'testimony-the-irony-of-destiny';
-  const PRICE = 30;                // per locked chapter
-  const TOTAL = 50;
-  const FREE = new Set([1,2,3,4,5]);
-
-  // Ensure coin badge reflects storage
-  document.addEventListener('DOMContentLoaded', () => {
-    if (typeof getCoins === 'function') {
-      // use your existing app.js helpers
-      const c = getCoins();
-      if (!Number.isFinite(c)) setCoins(85);
-      else setCoins(c);
-    }
-  });
-
-  // Build TOC + Chapter sections
-  const toc = document.getElementById('toc');
-  const wrap = document.getElementById('chapters');
-
-  for (let i = 1; i <= TOTAL; i++) {
-    // TOC
-    const a = document.createElement('a');
-    a.href = `#ch${i}`;
-    a.textContent = `Ch. ${i}`;
-    toc.appendChild(a);
-
-    // Chapter section
-    const sec = document.createElement('section');
-    sec.id = `ch${i}`;
-    sec.className = 'chapter';
-    sec.dataset.ch = String(i);
-
-    const h = document.createElement('h3');
-    h.innerHTML = `Chapter ${i}: <span class="meta">Untitled</span>`;
-    sec.appendChild(h);
-
-    if (FREE.has(i)) {
-      // Free chapter content placeholder
-      const body = document.createElement('div');
-      body.className = 'content';
-      body.id = `content-${i}`;
-      body.innerHTML = `
-        <p>[Paste the FULL text of Chapter ${i} here.]</p>
-      `;
-      sec.appendChild(body);
-    } else {
-      // Locked
-      const lock = document.createElement('div');
-      lock.className = 'lock';
-      lock.id = `lock-${i}`;
-      lock.innerHTML = `
-        <p class="dim">This chapter is locked. Unlock with <strong>${PRICE} Coins</strong>.</p>
-        <button class="btn primary" onclick="unlock(${i}, ${PRICE})">Unlock (${PRICE} Coins)</button>
-      `;
-      sec.appendChild(lock);
-
-      const body = document.createElement('div');
-      body.className = 'content';
-      body.id = `content-${i}`;
-      body.hidden = true;
-      body.innerHTML = `
-        <p>[Paste the FULL text of Chapter ${i} here. It will become visible after unlock.]</p>
-      `;
-      sec.appendChild(body);
-    }
-
-    wrap.appendChild(sec);
-  }
-
-  // === Book-scoped unlock helpers (reuse your global coin logic) ===
-  const UNLOCK_KEY = 'unlocked_' + BOOK_KEY;
-
-  function getUnlocked() {
-    try { return JSON.parse(localStorage.getItem(UNLOCK_KEY) || '[]'); }
-    catch { return []; }
-  }
-  function saveUnlocked(arr) {
-    localStorage.setItem(UNLOCK_KEY, JSON.stringify([...new Set(arr)]));
-  }
-  function showContent(ch) {
-    const lock = document.getElementById('lock-' + ch);
-    const body = document.getElementById('content-' + ch);
-    if (lock) lock.hidden = true;
-    if (body) body.hidden = false;
-  }
-  function renderLocksFromStorage(){
-    getUnlocked().forEach(showContent);
-  }
-  document.addEventListener('DOMContentLoaded', renderLocksFromStorage);
-
-  // Expose unlock() that uses your add/spend coin helpers from assets/app.js
-  window.unlock = function(chapter, price){
-    if (getUnlocked().includes(chapter)) { showContent(chapter); return; }
-    if (typeof spendCoins !== 'function') { alert('Coin system not loaded.'); return; }
-    if (!spendCoins(price)) { alert('Not enough coins. Tap “Buy Coins” on the home page.'); return; }
-    const list = getUnlocked(); list.push(chapter); saveUnlocked(list);
-    showContent(chapter);
-    alert('🔓 Chapter ' + chapter + ' unlocked!');
-  };
-</script>
 </body>
 </html>
