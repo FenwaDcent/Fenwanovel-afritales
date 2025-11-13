@@ -172,5 +172,23 @@
     handler.openIframe();
   }
 </script>
+  <body>
+<script>
+  // If 404.html redirected us here, restore the original path so the app can load it.
+  (function(){
+    try {
+      var p = sessionStorage.getItem('redirectPath');
+      if (p) {
+        sessionStorage.removeItem('redirectPath');
+        // Replace the current history entry with the original path
+        // so the app's links and relative assets behave normally.
+        history.replaceState(null, '', p);
+      }
+    } catch (e) {
+      // ignore errors in older browsers
+      console.warn('redirect restore failed', e);
+    }
+  })();
+</script>
 </body>  
 </html>
