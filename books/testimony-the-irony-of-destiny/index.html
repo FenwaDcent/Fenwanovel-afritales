@@ -1,92 +1,215 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Testimony: The Irony of Destiny</title>
-  <link rel="stylesheet" href="../../assets/styles.css" />
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Testimony: The Irony of Destiny</title>
+<style>
+  :root{
+    --bg:#fff; --text:#111; --card:#f2f2f2; --accent:#f6c041;
+  }
+  [data-theme="dark"]{
+    --bg:#0b0b0b; --text:#e9e9e9; --card:#121212; --accent:#f6c041;
+  }
+  html,body{height:100%;margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial;color:var(--text);background:var(--bg)}
+  header{padding:22px 18px;border-bottom:0;display:flex;align-items:center;gap:12px}
+  h1{margin:0;font-size:28px;line-height:1.05}
+  #themeToggle{margin-left:auto;padding:8px 12px;border-radius:8px;border:0;background:var(--card);cursor:pointer}
+  main{padding:18px;max-width:900px;margin:0 auto}
+  .chapter{background:var(--card);border-radius:12px;padding:16px;margin:14px 0;box-shadow:0 6px 18px rgba(0,0,0,0.08)}
+  .chapter h2{margin:0 0 8px;font-size:18px}
+  .meta{color:gray;font-size:13px;margin-bottom:8px}
+  .dim{color:gray;margin-top:6px}
+  .small{font-size:13px;color:gray}
+  .modal{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.55);z-index:9999}
+  .card{background:var(--card);color:var(--text);padding:18px;border-radius:12px;max-width:420px;width:92%}
+  .btn{background:var(--accent);border:0;padding:10px 14px;border-radius:10px;color:#000;cursor:pointer}
+  .btn.ghost{background:transparent;border:1px solid rgba(0,0,0,0.12)}
+  #coinDisplay{font-weight:700;margin-left:8px}
+  footer{padding:18px;text-align:center;color:gray}
+  @media(min-width:700px){h1{font-size:34px}}
+</style>
 </head>
-
 <body>
 
-  <!-- Header -->
-  <header>
-    <h1>Testimony: The Irony of Destiny</h1>
-    <button id="themeToggle">🌙 Dark</button>
-  </header>
+<header>
+  <div style="display:flex;align-items:center;gap:12px">
+    <a href="/" style="text-decoration:none;font-size:20px">🏠 Home</a>
+  </div>
+  <h1>Testimony: The Irony of Destiny</h1>
+  <button id="themeToggle">🌙 Dark</button>
+</header>
 
-  <!-- Main content area -->
-  <main>
-    <!-- ✅ All your chapter sections go here -->
-    <section id="ch1" class="chapter"> ... </section>
-    <section id="ch2" class="chapter"> ... </section>
-    <section id="ch3" class="chapter"> ... </section>
-    <section id="ch4" class="chapter"> ... </section>
-    <!-- etc -->
-  </main>
-
-  <!-- ✅ Now the Buy Coins Modal (AFTER your content, before </body>) -->
-  <div id="buyCoinsModal" class="modal" hidden style="position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,.7);z-index:9999">
-    <div class="card" style="background:var(--card);padding:20px;border-radius:14px;max-width:340px;width:90%">
-      <h3 style="margin-top:0">Buy Coins</h3>
-      <p class="dim">Support the author and unlock more chapters.</p>
-      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px">
-        <button onclick="addCoins(100)">Buy 100 Coins</button>
-        <button onclick="closeBuyCoins()">Close</button>
-      </div>
-    </div>
+<main id="mainContent">
+  <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px">
+    <div>Coins: <span id="coinDisplay">0</span></div>
+    <button class="btn" onclick="openBuyCoins()">Buy Coins</button>
   </div>
 
-  <!-- ✅ All JavaScript should be placed *after* the modal, just before </body> -->
-  <script>
-    // Coin logic
-    const LS_KEY = 'coins:testimony';
-    const LS_UNLOCKED = 'unlocked:testimony';
+  <!-- CHAPTER 1 -->
+  <section id="ch1" class="chapter" data-ch="1">
+    <h2>Chapter One — Testimony: the irony of destiny</h2>
+    <div class="meta">Written by Ajibade Vincent Adefenwa</div>
+    <div class="content">
+      <p>The afternoon sun of Osogbo had a way of sitting quietly on the roofs — warm, soft, almost peaceful.</p>
+      <p>Students moved in clusters across the UNIOSUN campus, some laughing, some hurrying, some pretending to hurry.</p>
+      <p>But Chioma walked differently. She wasn’t in a rush, yet she wasn’t slow. She walked with purpose — her steps measured, her books neatly held against her chest, her scarf perfectly tied.</p>
+      <p><strong>“Chioma, abeg, no vex o, we dey go Club D-Point tonight!”</strong></p>
+      <p>That was Abiola’s voice, loud as always, breaking the silence of the path between the library and the hostel. Victoria, beside her, was already giggling.</p>
+      <p>Chioma smiled gently. “You two will never change. Is that why you came to school?”</p>
+      <p>Abiola rolled her eyes. “Ah ah, my sister, life is not all about books na. You too dey carry everything for head like exam. You no go enjoy small?”</p>
+      <p>Victoria joined in, “Abeg leave her jare, Chioma na pastor pikin.”</p>
+      <p>They all laughed. But Chioma’s smile faded quickly. She wasn’t offended; she was thinking.</p>
+      <blockquote>“If I start following every noise, will my life have meaning?” she said quietly. “My mother’s prayer will be wasted if I fail in this school.”</blockquote>
+      <p>That day, after classes, while Abiola and Victoria went to meet their boyfriends near Oke-Baale, Chioma returned to her small hostel room. She placed her books on the bed, knelt down, and whispered a short prayer.</p>
+      <p>“Lord, I didn’t come here to impress men. I came to build my future. Keep me focused. Let my heart not go where my destiny will not follow.”</p>
+      <p>Later that week, everything changed. That was the day she met Olabode. It was during a group project in the Faculty of Management Sciences. He was tall, calm, and well-spoken — the kind of man whose confidence was natural, not loud.</p>
+      <p>Weeks passed. They became friends. Then closer friends. Then one evening, by the school fountain, under the fading light of Osogbo’s sunset, he said softly: “Chioma, I don’t know how to explain this… but you’ve been the peace I didn’t know I needed.”</p>
+      <p>She didn’t answer immediately. She looked down, then up again — her eyes clear, her voice steady. “If this is about love, Bode… I only believe in one kind of love — the one that doesn’t destroy destiny.” He smiled. “Then let me be part of that destiny.”</p>
+      <p>That was how it began. No club, no hookup, no drama — just two souls who believed love could be pure.</p>
+      <hr />
+      <p><em>💭 Moral Message:</em> A pure heart may not stop the storms of life — but it keeps you standing when they come.</p>
+    </div>
+  </section>
 
-    function getCoins(){return parseInt(localStorage.getItem(LS_KEY) || '0');}
-    function setCoins(n){localStorage.setItem(LS_KEY,n);updateCoinDisplay();}
-    function addCoins(n){setCoins(getCoins()+n);alert(`✅ Added ${n} coins`);closeBuyCoins();}
-    function spendCoins(n){
-      const balance=getCoins();
-      if(balance < n){alert('Not enough coins!');openBuyCoins();return false;}
-      setCoins(balance - n);return true;
-    }
+  <!-- CHAPTER 2 -->
+  <section id="ch2" class="chapter" data-ch="2">
+    <h2>Chapter Two — The Weekend of Temptation</h2>
+    <div class="meta">Written by Ajibade Vincent Adefenwa</div>
+    <div class="content">
+      <p>Friday nights at Osun State University had a heartbeat of their own. It began from the buzzing generator sounds to the laughter of students getting ready to “enjoy life.” In Osogbo, even the moon looked like it had rhythm.</p>
+      <p>Inside Room 12 of the female hostel, Abiola and Victoria were painting their faces into confidence. Abiola’s voice carried the excitement of a thousand drums.</p>
+      <p>“Victoria, hurry up jare! You know how those D-Point boys hate waiting!”</p>
+      <p>Victoria, in a tight red gown, smiled into the mirror. “Ah, Bayo said his friend from Lagos will be there tonight. The guy get money! I must look irresistible.” Then she turned to Chioma, who sat quietly at the edge of her bed, wearing a plain gown, reading a book titled <em>The Woman of Purpose</em>.</p>
+      <p>“Chioma,” she teased, “you no dey tire for all these motivational books? Na so you go carry holy spirit write exam?”</p>
+      <p>Chioma smiled faintly. “I’d rather carry Holy Spirit than carry shame.”</p>
+      <p>At midnight, Abiola and Victoria returned in high spirits. Chioma covered them with a blanket and whispered, “Sleep. Your body may be tired, but make sure your heart doesn’t get tired too.”</p>
+      <hr />
+      <p><em>💭 Message:</em> Not every fun is joy. Not every noise is happiness. Some peace looks boring until life storms come — then you’ll know what real joy feels like.</p>
+    </div>
+  </section>
 
-    function updateCoinDisplay(){
-      const el=document.querySelector('#coinDisplay');
-      if(el) el.textContent = getCoins();
-    }
+  <!-- CHAPTER 3 -->
+  <section id="ch3" class="chapter" data-ch="3">
+    <h2>Chapter Three — When Love Turns Into Promise</h2>
+    <div class="meta">Written by Ajibade Vincent Adefenwa</div>
+    <div class="content">
+      <p>The semester was winding down, and Osogbo had that familiar humid air — a mix of dust, rain, and hope. Exams were near. Students were buried in books, prayer, and last-minute group studies.</p>
+      <p>Chioma had found her peace. Her days were filled with lectures, study groups, and evening walks with Olabode, her quiet, intelligent boyfriend.</p>
+      <p>Olabode wasn’t like the other boys on campus. He didn’t dress flashy, didn’t chase trends, didn’t sweet-talk girls. He was simple — jeans, clean shirts, neat haircut, soft tone. The kind of man whose silence carried meaning.</p>
+      <p>They would often sit under the mango tree behind the Faculty of Management, sharing groundnuts and talking about life.</p>
+      <p><strong>Bode:</strong> “You know, Chioma, sometimes I look at you and I wonder if women like you still exist.”</p>
+      <p><strong>Chioma:</strong> “Why do you say that?”</p>
+      <p><strong>Bode:</strong> “Because you don’t rush anything. You make me believe love can still be pure.”</p>
+      <p>One evening, while they sat together at a small roadside restaurant in Oke-Baale, Olabode dropped the news. “Chioma, I’ve been given an opportunity to travel. Canada.”</p>
+      <p>She helped him raise money, believing in him. On his last night before traveling, under the mango tree, he took her hands. “When I return, I’ll marry you.” That night she prayed, “God, please let this be love — not another test of faith.”</p>
+      <hr />
+      <p><em>💭 Message:</em> Sometimes love looks like a promise, but destiny sees it as a lesson. When you give your heart, make sure it’s not the only thing you have left to live with.</p>
+    </div>
+  </section>
 
-    // Modal controls
-    function openBuyCoins(){
-      const m=document.getElementById('buyCoinsModal');
-      m.hidden=false;m.style.display='flex';document.body.style.overflow='hidden';
-    }
-    function closeBuyCoins(){
-      const m=document.getElementById('buyCoinsModal');
-      m.style.display='none';m.hidden=true;document.body.style.overflow='';
-    }
+  <!-- CHAPTER 4 -->
+  <section id="ch4" class="chapter" data-ch="4">
+    <h2>Chapter Four — The Empty Side of Love</h2>
+    <div class="meta">Written by Ajibade Vincent Adefenwa</div>
+    <div class="content">
+      <p>Three months had passed since Olabode traveled to Canada. At first, the distance didn’t feel real — he called every night, sent pictures, and made her laugh with stories of snow, cold weather, and how he missed Nigerian food. But as time went on, his voice became like a radio with weak signal — still there, but fading.</p>
+      <p>It was a cool Saturday evening in Osogbo. The hostel was quiet. Abiola had gone to visit her new boyfriend in Ede, and Victoria was in Ibadan for a wedding.</p>
+      <p>Chioma sat alone by the window, reading an old chat from Olabode. “I’ll never forget you… You’re my home… When I return, I’ll marry you.” Her phone screen showed “Last seen 2 days ago.”</p>
+      <p>Weeks turned to months. He sent short messages — “I’m busy, Chioma,” “Network is bad,” “Talk later.” Later never came. Then Victoria ran in one evening with a message: a Facebook post: “Congratulations to Mr. & Mrs. Olabode Adeshina – Just Married, Toronto, Canada.”</p>
+      <p>She wrote in her diary: “I’m happy you found someone. Maybe I was your peace, but not your future.”</p>
+      <hr />
+      <p><em>💭 Message:</em> Sometimes love doesn’t die suddenly — it fades quietly, one ignored message at a time. People will leave, but the lessons will stay.</p>
+    </div>
+  </section>
 
-    // Unlock logic
-    function unlock(chId,price){
-      if(!spendCoins(price))return;
-      const s=document.getElementById(`ch${chId}`);
-      s.querySelector('.lock').hidden=true;
-      s.querySelector('.content').hidden=false;
-      alert(`🔓 Chapter ${chId} unlocked!`);
-      const u=JSON.parse(localStorage.getItem(LS_UNLOCKED)||'[]');
-      if(!u.includes(chId)){u.push(chId);localStorage.setItem(LS_UNLOCKED,JSON.stringify(u));}
-    }
+  <footer>
+    <div class="small">© Written by Ajibade Vincent Adefenwa</div>
+  </footer>
+</main>
 
-    // Restore unlocked chapters
-    (function restore(){
-      const u=JSON.parse(localStorage.getItem(LS_UNLOCKED)||'[]');
-      u.forEach(ch=>{
-        const s=document.getElementById(`ch${ch}`);
-        if(s){s.querySelector('.lock').hidden=true;s.querySelector('.content').hidden=false;}
-      });
-      updateCoinDisplay();
-    })();
-  </script>
+<!-- BUY COINS MODAL (hidden by default) -->
+<div id="buyCoinsModal" class="modal" style="display:none">
+  <div class="card" role="dialog" aria-modal="true">
+    <h3 style="margin-top:0">Buy Coins</h3>
+    <p class="dim">Support the author and unlock more chapters.</p>
+    <div style="display:flex;gap:10px;margin-top:12px;flex-wrap:wrap">
+      <button class="btn" onclick="addCoins(100)">Buy 100 Coins</button>
+      <button class="btn" onclick="addCoins(300)">Buy 300 Coins</button>
+      <button class="btn ghost" onclick="closeBuyCoins()">Close</button>
+    </div>
+    <p class="dim" style="margin-top:12px">Note: these demo buttons only add coins locally. For real payment integration (Paystack/Flutterwave) I can add code once you confirm your payment keys.</p>
+  </div>
+</div>
+
+<!-- All JavaScript goes here (AFTER content) -->
+<script>
+/* THEME */
+(function(){
+  const root=document.documentElement;
+  const btn=document.getElementById('themeToggle');
+  const key='fenwa:theme';
+  function applyTheme(t){
+    root.setAttribute('data-theme', t);
+    btn.textContent = (t==='dark') ? '☀️ Light' : '🌙 Dark';
+  }
+  const saved = localStorage.getItem(key) || 'light';
+  applyTheme(saved);
+  btn.addEventListener('click',()=>{
+    const next = (root.getAttribute('data-theme') === 'dark') ? 'light' : 'dark';
+    applyTheme(next);
+    localStorage.setItem(key,next);
+  });
+})();
+
+/* COINS + UNLOCK LOGIC */
+const LS_COINS = 'fenwa:coins';
+const LS_UNLOCK = 'fenwa:unlocked';
+
+function getCoins(){ return parseInt(localStorage.getItem(LS_COINS)||'0',10); }
+function setCoins(n){ localStorage.setItem(LS_COINS,String(n)); updateCoinDisplay(); }
+function addCoins(n){ setCoins(getCoins()+n); alert('✅ Added '+n+' coins'); closeBuyCoins(); }
+function spendCoins(n){
+  const b = getCoins();
+  if(b < n){ alert('Not enough coins — buy more.'); openBuyCoins(); return false; }
+  setCoins(b - n); return true;
+}
+function updateCoinDisplay(){ const el=document.getElementById('coinDisplay'); if(el) el.textContent = getCoins(); }
+
+/* MODAL CONTROLS */
+function openBuyCoins(){ document.getElementById('buyCoinsModal').style.display='flex'; document.body.style.overflow='hidden'; }
+function closeBuyCoins(){ document.getElementById('buyCoinsModal').style.display='none'; document.body.style.overflow=''; }
+
+/* UNLOCK (example usage) */
+function unlockChapter(chId, price){
+  if(!spendCoins(price)) return;
+  const sec = document.getElementById('ch'+chId);
+  if(!sec) return alert('Chapter not found.');
+  sec.querySelector('.content').hidden=false;
+  alert('🔓 Chapter '+chId+' unlocked!');
+  const u = JSON.parse(localStorage.getItem(LS_UNLOCK) || '[]');
+  if(!u.includes(chId)){ u.push(chId); localStorage.setItem(LS_UNLOCK, JSON.stringify(u)); }
+}
+
+/* RESTORE unlocked chapters and coin display */
+(function restore(){
+  updateCoinDisplay();
+  const u = JSON.parse(localStorage.getItem(LS_UNLOCK) || '[]');
+  u.forEach(ch => {
+    const s = document.getElementById('ch'+ch);
+    if(s) s.querySelector('.content').hidden=false;
+  });
+})();
+
+/* OPTIONAL: example to lock a chapter by default:
+   If you want chapters locked initially, set .content.hidden=true in HTML
+   and then require unlockChapter(ch, price) to reveal it.
+*/
+
+/* Accessibility: allow ESC to close modal */
+document.addEventListener('keydown', e=>{
+  if(e.key==='Escape'){ closeBuyCoins(); }
+});
+</script>
 </body>
 </html>
