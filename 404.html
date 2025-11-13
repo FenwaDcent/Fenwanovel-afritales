@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Redirecting…</title>
+  <script>
+    // Redirect all unknown routes back to home (index.html)
+    // so your SPA routing will work on GitHub Pages
+    var redirectPath = window.location.pathname;
+    sessionStorage.setItem("redirectPath", redirectPath);
+    window.location.href = "/";
+  </script>
+</head>
+<body></body>
+</html>
