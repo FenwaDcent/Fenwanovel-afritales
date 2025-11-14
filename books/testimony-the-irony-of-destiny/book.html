@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Testimony — Reader</title>
+<link rel="stylesheet" href="../../assets/css/styles.css">
+<style>
+  .reader-header{display:flex;align-items:center;gap:12px;padding:12px;border-bottom:1px solid rgba(255,255,255,0.03);background:transparent}
+  .chapters{padding:18px;max-width:900px;margin:0 auto}
+  .chapter{background:linear-gradient(180deg,var(--card),#111);padding:16px;border-radius:12px;margin:14px 0}
+  .cover{width:100%;max-width:420px;display:block;margin:8px 0;border-radius:12px}
+  .watermark{position:fixed;bottom:8px;right:10px;opacity:0.12;pointer-events:none;font-weight:700}
+</style>
+</head>
+<body>
+  <header class="reader-header">
+    <a href="../../">← Back</a>
+    <h1 id="bookTitle">Loading…</h1>
+    <div style="margin-left:auto" class="header-right">
+      <div class="coin">💰 <span id="coinBadge2">0</span></div>
+      <button id="buyBtn2" class="btn">Buy</button>
+      <button class="btn ghost" onclick="toggleTheme()">Toggle theme</button>
+    </div>
+  </header>
+
+  <main class="chapters" id="chapters"></main>
+
+  <div id="buyModal" class="modal" hidden>
+    <div class="modal-card">
+      <div class="modal-head"><h3>Buy Coins</h3><button class="icon-btn" onclick="closeBuyModal()">✕</button></div>
+      <div class="packs">
+        <button class="pack" onclick="buyCoins(50,'50 coins',50000)">+50 (₦500)</button>
+        <button class="pack" onclick="buyCoins(150,'150 coins',120000)">+150 (₦1,200)</button>
+      </div>
+      <div class="row"><input id="voucherInput" placeholder="Voucher code"><button class="btn" onclick="redeemVoucher()">Redeem</button></div>
+    </div>
+  </div>
+
+  <div id="tati-watermark" class="watermark"></div>
+
+  <script src="../../assets/js/global.js"></script>
+  <script src="../../assets/js/reader.js"></script>
+</body>
+</html>
