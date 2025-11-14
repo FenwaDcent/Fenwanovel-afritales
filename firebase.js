@@ -1,26 +1,34 @@
-// Use Firebase v10 modular SDKs from CDN (works on GitHub Pages)
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-app.js";
+// firebase.js (ES module) — put at repo root and edit config
+// NOTE: install nothing — we load via CDN imports in module form below.
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js';
 import {
-  getAuth, onAuthStateChanged, signInWithEmailAndPassword,
-  createUserWithEmailAndPassword, updateProfile,
-  GoogleAuthProvider, signInWithPopup, signOut
-} from "https://www.gstatic.com/firebasejs/10.14.0/firebase-auth.js";
+  getAuth,
+  signInWithEmailAndPassword,
+  createUserWithEmailAndPassword,
+  GoogleAuthProvider,
+  signInWithPopup,
+  updateProfile
+} from 'https://www.gstatic.com/firebasejs/9.22.1/firebase-auth.js';
 
-// Your config (from you)
-const firebaseConfig = {
-  apiKey: "AIzaSyDdbIV-UlM7r-h3e8agXcj7dtfJkuBFmpw",
-  authDomain: "fenwanovels-project.firebaseapp.com",
-  projectId: "fenwanovels-project",
-  storageBucket: "fenwanovels-project.firebasestorage.app",
-  messagingSenderId: "207330391263",
-  appId: "1:207330391263:web:e1cf10459c6109c055e56a",
-  measurementId: "G-JH15KFZDLG"
+// TODO: replace the object below with your Firebase project's config
+const FIREBASE_CONFIG = {
+  apiKey: "YOUR_API_KEY",
+  authDomain: "YOUR_PROJECT.firebaseapp.com",
+  projectId: "YOUR_PROJECT_ID",
+  storageBucket: "YOUR_PROJECT.appspot.com",
+  messagingSenderId: "SENDER_ID",
+  appId: "APP_ID"
 };
 
-export const app = initializeApp(firebaseConfig);
-export const auth = getAuth(app);
+const app = initializeApp(FIREBASE_CONFIG);
+const auth = getAuth(app);
+
+// re-export functions used in login/register pages
 export {
-  onAuthStateChanged, signInWithEmailAndPassword,
-  createUserWithEmailAndPassword, updateProfile,
-  GoogleAuthProvider, signInWithPopup, signOut
+  auth,
+  signInWithEmailAndPassword,
+  createUserWithEmailAndPassword,
+  GoogleAuthProvider,
+  signInWithPopup,
+  updateProfile
 };
