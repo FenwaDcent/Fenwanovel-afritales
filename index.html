@@ -1,194 +1,68 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <title>Fenwanovels – African Love & Power Stories</title>
-  <meta name="description" content="Fenwanovels – African love, power, and faith stories. Read now.">
-  <link rel="stylesheet" href="assets/styles.css"/>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Fenwanovels – AfriTales</title>
+  <link rel="stylesheet" href="assets/css/styles.css">
 </head>
 <body>
-<header>
-  <div class="header-inner">
-    <div class="brand">
-      <div class="logo" aria-hidden="true"></div>
-      <div class="title">Fenwanovels – African Love &amp; Power Stories</div>
+  <header class="site-header">
+    <a class="brand" href="./">Fenwanovels — AfriTales</a>
+    <div class="header-right">
+      <div class="coin">💰 <span id="coinBadge">0</span></div>
+      <button id="buyBtn" class="btn">Buy Coins</button>
+      <button id="themeToggle" class="btn ghost" onclick="toggleTheme()"><span id="themeText">🌙 Dark</span></button>
+      <a class="btn ghost" href="login.html">Login</a>
     </div>
+  </header>
 
-    <!-- ✅ single badges row -->
-    <div class="badges">
-      <div class="coin">💰 <span class="coin-amount">85</span> Coins</div>
-      <button class="btn" onclick="openBuyCoins()">Buy Coins</button>
-      <button class="toggle" onclick="toggleTheme()"><span id="themeText">🌙 Dark</span></button>
+  <main class="container">
+    <section class="book-list">
+      <article class="book-card">
+        <img src="assets/covers/testimony-the-irony-of-destiny.jpg" alt="Testimony cover" class="cover">
+        <div>
+          <h2>Testimony: The Irony of Destiny</h2>
+          <p class="muted">Written by Ajibade Vincent Adefenwa • Inspirational Fiction</p>
+          <div class="actions">
+            <a class="btn" href="books/testimony-the-irony-of-destiny/book.html">Read</a>
+            <a class="btn ghost" href="mailto:vfenwa100@gmail.com">Contact</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- Add more book-card entries for other books -->
+    </section>
+  </main>
+
+  <!-- Buy Coins Modal (site level) -->
+  <div id="buyModal" class="modal" hidden>
+    <div class="modal-card">
+      <div class="modal-head">
+        <h3>Buy Coins</h3>
+        <button class="icon-btn" onclick="closeBuyModal()">✕</button>
+      </div>
+      <p class="dim">Choose a coin pack or redeem a voucher.</p>
+      <div class="packs">
+        <button class="pack" onclick="buyCoins(50,'50 Coins',50000)">+50 Coins (₦500)</button>
+        <button class="pack" onclick="buyCoins(150,'150 Coins',120000)">+150 Coins (₦1,200)</button>
+        <button class="pack" onclick="buyCoins(300,'300 Coins',200000)">+300 Coins (₦2,000)</button>
+      </div>
+
+      <div class="or"><span>or</span></div>
+
+      <label class="label">Redeem voucher</label>
+      <div class="row">
+        <input id="voucherInput" type="text" placeholder="Enter code e.g. FENWA100">
+        <button class="btn" onclick="redeemVoucher()">Redeem</button>
+      </div>
+
+      <div class="note dim" style="margin-top:10px">
+        Demo mode: packs add coins locally unless you paste your Paystack public key in <code>assets/js/global.js</code>.
+      </div>
     </div>
   </div>
-</header>
 
-<main>
-  <section>
-    <div class="section-title">
-      <h2 style="margin:0">Library</h2>
-      <small class="dim">Tap “Read now” to open the book.</small>
-    </div>
-
-    <div class="grid">
-      <!-- Before You Die Empty -->
-      <article class="card">
-        <img src="assets/covers/before-you-die-empty.jpg" alt="Before You Die Empty cover">
-        <div class="card-body">
-          <h3>Before You Die Empty</h3>
-          <p>A life-changing message on purpose, faith, and fulfillment before time runs out.</p>
-          <div class="meta">By Ajibade Vincent Adefenwa • Motivation / Faith</div>
-          <div class="actions">
-            <a class="btn primary" href="books/before-you-die-empty/index.html">Read now</a>
-            <a class="btn" href="mailto:vfenwa100@gmail.com">Contact</a>
-          </div>
-        </div>
-      </article>
-
-      <article class="card">
-  <img src="assets/covers/testimony-the-irony-of-destiny.jpg" alt="Testimony: The Irony of Destiny cover">
-  <div class="card-body">
-    <h3>Testimony: The Irony of Destiny</h3>
-    <p>A powerful story of faith, struggle, and divine irony — where pain becomes purpose.</p>
-    <div class="meta">By Ajibade Vincent Adefenwa • Inspirational Fiction</div>
-    <div class="actions">
-      <a class="btn primary" href="books/testimony-the-irony-of-destiny/index.html">Read now</a>
-      <a class="btn" href="mailto:vfenwa100@gmail.com">Contact</a>
-    </div>
-  </div>
-      </article>
-
-      <!-- Echoes of Broken Vows -->
-      <article class="card">
-        <img src="assets/covers/echoes-of-broken-vows.svg" alt="Echoes of Broken Vows cover">
-        <div class="card-body">
-          <h3>Echoes of Broken Vows</h3>
-          <p>A moving tale of love, loss, and redemption — where broken promises echo louder than silence.</p>
-          <div class="meta">By Ajibade Vincent Adefenwa • Romance/Drama</div>
-          <div class="actions">
-            <a class="btn primary" href="books/echoes-of-broken-vows/index.html">Read now</a>
-            <a class="btn" href="mailto:vfenwa100@gmail.com">Contact</a>
-          </div>
-        </div>
-      </article>
-
-      <!-- Ṣadé & Fenwa -->
-      <article class="card">
-        <img src="assets/covers/sade-and-fenwa.svg" alt="Ṣadé & Fenwa cover">
-        <div class="card-body">
-          <h3>Ṣadé &amp; Fenwa: A Legacy of Love</h3>
-          <p>120-chapter Nigerian romance about humility, legacy, and true love that stands the test.</p>
-          <div class="meta">By Ajibade Vincent Adefenwa • Romance</div>
-          <div class="actions">
-            <a class="btn primary" href="books/sade-and-fenwa/index.html">Read now</a>
-            <a class="btn" href="mailto:vfenwa100@gmail.com">Contact</a>
-          </div>
-        </div>
-      </article>
-
-      <!-- The Anatomy of Power -->
-      <article class="card">
-        <img src="assets/covers/anatomy-of-power.svg" alt="The Anatomy of Power cover">
-        <div class="card-body">
-          <h3>The Anatomy of Power</h3>
-          <p>A bold, political fiction about godfathers, elections, and the price of truth in Ekun State.</p>
-          <div class="meta">By Ajibade Vincent Adefenwa • Political Fiction</div>
-          <div class="actions">
-            <a class="btn primary" href="books/anatomy-of-power/index.html">Read now</a>
-            <a class="btn" href="mailto:vfenwa100@gmail.com">Contact</a>
-          </div>
-        </div>
-      </article>
-    </div>
-  </section>
-
-  <hr class="sep"/>
-
-  <section class="notice">
-    Need help or want to publish with us? Email <a href="mailto:vfenwa100@gmail.com">vfenwa100@gmail.com</a>.
-  </section>
-</main>
-
-<footer>
-  <div>© <span id="year"></span> Fenwanovels • All rights reserved.</div>
-  <div class="credit">Written by Ajibade Vincent Adefenwa</div>
-</footer>
-
-<!-- ✅ Single Buy Coins Modal (Paystack version) -->
-<div id="buyCoinsModal" class="modal" hidden>
-  <div class="modal-card">
-    <div class="modal-head">
-      <h3>Buy Coins</h3>
-  
-    </div>
-
-    <p class="dim" style="margin-top:-6px">Choose a coin pack or redeem a voucher.</p>
-
-    <div class="packs">
-      <button class="pack" onclick="buyCoinsPaystack({label:'50 Coins',  coins:50,  amountKobo:  50000})">+50 Coins (₦500)</button>
-      <button class="pack" onclick="buyCoinsPaystack({label:'150 Coins', coins:150, amountKobo: 120000})">+150 Coins (₦1,200)</button>
-      <button class="pack" onclick="buyCoinsPaystack({label:'300 Coins', coins:300, amountKobo: 200000})">+300 Coins (₦2,000)</button>
-       <button class="icon-btn" onclick="closeBuyCoins()">✕</button>
-    </div>
-
-    <button class="btn" onclick="location.href='store.html'">Buy Coins</button>
-    <div class="or"><span>or</span></div>
-
-    <label class="label">Redeem voucher</label>
-    <div class="row">
-      <input id="voucherInput" type="text" placeholder="Enter code e.g. FENWA100">
-      <button class="btn" onclick="redeemVoucher()">Redeem</button>
-    </div>
-
-    <div class="note dim" style="margin-top:10px">
-      Payments credit coins instantly after success. Having issues?
-      <a href="mailto:vfenwa100@gmail.com">Contact support</a>.
-    </div>
-  </div>
-</div>
-
-<!-- Scripts -->
-<script src="assets/app.js"></script>
-<script src="https://js.paystack.co/v1/inline.js"></script>
-<script>
-  document.getElementById('year').textContent = new Date().getFullYear();
-
-  // Paystack checkout
-  function buyCoinsPaystack(pack) {
-    const handler = PaystackPop.setup({
-      key: 'pk_test_xxxxxx', // ← replace with your Paystack Public Key
-      email: getCurrentUserEmail() || 'reader@example.com',
-      amount: pack.amountKobo,   // in kobo
-      currency: 'NGN',
-      ref: 'FENWA_' + Date.now(),
-      callback: function(res){
-        addCoins(pack.coins);   // from assets/app.js
-        alert('✅ Payment successful! Ref: ' + res.reference);
-        closeBuyCoins();
-      },
-      onClose: function(){ /* user closed */ }
-    });
-    handler.openIframe();
-  }
-</script>
-  <body>
-<script>
-  // If 404.html redirected us here, restore the original path so the app can load it.
-  (function(){
-    try {
-      var p = sessionStorage.getItem('redirectPath');
-      if (p) {
-        sessionStorage.removeItem('redirectPath');
-        // Replace the current history entry with the original path
-        // so the app's links and relative assets behave normally.
-        history.replaceState(null, '', p);
-      }
-    } catch (e) {
-      // ignore errors in older browsers
-      console.warn('redirect restore failed', e);
-    }
-  })();
-</script>
-</body>  
+  <script src="assets/js/global.js"></script>
+</body>
 </html>
