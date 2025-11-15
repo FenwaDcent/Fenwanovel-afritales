@@ -39,28 +39,28 @@
 
   <div id="tati-watermark" class="watermark"></div>
 
-  <!-- BUY COINS MODAL -->
+<!-- BUY COINS MODAL -->
 <div id="buyModal" class="modal" hidden>
   <div class="modal-card" role="dialog" aria-modal="true" aria-label="Buy Coins">
     <button class="modal-close" id="closeBuyModalBtn" aria-label="Close modal">✕</button>
     <h3>Buy Coins</h3>
     <p>Choose a coin pack or redeem a voucher.</p>
+
     <div class="coins-grid">
       <button class="pack btn" data-coins="50"  data-kobo="50000">+50 Coins (₦500)</button>
       <button class="pack btn" data-coins="150" data-kobo="120000">+150 Coins (₦1,200)</button>
       <button class="pack btn" data-coins="300" data-kobo="200000">+300 Coins (₦2,000)</button>
     </div>
+
     <div style="text-align:center;margin:8px 0">or</div>
-    <label style="display:flex;gap:8px;align-items:center">
-      <input id="voucherInput" placeholder="Enter code e.g. FENWA100" style="flex:1;padding:10px;border-radius:8px;border:0" />
+
+    <label style="display:flex;gap:8px;align-items:center;margin-top:8px">
+      <input id="voucherInput" placeholder="Enter code e.g. FENWA100" style="flex:1;padding:10px;border-radius:8px;border:1px solid rgba(0,0,0,0.08);" />
       <button id="redeemBtn" class="btn">Redeem</button>
     </label>
+
     <p class="small muted" style="margin-top:12px">
       Demo mode: packs add coins locally unless you paste your Paystack public key in <code>assets/js/global.js</code>.
     </p>
   </div>
 </div>
-  <script src="../../assets/js/global.js"></script>
-  <script src="../../assets/js/reader.js"></script>
-</body>
-</html>
