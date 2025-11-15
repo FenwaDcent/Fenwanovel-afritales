@@ -6,6 +6,23 @@
   <title>Fenwanovels – AfriTales</title>
   <link rel="stylesheet" href="assets/css/styles.css">
 </head>
+  <!-- optional: Paystack inline script if you plan to use live payments -->
+  <!-- <script src="https://js.paystack.co/v1/inline.js"></script> -->
+
+  <!-- Global application script (required) -->
+  <script src="assets/js/global.js"></script>
+
+  <!-- small helper to show initial debug state (remove later) -->
+  <script>
+    // quick sanity checks — open Console (F12) and paste these if you need debug info
+    // (they will run automatically on page load)
+    console.info('fenwa: dom ready — checking app functions');
+    console.info('setCoins function exists? ', typeof setCoins === 'function');
+    console.info('getCoins():', typeof getCoins === 'function' ? getCoins() : 'no getCoins');
+    console.info('buyModal element:', !!document.getElementById('buyModal'));
+  </script>
+</body>
+</html>
 <body>
   <header class="site-header">
     <a class="brand" href="./">Fenwanovels — AfriTales</a>
