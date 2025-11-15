@@ -35,34 +35,24 @@
     </section>
   </main>
 
-  <!-- Buy Coins Modal (site level) -->
-  <div id="buyModal" class="modal" hidden>
-    <div class="modal-card">
-      <div class="modal-head">
-        <h3>Buy Coins</h3>
-        <button class="icon-btn" onclick="closeBuyModal()">✕</button>
-      </div>
-      <p class="dim">Choose a coin pack or redeem a voucher.</p>
-      <div class="packs">
-        <button class="pack" onclick="buyCoins(50,'50 Coins',50000)">+50 Coins (₦500)</button>
-        <button class="pack" onclick="buyCoins(150,'150 Coins',120000)">+150 Coins (₦1,200)</button>
-        <button class="pack" onclick="buyCoins(300,'300 Coins',200000)">+300 Coins (₦2,000)</button>
-      </div>
-
-      <div class="or"><span>or</span></div>
-
-      <label class="label">Redeem voucher</label>
-      <div class="row">
-        <input id="voucherInput" type="text" placeholder="Enter code e.g. FENWA100">
-        <button class="btn" onclick="redeemVoucher()">Redeem</button>
-      </div>
-
-      <div class="note dim" style="margin-top:10px">
-        Demo mode: packs add coins locally unless you paste your Paystack public key in <code>assets/js/global.js</code>.
-      </div>
+  <!-- BUY COINS MODAL (paste inside <body>, near bottom, before global.js script) -->
+<div id="buyModal" class="modal" hidden>
+  <div class="modal-card" role="dialog" aria-modal="true" aria-label="Buy Coins">
+    <button class="modal-close" id="closeBuyModalBtn" aria-label="Close modal">✕</button>
+    <h3>Buy Coins</h3>
+    <p>Choose a coin pack or redeem a voucher.</p>
+    <div class="coins-grid">
+      <button class="pack btn" data-coins="50" data-kobo="50000">+50 Coins (₦500)</button>
+      <button class="pack btn" data-coins="150" data-kobo="120000">+150 Coins (₦1,200)</button>
+      <button class="pack btn" data-coins="300" data-kobo="200000">+300 Coins (₦2,000)</button>
     </div>
+    <div style="text-align:center;margin:8px 0">or</div>
+    <label style="display:flex;gap:8px;align-items:center">
+      <input id="voucherInput" placeholder="Enter code e.g. FENWA100" style="flex:1;padding:10px;border-radius:8px;border:0" />
+      <button id="redeemBtn" class="btn">Redeem</button>
+    </label>
+    <p class="small muted" style="margin-top:12px">
+      Demo mode: packs add coins locally unless you paste your Paystack public key in <code>assets/js/global.js</code>.
+    </p>
   </div>
-
-  <script src="assets/js/global.js"></script>
-</body>
-</html>
+</div>
