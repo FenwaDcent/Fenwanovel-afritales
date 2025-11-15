@@ -1,83 +1,80 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Testimony — Reader</title>
-<link rel="stylesheet" href="../../assets/css/styles.css">
-<style>
-  .reader-header{display:flex;align-items:center;gap:12px;padding:12px;border-bottom:1px solid rgba(255,255,255,0.03);background:transparent}
-  .chapters{padding:18px;max-width:900px;margin:0 auto}
-  .chapter{background:linear-gradient(180deg,var(--card),#111);padding:16px;border-radius:12px;margin:14px 0}
-  .cover{width:100%;max-width:420px;display:block;margin:8px 0;border-radius:12px}
-  .watermark{position:fixed;bottom:8px;right:10px;opacity:0.12;pointer-events:none;font-weight:700}
-</style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Testimony: The Irony of Destiny — Reader</title>
+  <!-- absolute paths avoid relative-path mistakes -->
+  <link rel="stylesheet" href="/assets/css/styles.css">
+  <style>
+    /* small reader-specific CSS */
+    .reader-header{display:flex;align-items:center;gap:12px;padding:12px;border-bottom:1px solid rgba(0,0,0,0.08);background:var(--bg)}
+    .chapters{padding:18px;max-width:900px;margin:0 auto}
+    .chapter{background:linear-gradient(180deg,#fff,#fbfbfb);padding:16px;border-radius:12px;margin:14px 0;box-shadow:0 6px 18px rgba(0,0,0,0.06)}
+    .chapter h2{margin:0 0 8px}
+    .small{font-size:13px;color:var(--muted)}
+    .next-footer{margin-top:12px;text-align:right}
+    .watermark{position:fixed;bottom:8px;right:10px;opacity:0.12;pointer-events:none;font-weight:700}
+    .loading-msg{padding:20px;text-align:center;color:var(--muted)}
+    a.back-link{margin-right:8px;color:var(--muted)}
+    .book-meta{margin-left:12px}
+    .reader-header .header-right{margin-left:auto;display:flex;gap:8px;align-items:center}
+  </style>
 </head>
-  <!-- optional: Paystack inline script if you plan to use live payments -->
-  <!-- <script src="https://js.paystack.co/v1/inline.js"></script> -->
-
-  <!-- Global application script (required) -->
-  <script src="assets/js/global.js"></script>
-
-  <!-- small helper to show initial debug state (remove later) -->
-  <script>
-    // quick sanity checks — open Console (F12) and paste these if you need debug info
-    // (they will run automatically on page load)
-    console.info('fenwa: dom ready — checking app functions');
-    console.info('setCoins function exists? ', typeof setCoins === 'function');
-    console.info('getCoins():', typeof getCoins === 'function' ? getCoins() : 'no getCoins');
-    console.info('buyModal element:', !!document.getElementById('buyModal'));
-  </script>
-</body>
-</html>
 <body>
   <header class="reader-header">
-    <a href="../../">← Back</a>
-    <h1 id="bookTitle">Loading…</h1>
-    <div style="margin-left:auto" class="header-right">
+    <div style="display:flex;align-items:center">
+      <a class="back-link" href="/index.html">← Back</a>
+      <div id="bookTitle" style="font-weight:700">Loading…</div>
+    </div>
+
+    <div class="header-right">
       <div class="coin">💰 <span id="coinBadge2">0</span></div>
       <button id="buyBtn2" class="btn">Buy</button>
-      <button class="btn ghost" onclick="toggleTheme()">Toggle theme</button>
+      <button id="themeBtn" class="btn ghost" onclick="toggleTheme()"><span id="themeText">🌙</span></button>
     </div>
   </header>
 
-  <main class="chapters" id="chapters"></main>
+  <main class="chapters" id="chapters">
+    <div id="loading" class="loading-msg">Loading book…</div>
+  </main>
 
+  <!-- Buy modal (kept simple) -->
   <div id="buyModal" class="modal" hidden>
-    <div class="modal-card">
-      <div class="modal-head"><h3>Buy Coins</h3><button class="icon-btn" onclick="closeBuyModal()">✕</button></div>
-      <div class="packs">
-        <button class="pack" onclick="buyCoins(50,'50 coins',50000)">+50 (₦500)</button>
-        <button class="pack" onclick="buyCoins(150,'150 coins',120000)">+150 (₦1,200)</button>
+    <div class="modal-card" role="dialog" aria-modal="true" aria-label="Buy Coins">
+      <button class="modal-close" id="closeBuyModalBtn" aria-label="Close modal">✕</button>
+      <h3>Buy Coins</h3>
+      <p>Choose a coin pack or redeem a voucher.</p>
+      <div class="coins-grid">
+        <button class="pack btn" data-coins="50"  data-kobo="50000">+50 Coins (₦500)</button>
+        <button class="pack btn" data-coins="150" data-kobo="120000">+150 Coins (₦1,200)</button>
+        <button class="pack btn" data-coins="300" data-kobo="200000">+300 Coins (₦2,000)</button>
       </div>
-      <div class="row"><input id="voucherInput" placeholder="Voucher code"><button class="btn" onclick="redeemVoucher()">Redeem</button></div>
+      <div style="text-align:center;margin:8px 0">or</div>
+      <label style="display:flex;gap:8px;align-items:center">
+        <input id="voucherInput" placeholder="Enter code e.g. FENWA100" style="flex:1;padding:10px;border-radius:8px;border:1px solid rgba(0,0,0,0.08)" />
+        <button id="redeemBtn" class="btn">Redeem</button>
+      </label>
+      <p class="small muted" style="margin-top:12px">
+        Demo mode: packs add coins locally unless you paste your Paystack public key in <code>assets/js/global.js</code>.
+      </p>
     </div>
   </div>
 
-  <div id="tati-watermark" class="watermark"></div>
+  <div id="tati-watermark" class="watermark" aria-hidden="true"></div>
 
-<!-- BUY COINS MODAL -->
-<div id="buyModal" class="modal" hidden>
-  <div class="modal-card" role="dialog" aria-modal="true" aria-label="Buy Coins">
-    <button class="modal-close" id="closeBuyModalBtn" aria-label="Close modal">✕</button>
-    <h3>Buy Coins</h3>
-    <p>Choose a coin pack or redeem a voucher.</p>
+  <!-- IMPORTANT: load global.js first, then reader.js -->
+  <script src="/assets/js/global.js"></script>
+  <script src="/assets/js/reader.js"></script>
 
-    <div class="coins-grid">
-      <button class="pack btn" data-coins="50"  data-kobo="50000">+50 Coins (₦500)</button>
-      <button class="pack btn" data-coins="150" data-kobo="120000">+150 Coins (₦1,200)</button>
-      <button class="pack btn" data-coins="300" data-kobo="200000">+300 Coins (₦2,000)</button>
-    </div>
-
-    <div style="text-align:center;margin:8px 0">or</div>
-
-    <label style="display:flex;gap:8px;align-items:center;margin-top:8px">
-      <input id="voucherInput" placeholder="Enter code e.g. FENWA100" style="flex:1;padding:10px;border-radius:8px;border:1px solid rgba(0,0,0,0.08);" />
-      <button id="redeemBtn" class="btn">Redeem</button>
-    </label>
-
-    <p class="small muted" style="margin-top:12px">
-      Demo mode: packs add coins locally unless you paste your Paystack public key in <code>assets/js/global.js</code>.
-    </p>
-  </div>
-</div>
+  <script>
+    // tiny safety: if the reader didn't replace loading text after 3s, show a helpful message
+    setTimeout(()=>{
+      const loading = document.getElementById('loading');
+      if(loading && loading.innerText.includes('Loading')){
+        loading.innerHTML = 'Still loading — if this page stays like this, check that <code>/books/testimony-the-irony-of-destiny/book.json</code> and chapter files exist on the server.';
+      }
+    }, 3000);
+  </script>
+</body>
+</html>
