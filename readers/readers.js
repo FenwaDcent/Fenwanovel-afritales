@@ -1,113 +1,153 @@
-const $ = sel => document.querySelector(sel);
-const params = new URLSearchParams(location.search);
-const bookId = (params.get("book") || "").trim();
+/* assets/js/reader.js - fresh copy for the reader page */
+const REPO_PREFIX = ''; // keep empty if you serve from site root
 
-// toggle theme using app.js
-$("#toggle")?.addEventListener("click", () => {
-  if (typeof toggleTheme === "function") toggleTheme();
-});
+const FREE_CHAPTERS_SET = new Set([1,2,3,4,5,6]); // free for demo
+const DEFAULT_PRICE = 30;
 
-const state = { meta: null, index: 0 };
-
-async function loadBook(id) {
-  if (!id) throw new Error("No book id provided. Example: reader.html?book=echoes-of-broken-vows");
-  const url = `books/${id}/book.json`;
-  const resp = await fetch(url, { cache: "no-store" });
-  if (resp.ok) return await resp.json();
-  // fallback: open static page
-  location.href = `books/${id}/index.html`;
-  throw new Error("Redirecting...");
-}
-
-function renderHeader(meta) {
-  $("#book-title").innerHTML = `<strong>${meta.title}</strong> <small>by ${meta.author || "Unknown"}</small>`;
-  $("#book-cover").src = meta.cover || "assets/covers/placeholder.jpg";
-  $("#book-cover").alt = meta.title + " cover";
-  $("#book-blurb").textContent = meta.blurb || "";
-}
-
-function renderTOC(meta) {
-  const toc = $("#toc");
-  toc.innerHTML = "";
-  meta.chapters.forEach((ch, i) => {
-    const a = document.createElement("a");
-    a.href = `#c=${i+1}`;
-    const free = i < (meta.freeUntil ?? 0);
-    const unlocked = isUnlocked(meta.id, ch.id);
-    a.textContent = `${ch.id}. ${ch.title}${free || unlocked ? "" : " 🔒"}`;
-    a.addEventListener("click", (ev) => {
-      ev.preventDefault();
-      goTo(i);
-    });
-    toc.appendChild(a);
+function readJSON(path){
+  return fetch(path, {cache:'no-store'}).then(r=>{
+    if(!r.ok) throw new Error('Failed load '+path+' (status '+r.status+')');
+    return r.json();
   });
 }
 
-function renderChapter(meta, idx) {
-  const wrap = $("#content");
-  const ch = meta.chapters[idx];
-  wrap.innerHTML = "";
-  const free = idx < (meta.freeUntil ?? 0);
-  const unlocked = isUnlocked(meta.id, ch.id);
+function loadBook(){
+  const parts = location.pathname.split('/');
+  // expecting /books/<book-id>/book.html
+  const bookId = parts[parts.length - 2];
+  const metaPath = `${REPO_PREFIX}books/${bookId}/book.json`;
 
-  const sec = document.createElement("section");
-  sec.className = "chapter";
-  sec.innerHTML = `
-    <h2>${ch.id}. ${ch.title}</h2>
-    ${free || unlocked
-      ? `<div class="text">${paragraphize(ch.text)}</div>`
-      : `
-        <p class="meta"><em>This chapter is locked. Unlock with coins.</em></p>
-        <button type="button" id="unlock-btn">Unlock (30 coins)</button>
-      `
+  const loading = document.getElementById('loading');
+  readJSON(metaPath).then(book=>{
+    document.getElementById('bookTitle').textContent = book.title + ' — ' + book.author;
+    loading?.remove();
+    renderChapters(book, bookId);
+  }).catch(err=>{
+    console.error(err);
+    if(loading) loading.innerHTML = `Failed to load book metadata: ${err.message}`;
+  });
+
+  document.getElementById('coinBadge2')?.textContent = (window.getCoins ? getCoins() : 0);
+  document.getElementById('buyBtn2')?.addEventListener('click', ()=>window.openBuyModal && window.openBuyModal());
+}
+
+function renderChapters(book, bookId){
+  const container = document.getElementById('chapters');
+  if(!container) return;
+  container.innerHTML = '';
+
+  const unlocked = (localStorage.getItem(`fenwa:unlocked:${bookId}`) || '[]');
+  let unlockedList = [];
+  try { unlockedList = JSON.parse(unlocked).map(Number); } catch(e){ unlockedList = []; }
+
+  book.chapters.forEach(ch=>{
+    const sec = document.createElement('section');
+    sec.className = 'chapter';
+    sec.id = 'ch' + ch.id;
+
+    const h = document.createElement('h2');
+    h.textContent = `Chapter ${ch.id}`;
+    sec.appendChild(h);
+
+    const content = document.createElement('div');
+    content.className = 'content';
+    content.innerHTML = '<p class="small">Loading preview…</p>';
+    sec.appendChild(content);
+
+    if(!FREE_CHAPTERS_SET.has(ch.id) && !unlockedList.includes(ch.id)){
+      const cta = document.createElement('div');
+      cta.style.display='flex';
+      cta.style.justifyContent='space-between';
+      cta.style.alignItems='center';
+      cta.style.marginTop='8px';
+      cta.innerHTML = `<div class="small">Locked — unlock to read full chapter</div>
+        <div><button class="btn" data-ch="${ch.id}">Unlock (${DEFAULT_PRICE} TatiCoin)</button></div>`;
+      sec.appendChild(cta);
+      cta.querySelector('button')?.addEventListener('click', ()=>unlockChapter(book.id, ch.id, DEFAULT_PRICE));
     }
-  `;
-  wrap.appendChild(sec);
 
-  if (!free && !unlocked) {
-    $("#unlock-btn")?.addEventListener("click", () => {
-      const ok = unlockChapter(meta.id, ch.id, 30);
-      if (ok) renderChapter(meta, idx);
+    container.appendChild(sec);
+
+    // fetch the chapter file
+    const chapterPath = `${REPO_PREFIX}books/${book.id}/${ch.file}`;
+    fetch(chapterPath).then(r=>r.text()).then(html=>{
+      const parser = new DOMParser();
+      const doc = parser.parseFromString(html, 'text/html');
+      const body = doc.querySelector('body') || doc;
+      const paragraphs = Array.from(body.querySelectorAll('p'));
+      const previewHtml = paragraphs.slice(0,2).map(p=>p.outerHTML).join('\n') || body.innerHTML.slice(0,400);
+
+      if(FREE_CHAPTERS_SET.has(ch.id) || unlockedList.includes(ch.id)){
+        content.innerHTML = body.innerHTML;
+        addNext(content, ch.id);
+      } else {
+        content.innerHTML = previewHtml + `<p class="small dim">... preview only</p>`;
+      }
+    }).catch(err=>{
+      console.error('chapter load failed', err);
+      content.innerHTML = '<p class="small">Failed to load chapter (check path).</p>';
     });
+  });
+
+  setWatermark();
+}
+
+function addNext(contentEl, currId){
+  if(contentEl.querySelector('.next-footer')) return;
+  const footer = document.createElement('div');
+  footer.className = 'next-footer';
+  footer.innerHTML = `<button class="btn" data-next="${currId+1}">Next Chapter →</button>`;
+  contentEl.appendChild(footer);
+  footer.querySelector('button')?.addEventListener('click', ()=>nextChapter(currId));
+}
+
+function unlockChapter(bookId, chapterId, price){
+  if(typeof window.spendCoins === 'function'){
+    const ok = window.spendCoins(price);
+    if(!ok){ alert('Not enough coins — buy more.'); window.openBuyModal && window.openBuyModal(); return; }
+  } else {
+    // fallback local spend
+    const cur = parseInt(localStorage.getItem('fenwa:coins') || '0',10) || 0;
+    if(cur < price){ alert('Not enough coins.'); window.openBuyModal && window.openBuyModal(); return; }
+    localStorage.setItem('fenwa:coins', String(cur - price));
   }
 
-  $("#prev").disabled = idx === 0;
-  $("#next").disabled = idx === meta.chapters.length - 1;
+  const key = `fenwa:unlocked:${bookId}`;
+  const list = JSON.parse(localStorage.getItem(key) || '[]');
+  if(!list.includes(chapterId)) list.push(chapterId);
+  localStorage.setItem(key, JSON.stringify(list));
+  // now reveal the chapter content
+  const sec = document.getElementById('ch' + chapterId);
+  if(!sec) return;
+  fetch(`/books/${bookId}/chapter-${chapterId}.html`).then(r=>r.text()).then(html=>{
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(html,'text/html');
+    const body = doc.querySelector('body') || doc;
+    const contentEl = sec.querySelector('.content');
+    contentEl.innerHTML = body.innerHTML;
+    addNext(contentEl, chapterId);
+    document.getElementById('coinBadge2') && (document.getElementById('coinBadge2').textContent = (window.getCoins?getCoins():localStorage.getItem('fenwa:coins')));
+  });
 }
 
-function paragraphize(text) {
-  return (text || "").trim().split(/\n{2,}/).map(p =>
-    `<p>${p.replace(/\n/g, "<br>")}</p>`).join("\n");
-}
-
-function goTo(idx) {
-  state.index = Math.max(0, Math.min(idx, state.meta.chapters.length - 1));
-  renderChapter(state.meta, state.index);
-  history.replaceState(null, "", `?book=${bookId}#c=${state.index+1}`);
-}
-
-function readHashIndex() {
-  const m = (location.hash || "").match(/#c=(\d+)/);
-  return m ? Math.max(1, parseInt(m[1], 10)) - 1 : 0;
-}
-
-async function main() {
-  try {
-    const meta = await loadBook(bookId);
-    state.meta = meta;
-    renderHeader(meta);
-    renderTOC(meta);
-    state.index = readHashIndex();
-    goTo(state.index);
-    $("#prev").addEventListener("click", () => goTo(state.index - 1));
-    $("#next").addEventListener("click", () => goTo(state.index + 1));
-  } catch (e) {
-    console.error(e);
+window.nextChapter = function(currId){
+  const next = currId + 1;
+  const sec = document.getElementById('ch' + next);
+  if(!sec){ alert('No next chapter.'); return; }
+  const bookId = location.pathname.split('/').slice(-2,-1)[0];
+  const unlocked = JSON.parse(localStorage.getItem(`fenwa:unlocked:${bookId}`) || '[]').map(Number);
+  if(FREE_CHAPTERS_SET.has(next) || unlocked.includes(next)){
+    sec.scrollIntoView({behavior:'smooth', block:'start'});
+    return;
   }
+  unlockChapter(bookId, next, DEFAULT_PRICE);
+};
+
+function setWatermark(){
+  const el = document.getElementById('tati-watermark');
+  if(!el) return;
+  const user = localStorage.getItem('fenwa:user-name') || 'Fenwa';
+  el.textContent = `Fenwa — ${user} — ${new Date().toLocaleString()}`;
 }
 
-document.addEventListener("DOMContentLoaded", main);    console.error(e);
-  }
-}
-
-document.addEventListener("DOMContentLoaded", main);
+document.addEventListener('DOMContentLoaded', loadBook);
