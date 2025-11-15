@@ -3,11 +3,13 @@
   "title": "Testimony: The Irony of Destiny",
   "author": "Ajibade Vincent Adefenwa",
   "chapters": [
-    {"id":1,"file":"chapter-1.html","title":"Innocence in Osogbo"},
-    {"id":2,"file":"chapter-2.html","title":"The Weekend of Temptation"},
-    {"id":3,"file":"chapter-3.html","title":"When Love Turns Into Promise"},
-    {"id":4,"file":"chapter-4.html","title":"The Empty Side of Love"},
-    {"id":5,"file":"chapter-5.html","title":"The Man from Kogi"}
-    /* add the rest */
+    {"id":1,"file":"chapter-1.html"},
+    {"id":2,"file":"chapter-2.html"},
+    {"id":3,"file":"chapter-3.html"},
+    {"id":4,"file":"chapter-4.html"},
+    {"id":5,"file":"chapter-5.html"},
+    {"id":6,"file":"chapter-6.html"},
+    {"id":7,"file":"chapter-7.html"},
+    {"id":8,"file":"chapter-8.html"}
   ]
 }
