@@ -83,3 +83,95 @@ document.addEventListener('DOMContentLoaded', ()=>{
   document.getElementById('buyBtn')?.addEventListener('click', openBuyModal);
   document.getElementById('buyModal')?.addEventListener('click', (e)=>{ if(e.target === e.currentTarget) closeBuyModal(); });
 });
+
+/* ===== Modal safety & handlers - paste at end of assets/js/global.js ===== */
+(function(){
+  // safe refs
+  const modal = document.getElementById('buyModal');
+  const closeBtn = document.getElementById('closeBuyModalBtn');
+  const packs = modal ? modal.querySelectorAll('.pack') : [];
+  const redeemBtn = document.getElementById('redeemBtn');
+
+  // make sure modal is hidden on load
+  if(modal){ modal.hidden = true; modal.style.display = 'none'; }
+
+  function showModal(){
+    if(!modal) return;
+    modal.hidden = false;
+    modal.style.display = 'flex';
+    // prevent background scroll while modal open
+    document.documentElement.style.overflow = 'hidden';
+    document.body.style.overflow = 'hidden';
+  }
+  function hideModal(){
+    if(!modal) return;
+    modal.hidden = true;
+    modal.style.display = 'none';
+    document.documentElement.style.overflow = '';
+    document.body.style.overflow = '';
+  }
+
+  // attach to global functions used elsewhere
+  window.openBuyModal = showModal;
+  window.closeBuyModal = hideModal;
+
+  // close button
+  if(closeBtn) closeBtn.addEventListener('click', hideModal);
+
+  // click outside to close
+  if(modal){
+    modal.addEventListener('click', function(e){
+      if(e.target === modal) hideModal();
+    });
+  }
+
+  // ESC to close
+  document.addEventListener('keydown', function(e){
+    if(e.key === 'Escape') hideModal();
+  });
+
+  // coin packs -> demo add or paystack
+  packs.forEach(btn => {
+    btn.addEventListener('click', function(){
+      const coins = Number(this.dataset.coins || 0);
+      const kobo = Number(this.dataset.kobo || 0);
+      // if PAYSTACK_PUBLIC_KEY is empty -> demo
+      if(typeof PAYSTACK_PUBLIC_KEY === 'undefined' || !PAYSTACK_PUBLIC_KEY){
+        if(confirm(`Demo mode — add ${coins} coins locally?`)){
+          addCoins(coins);
+          hideModal();
+        }
+        return;
+      }
+      // else call buyCoins(pack) function if available
+      if(typeof buyCoins === 'function'){
+        buyCoins(coins, `${coins} Coins`, kobo);
+      } else {
+        // fallback
+        alert('Payment not configured. Demo fallback will add coins.');
+        addCoins(coins);
+        hideModal();
+      }
+    });
+  });
+
+  // redeem voucher
+  if(redeemBtn){
+    redeemBtn.addEventListener('click', function(){
+      const code = (document.getElementById('voucherInput')?.value || '').trim().toUpperCase();
+      if(!code) return alert('Enter voucher code.');
+      // demo voucher map - keep in sync with your other code
+      const demo = { FENWA100:100, WELCOME50:50, BLESSED150:150 };
+      const amount = demo[code];
+      if(!amount) return alert('Invalid voucher code.');
+      addCoins(amount);
+      alert(`🎉 Voucher applied: +${amount} coins`);
+      document.getElementById('voucherInput').value = '';
+      hideModal();
+    });
+  }
+
+  // defensive: prevent auto-open unless function calls openBuyModal()
+  // (if your old code calls openBuyModal() on load, remove that call)
+  // we ensure modal stays hidden until user clicks "Buy Coins"
+})();
