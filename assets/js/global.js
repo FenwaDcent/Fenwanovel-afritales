@@ -30,24 +30,30 @@ window.toggleTheme = toggleTheme;
 function getCoins(){ return parseInt(localStorage.getItem(LS_COINS) || String(STARTER_COINS),10) || 0; }
 function setCoins(n){
   localStorage.setItem(LS_COINS, String(n));
+  // update all coin indicators
   document.querySelectorAll('.coin-amount, #coinBadge, #coinBadge2').forEach(el => { if(el) el.textContent = n; });
 }
 function addCoins(n){ setCoins(getCoins() + Number(n)); alert(`✅ Added ${n} coins`); }
 function spendCoins(n){ const bal = getCoins(); if(bal < n) return false; setCoins(bal - n); return true; }
 window.getCoins = getCoins; window.setCoins = setCoins; window.addCoins = addCoins; window.spendCoins = spendCoins;
 
-// ---------- Buy modal ----------
-function openBuyModal(){ const m = document.getElementById('buyModal'); if(m) m.hidden = false; }
-function closeBuyModal(){ const m = document.getElementById('buyModal'); if(m) m.hidden = true; }
+// ---------- Buy modal (simple open/close - safe) ----------
+function openBuyModal(){ const m = document.getElementById('buyModal'); if(m){ m.hidden = false; m.style.display='flex'; document.body.style.overflow='hidden'; } }
+function closeBuyModal(){ const m = document.getElementById('buyModal'); if(m){ m.hidden = true; m.style.display='none'; document.body.style.overflow=''; } }
 window.openBuyModal = openBuyModal; window.closeBuyModal = closeBuyModal;
 
 // ---------- Payment / Demo ----------
 function buyCoins(packCoins, label, amountKobo=0){
+  // Demo fallback if no public key set
   if(!PAYSTACK_PUBLIC_KEY){
     if(confirm(`Demo mode — add ${packCoins} coins locally?`)){ addCoins(packCoins); closeBuyModal(); }
     return;
   }
-  // Paystack inline checkout (scaffold). Server verification required in production.
+  // If you add a Paystack key, this will attempt inline checkout.
+  if(typeof PaystackPop === 'undefined'){
+    alert('Payment library not loaded (Paystack inline). Demo will add coins instead.');
+    addCoins(packCoins); closeBuyModal(); return;
+  }
   const handler = PaystackPop.setup({
     key: PAYSTACK_PUBLIC_KEY,
     email: localStorage.getItem('fenwa:user-email') || 'buyer@example.com',
@@ -70,88 +76,65 @@ const VOUCHERS = { "FENWA100":100, "WELCOME50":50, "BLESSED150":150 };
 function redeemVoucher(code){
   const c = (code || document.getElementById('voucherInput')?.value || '').trim().toUpperCase();
   if(!c) return alert('Enter voucher code.');
-  const amount = VOUCHERS[c]; if(!amount) return alert('Invalid or used voucher.');
-  addCoins(amount); alert(`🎉 Voucher applied: +${amount} coins`); if(document.getElementById('voucherInput')) document.getElementById('voucherInput').value = '';
+  const amount = VOUCHERS[c];
+  if(!amount) return alert('Invalid or used voucher.');
+  addCoins(amount);
+  if(document.getElementById('voucherInput')) document.getElementById('voucherInput').value = '';
 }
 window.redeemVoucher = redeemVoucher;
 
-// ---------- Init ----------
-document.addEventListener('DOMContentLoaded', ()=>{
+// ---------- DOM READY: install modal listeners safely ----------
+document.addEventListener('DOMContentLoaded', () => {
+  // give starter coins if none exist
   if(!localStorage.getItem(LS_COINS)) localStorage.setItem(LS_COINS, String(STARTER_COINS));
   setCoins(getCoins());
-  initTheme();
-  document.getElementById('buyBtn')?.addEventListener('click', openBuyModal);
-  document.getElementById('buyModal')?.addEventListener('click', (e)=>{ if(e.target === e.currentTarget) closeBuyModal(); });
-});
 
-/* ===== Modal safety & handlers - replace previous IIFE with this (ensures DOM ready) ===== */
-document.addEventListener('DOMContentLoaded', () => {
-  // query modal AFTER DOM is ready
+  // theme init
+  initTheme();
+
+  // button hooks
+  document.getElementById('buyBtn')?.addEventListener('click', openBuyModal);
+  document.getElementById('buyBtn2')?.addEventListener('click', openBuyModal); // reader header buy button (if present)
+
+  // modal safe wiring
   const modal = document.getElementById('buyModal');
   const closeBtn = document.getElementById('closeBuyModalBtn');
   const packs = modal ? Array.from(modal.querySelectorAll('.pack')) : [];
   const redeemBtn = document.getElementById('redeemBtn');
 
-  // ensure modal hidden on load
-  if (modal) { modal.hidden = true; modal.style.display = 'none'; }
-
-  function showModal(){
-    if(!modal) return;
-    modal.hidden = false;
-    modal.style.display = 'flex';
-    document.documentElement.style.overflow = 'hidden';
-    document.body.style.overflow = 'hidden';
-  }
-  function hideModal(){
-    if(!modal) return;
-    modal.hidden = true;
-    modal.style.display = 'none';
-    document.documentElement.style.overflow = '';
-    document.body.style.overflow = '';
-  }
-
-  // attach to global functions used elsewhere (overrides earlier openBuyModal/closeBuyModal safely)
-  window.openBuyModal = showModal;
-  window.closeBuyModal = hideModal;
+  if(modal){ modal.hidden = true; modal.style.display = 'none'; }
 
   // close button
-  if (closeBtn) closeBtn.addEventListener('click', hideModal);
+  if (closeBtn) closeBtn.addEventListener('click', () => { closeBuyModal(); });
 
   // click outside to close
   if (modal){
     modal.addEventListener('click', (e) => {
-      if (e.target === modal) hideModal();
+      if (e.target === modal) closeBuyModal();
     });
   }
 
   // ESC to close
   document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') hideModal();
+    if (e.key === 'Escape') closeBuyModal();
   });
 
-  // coin pack buttons
+  // packs: data-coins and data-kobo attributes used
   packs.forEach(btn => {
     btn.addEventListener('click', function(){
       const coins = Number(this.dataset.coins || 0);
       const kobo = Number(this.dataset.kobo || 0);
       if(!PAYSTACK_PUBLIC_KEY){
-        if(confirm(`Demo mode — add ${coins} coins locally?`)){
-          addCoins(coins);
-          hideModal();
-        }
+        if(confirm(`Demo mode — add ${coins} coins locally?`)){ addCoins(coins); closeBuyModal(); }
         return;
       }
-      if(typeof buyCoins === 'function'){
-        buyCoins(coins, `${coins} Coins`, kobo);
-      } else {
-        addCoins(coins); hideModal();
-      }
+      buyCoins(coins, `${coins} Coins`, kobo);
     });
   });
 
-  // redeem voucher button
-  if (redeemBtn){
-    redeemBtn.addEventListener('click', () => {
+  // redeem button
+  if(redeemBtn){
+    redeemBtn.addEventListener('click', function(){
       const code = (document.getElementById('voucherInput')?.value || '').trim().toUpperCase();
       if(!code) return alert('Enter voucher code.');
       const demo = { FENWA100:100, WELCOME50:50, BLESSED150:150 };
@@ -160,9 +143,7 @@ document.addEventListener('DOMContentLoaded', () => {
       addCoins(amount);
       alert(`🎉 Voucher applied: +${amount} coins`);
       document.getElementById('voucherInput').value = '';
-      hideModal();
+      closeBuyModal();
     });
   }
-
-  // defensive: ensure we don't auto-open modal. If some other script auto-opens, find/remove it.
 });
