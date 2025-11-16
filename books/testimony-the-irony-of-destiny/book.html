@@ -78,3 +78,26 @@
   </script>
 </body>
 </html>
+
+<!-- debug helper: shows fetch status on the page for mobile browsers -->
+<div id="fetch-debug" style="color:#ddd;padding:18px;text-align:center;font-size:15px;"></div>
+<script>
+(function(){
+  const out = id => document.getElementById('fetch-debug').innerHTML += '<div>'+id+'</div>';
+  const base = window.location.origin || (location.protocol + '//' + location.host);
+  const bookJson = '/books/testimony-the-irony-of-destiny/book.json';
+  out('Checking paths...');
+  fetch(bookJson, {cache:'no-store'}).then(r=>{
+    out('book.json -> status: ' + r.status);
+    return fetch('/books/testimony-the-irony-of-destiny/chapter-1.html', {cache:'no-store'});
+  }).then(r=>{
+    out('chapter-1.html -> status: ' + r.status);
+    return fetch('/assets/js/reader.js', {cache:'no-store'});
+  }).then(r=>{
+    out('assets/js/reader.js -> status: ' + r.status);
+  }).catch(e=>{
+    out('Fetch error: ' + (e && e.message ? e.message : String(e)));
+    console.error(e);
+  });
+})();
+</script>
