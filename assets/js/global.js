@@ -45,7 +45,7 @@ window.openBuyModal = openBuyModal; window.closeBuyModal = closeBuyModal;
 // ---------- Payment / Demo ----------
 function buyCoins(packCoins, label, amountKobo=0){
   // Demo fallback if no public key set
-  if(!PAYSTACK_PUBLIC_KEY){
+  if(const PAYSTACK_PUBLIC_KEY = "pk_test_6101933f805191dca00fe4...";){
     if(confirm(`Demo mode — add ${packCoins} coins locally?`)){ addCoins(packCoins); closeBuyModal(); }
     return;
   }
