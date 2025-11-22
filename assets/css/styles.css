@@ -74,3 +74,10 @@ a{color:inherit;text-decoration:none}
 .chapter h2 { color: #000 !important; }
 /* hide fetch-debug in production */
 #fetch-debug { display: none !important; }
+
+:root { --card-text: #111; }
+
+/* ensure white card text is dark even in dark mode */
+.chapter { color: var(--card-text); }
+.chapter p, .chapter blockquote, .chapter .small { color: #222; }
+.chapter h2 { color: #000; }
