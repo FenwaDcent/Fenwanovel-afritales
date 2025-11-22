@@ -8,13 +8,14 @@
   <style>
     .reader-header{display:flex;align-items:center;gap:12px;padding:12px;border-bottom:1px solid rgba(0,0,0,0.08);background:var(--bg)}
     .chapters{padding:18px;max-width:900px;margin:0 auto}
-    .chapter{background:linear-gradient(180deg,#fff,#fbfbfb);padding:16px;border-radius:12px;margin:14px 0;box-shadow:0 6px 18px rgba(0,0,0,0.06)}
+    .chapter{background:linear-gradient(180deg,#fff,#fbfbfb);padding:16px;border-radius:12px;margin:14px 0;box-shadow:0 6px 18px rgba(0,0,0,0.06); color:#111}
     .chapter h2{margin:0 0 8px}
     .small{font-size:13px;color:var(--muted)}
     .next-footer{margin-top:12px;text-align:right}
     .watermark{position:fixed;bottom:8px;right:10px;opacity:0.12;pointer-events:none;font-weight:700}
     .loading-msg{padding:20px;text-align:center;color:var(--muted)}
-    #fetch-debug { color: var(--muted); padding:12px; text-align:center; font-size:14px; }
+    a.back-link{margin-right:8px;color:var(--muted)}
+    #fetch-debug { color: var(--muted); padding:12px; text-align:center; font-size:14px; display:none; }
   </style>
 </head>
 <body>
@@ -23,7 +24,6 @@
       <a class="back-link" href="/index.html">← Back</a>
       <div id="bookTitle" style="font-weight:700">Loading…</div>
     </div>
-
     <div class="header-right">
       <div class="coin">💰 <span id="coinBadge2">0</span></div>
       <button id="buyBtn2" class="btn">Buy</button>
@@ -41,7 +41,7 @@
       <h3>Buy Coins</h3>
       <p>Choose a coin pack or redeem a voucher.</p>
       <div class="coins-grid">
-        <button class="pack btn" data-coins="50" data-kobo="50000">+50 Coins (₦500)</button>
+        <button class="pack btn" data-coins="50"  data-kobo="50000">+50 Coins (₦500)</button>
         <button class="pack btn" data-coins="150" data-kobo="120000">+150 Coins (₦1,200)</button>
         <button class="pack btn" data-coins="300" data-kobo="200000">+300 Coins (₦2,000)</button>
       </div>
@@ -51,25 +51,47 @@
         <button id="redeemBtn" class="btn">Redeem</button>
       </label>
       <p class="small muted" style="margin-top:12px">
-        Demo mode: packs add coins locally unless you paste your Paystack public key in <code>/assets/js/global.js</code>.
+        Demo mode: packs add coins locally unless you paste your Paystack public key in <code>assets/js/global.js</code>.
       </p>
     </div>
   </div>
 
   <div id="tati-watermark" class="watermark" aria-hidden="true"></div>
 
+  <!-- load global and reader (absolute paths) -->
   <script src="/assets/js/global.js"></script>
   <script src="/assets/js/reader.js"></script>
 
-  <div id="fetch-debug"></div>
   <script>
-    // helpful hint if book.json or chapters missing
+    // if still showing "Loading…" after 3s show helpful hint
     setTimeout(()=>{
       const loading = document.getElementById('loading');
       if(loading && loading.innerText.includes('Loading')){
         loading.innerHTML = 'Still loading — ensure <code>/books/testimony-the-irony-of-destiny/book.json</code> and chapter files exist on the server.';
       }
-    }, 2500);
+    }, 3000);
+  </script>
+
+  <!-- debug helper (hidden by default) -->
+  <div id="fetch-debug"></div>
+  <script>
+    (function(){
+      const out = txt => document.getElementById('fetch-debug').innerHTML += '<div>'+txt+'</div>';
+      const bookJson = '/books/testimony-the-irony-of-destiny/book.json';
+      out('Checking paths...');
+      fetch(bookJson, {cache:'no-store'}).then(r=>{
+        out('book.json -> status: ' + r.status);
+        return fetch('/books/testimony-the-irony-of-destiny/chapter-1.html', {cache:'no-store'});
+      }).then(r=>{
+        out('chapter-1.html -> status: ' + r.status);
+        return fetch('/assets/js/reader.js', {cache:'no-store'});
+      }).then(r=>{
+        out('assets/js/reader.js -> status: ' + r.status);
+      }).catch(e=>{
+        out('Fetch error: ' + (e && e.message ? e.message : String(e)));
+        console.error(e);
+      });
+    })();
   </script>
 </body>
 </html>
