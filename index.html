@@ -4,28 +4,29 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Fenwanovels – AfriTales</title>
-  <link rel="stylesheet" href="/assets/css/styles.css">
+  <link rel="stylesheet" href="/Fenwanovel-afritales/assets/css/styles.css">
 </head>
 <body>
   <header class="site-header">
-    <a class="brand" href="/">Fenwanovels — AfriTales</a>
+    <a class="brand" href="/Fenwanovel-afritales/index.html">Fenwanovels — AfriTales</a>
     <div class="header-right">
       <div class="coin">💰 <span id="coinBadge">0</span></div>
       <button id="buyBtn" class="btn">Buy Coins</button>
       <button id="themeToggle" class="btn ghost" onclick="toggleTheme()"><span id="themeText">🌙 Dark</span></button>
-      <a class="btn ghost" href="/login.html">Login</a>
+      <a class="btn ghost" href="/Fenwanovel-afritales/login.html">Login</a>
     </div>
   </header>
 
   <main class="container">
     <section class="book-list">
       <article class="book-card">
-        <img src="/covers/testimony-the-irony-of-destiny.jpg" alt="Testimony cover" class="cover">
+        <img src="/Fenwanovel-afritales/assets/covers/testimony-the-irony-of-destiny.jpg" alt="Testimony cover" class="cover">
         <div>
           <h2>Testimony: The Irony of Destiny</h2>
           <p class="muted">Written by Ajibade Vincent Adefenwa • Inspirational Fiction</p>
           <div class="actions">
-            <a class="btn" href="/books/testimony-the-irony-of-destiny/book.html">Read</a>
+            <!-- link to the book reader using the correct repo prefix -->
+            <a class="btn" href="/Fenwanovel-afritales/books/testimony-the-irony-of-destiny/book.html">Read</a>
             <a class="btn ghost" href="mailto:vfenwa100@gmail.com">Contact</a>
           </div>
         </div>
@@ -33,32 +34,7 @@
     </section>
   </main>
 
-  <!-- Buy Coins Modal (shared) -->
-  <div id="buyModal" class="modal" hidden>
-    <div class="modal-card" role="dialog" aria-modal="true" aria-label="Buy Coins">
-      <button class="modal-close" id="closeBuyModalBtn" aria-label="Close modal">✕</button>
-      <h3>Buy Coins</h3>
-      <p>Choose a coin pack or redeem a voucher.</p>
-
-      <div class="coins-grid">
-        <button class="pack btn" data-coins="50" data-kobo="50000">+50 Coins (₦500)</button>
-        <button class="pack btn" data-coins="150" data-kobo="120000">+150 Coins (₦1,200)</button>
-        <button class="pack btn" data-coins="300" data-kobo="200000">+300 Coins (₦2,000)</button>
-      </div>
-
-      <div style="text-align:center;margin:8px 0">or</div>
-
-      <label style="display:flex;gap:8px;align-items:center;margin-top:8px">
-        <input id="voucherInput" placeholder="Enter code e.g. FENWA100" style="flex:1;padding:10px;border-radius:8px;border:1px solid rgba(0,0,0,0.08);" />
-        <button id="redeemBtn" class="btn">Redeem</button>
-      </label>
-
-      <p class="small muted" style="margin-top:12px">
-        Demo mode: packs add coins locally unless you paste your Paystack public key in <code>/assets/js/global.js</code>.
-      </p>
-    </div>
-  </div>
-
-  <script src="/assets/js/global.js"></script>
+  <!-- buy modal & other markup are optional; we rely on your assets/js/global.js -->
+  <script src="/Fenwanovel-afritales/assets/js/global.js"></script>
 </body>
 </html>
