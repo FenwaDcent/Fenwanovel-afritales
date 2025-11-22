@@ -4,7 +4,7 @@
 */
 
 const READER_DEBUG = false;         // set true during troubleshooting
-const REPO_PREFIX = '';             // MUST be empty on your deployed domain ('' or '/')
+const REPO_PREFIX = '/Fenwanovel-afritales/'; a             // MUST be empty on your deployed domain ('' or '/')
 const FREE_CHAPTERS_SET = new Set([1,2,3,4,5,6]);
 const DEFAULT_PRICE = 30;
 const LS_UNLOCK = 'fenwa:unlocked'; // stored as fenwa:unlocked:<bookId>
