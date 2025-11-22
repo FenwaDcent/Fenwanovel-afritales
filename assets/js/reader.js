@@ -1,18 +1,17 @@
 /* assets/js/reader.js
-   Reader core (ready-to-paste). Adjusts REPO_PREFIX to your GitHub Pages layout.
+   Clean, production-ready reader loader.
+   IMPORTANT: keep REPO_PREFIX = '' for files served at site root
 */
 
-const REPO_PREFIX = '/Fenwanovel-afritales/'; // <-- important: your files are served under this prefix
+const READER_DEBUG = false;         // set true during troubleshooting
+const REPO_PREFIX = '';             // MUST be empty on your deployed domain ('' or '/')
 const FREE_CHAPTERS_SET = new Set([1,2,3,4,5,6]);
 const DEFAULT_PRICE = 30;
-const LS_UNLOCK = 'fenwa:unlocked'; // usage: fenwa:unlocked:<bookId>
-
-// DEBUG: set to true if you want the fetch-debug on screen while troubleshooting
-const READER_DEBUG = false;
+const LS_UNLOCK = 'fenwa:unlocked'; // stored as fenwa:unlocked:<bookId>
 
 function dbg(msg){
   if(!READER_DEBUG) return;
-  try { const el = document.getElementById('fetch-debug'); if(el) el.innerHTML += '<div>' + String(msg) + '</div>'; } catch(e){}
+  try { const el = document.getElementById('fetch-debug'); if(el) el.innerHTML += '<div>'+String(msg)+'</div>'; } catch(e){}
   try { console.log('[reader]', msg); } catch(e){}
 }
 
@@ -28,7 +27,7 @@ function getCoinsLocal(){
 }
 function updateCoinBadges(){
   const b = getCoinsLocal();
-  document.querySelectorAll('#coinBadge,#coinBadge2,.coin-amount').forEach(el => { if(el) el.textContent = b; });
+  document.querySelectorAll('#coinBadge,#coinBadge2,.coin-amount').forEach(el=>{ if(el) el.textContent = b; });
 }
 
 function getUnlocked(bookId){
@@ -50,7 +49,7 @@ async function revealChapter(bookId, chId){
   try {
     const meta = await readJSON(REPO_PREFIX + 'books/' + bookId + '/book.json');
     const ch = meta.chapters.find(c => Number(c.id) === Number(chId));
-    if(!ch){ dbg('revealChapter: not found ' + chId); return; }
+    if(!ch){ dbg('revealChapter: chapter not found in book.json -> ' + chId); return; }
     const path = REPO_PREFIX + 'books/' + bookId + '/' + ch.file;
     const r = await fetch(path, {cache:'no-store'});
     if(!r.ok){ dbg('revealChapter: fetch failed ' + path + ' status ' + r.status); return; }
@@ -59,7 +58,7 @@ async function revealChapter(bookId, chId){
     const doc = parser.parseFromString(html, 'text/html');
     const body = doc.querySelector('body') || doc;
     const sec = document.getElementById('ch' + chId);
-    if(!sec){ dbg('revealChapter: section element missing for ch' + chId); return; }
+    if(!sec){ dbg('revealChapter: missing section ch' + chId); return; }
     const contentEl = sec.querySelector('.content');
     contentEl.innerHTML = body.innerHTML;
     attachNextFooter(contentEl, Number(chId));
@@ -74,18 +73,25 @@ window.unlockChapter = function(bookId, chapterId, price){
   try {
     price = Number(price || DEFAULT_PRICE);
     if(isUnlocked(bookId, chapterId)){ alert('✔ Already unlocked'); return true; }
+
     if(typeof window.spendCoins === 'function'){
       const ok = window.spendCoins(price);
-      if(!ok){ alert('Not enough TatiCoin — buy more.'); if(typeof window.openBuyModal==='function') window.openBuyModal(); return false; }
+      if(!ok){ alert('Not enough coins — please top up.'); if(typeof window.openBuyModal==='function') window.openBuyModal(); return false; }
     } else {
       const bal = getCoinsLocal();
-      if(bal < price){ alert('Not enough TatiCoin — buy more.'); if(typeof window.openBuyModal==='function') window.openBuyModal(); return false; }
+      if(bal < price){ alert('Not enough coins — please top up.'); if(typeof window.openBuyModal==='function') window.openBuyModal(); return false; }
       localStorage.setItem('fenwa:coins', String(bal - price));
       updateCoinBadges();
     }
-    const list = getUnlocked(bookId); list.push(Number(chapterId)); setUnlocked(bookId, list);
+
+    const list = getUnlocked(bookId);
+    list.push(Number(chapterId));
+    setUnlocked(bookId, list);
     alert('🔓 Chapter ' + chapterId + ' unlocked!');
-    revealChapter(bookId, chapterId).then(()=> { const sec = document.getElementById('ch' + chapterId); if(sec) sec.scrollIntoView({behavior:'smooth', block:'start'}); });
+    revealChapter(bookId, chapterId).then(()=> {
+      const sec = document.getElementById('ch' + chapterId);
+      if(sec) sec.scrollIntoView({behavior:'smooth', block:'start'});
+    });
     return true;
   } catch(e){
     dbg('unlockChapter error: ' + e.message);
@@ -122,13 +128,17 @@ async function loadBook(){
     const bookId = parts[parts.length - 2];
     if(!bookId) throw new Error('Could not determine book id from path: ' + location.pathname);
     dbg('bookId -> ' + bookId);
+
     const metaPath = REPO_PREFIX + 'books/' + bookId + '/book.json';
     const book = await readJSON(metaPath);
     dbg('book meta loaded: ' + (book.title || book.id || 'unknown'));
-    document.getElementById('bookTitle').textContent = (book.title || 'Untitled') + ' — ' + (book.author || '');
-    updateCoinBadges();
 
+    const titleEl = document.getElementById('bookTitle');
+    if(titleEl) titleEl.textContent = (book.title || 'Untitled') + ' — ' + (book.author || '');
+
+    updateCoinBadges();
     const container = document.getElementById('chapters');
+    if(!container) throw new Error('chapters container not found in DOM');
     container.innerHTML = '';
     const unlocked = getUnlocked(bookId).map(Number);
 
@@ -202,6 +212,4 @@ async function loadBook(){
   }
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-  try { loadBook(); } catch(e){ dbg('DOMContentLoaded wrapper error: ' + e.message); console.error(e); }
-});
+document.addEventListener('DOMContentLoaded', ()=>{ try { loadBook(); } catch(e){ dbg('DOMContentLoaded wrapper error: ' + e.message); console.error(e); } });
