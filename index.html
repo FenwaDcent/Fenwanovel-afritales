@@ -3,29 +3,29 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>FenwaNovel — AfriTales</title>
-  <link rel="stylesheet" href="assets/css/styles.css">
+  <title>Fenwanovels – AfriTales</title>
+  <link rel="stylesheet" href="/assets/css/styles.css">
 </head>
 <body>
   <header class="site-header">
-    <a class="brand" href="./">Fenwanovels — AfriTales</a>
+    <a class="brand" href="/">Fenwanovels — AfriTales</a>
     <div class="header-right">
       <div class="coin">💰 <span id="coinBadge">0</span></div>
       <button id="buyBtn" class="btn">Buy Coins</button>
       <button id="themeToggle" class="btn ghost" onclick="toggleTheme()"><span id="themeText">🌙 Dark</span></button>
-      <a class="btn ghost" href="login.html">Login</a>
+      <a class="btn ghost" href="/login.html">Login</a>
     </div>
   </header>
 
   <main class="container">
     <section class="book-list">
       <article class="book-card">
-        <img src="assets/covers/testimony-the-irony-of-destiny.jpg" alt="Testimony cover" class="cover">
+        <img src="/covers/testimony-the-irony-of-destiny.jpg" alt="Testimony cover" class="cover">
         <div>
           <h2>Testimony: The Irony of Destiny</h2>
           <p class="muted">Written by Ajibade Vincent Adefenwa • Inspirational Fiction</p>
           <div class="actions">
-            <a class="btn" href="books/testimony-the-irony-of-destiny/book.html">Read</a>
+            <a class="btn" href="/books/testimony-the-irony-of-destiny/book.html">Read</a>
             <a class="btn ghost" href="mailto:vfenwa100@gmail.com">Contact</a>
           </div>
         </div>
@@ -33,7 +33,7 @@
     </section>
   </main>
 
-  <!-- BUY COINS MODAL -->
+  <!-- Buy Coins Modal (shared) -->
   <div id="buyModal" class="modal" hidden>
     <div class="modal-card" role="dialog" aria-modal="true" aria-label="Buy Coins">
       <button class="modal-close" id="closeBuyModalBtn" aria-label="Close modal">✕</button>
@@ -54,11 +54,11 @@
       </label>
 
       <p class="small muted" style="margin-top:12px">
-        Demo mode: packs add coins locally unless you paste your Paystack public key in <code>assets/js/global.js</code>.
+        Demo mode: packs add coins locally unless you paste your Paystack public key in <code>/assets/js/global.js</code>.
       </p>
     </div>
   </div>
 
-  <script src="assets/js/global.js"></script>
+  <script src="/assets/js/global.js"></script>
 </body>
 </html>
