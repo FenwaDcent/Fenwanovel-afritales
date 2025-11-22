@@ -1,3 +1,20 @@
+// assets/js/reader.js — top of file
+const REPO_PREFIX = ''; // keep empty when files are served relative to site root
+const FREE_CHAPTERS_SET = new Set([1,2,3,4,5,6]);
+const DEFAULT_PRICE = 30;
+const LS_UNLOCK = 'fenwa:unlocked'; // usage: fenwa:unlocked:<bookId>
+
+// DEBUG flag: set to true while troubleshooting; set to false for production
+const READER_DEBUG = false;
+
+function dbg(msg){
+  if(!READER_DEBUG) return;
+  try {
+    const el = document.getElementById('fetch-debug');
+    if(el) el.innerHTML += '<div>' + String(msg) + '</div>';
+  } catch(e){}
+  try { console.log('[reader]', msg); } catch(e){}
+}
 /* assets/js/reader.js
    Reader core: loads books/{bookId}/book.json, fetches chapters (preview/full),
    handles unlocking with coins, next flow, and watermark.
