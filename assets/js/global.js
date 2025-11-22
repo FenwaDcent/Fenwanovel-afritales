@@ -1,116 +1,94 @@
 /* assets/js/global.js
-   Fenwanovels — Core script
-   Handles: theme, coins, modal, Paystack checkout
+   Site-wide logic: theme toggle, coin store, buy modal, Paystack scaffold
+   Safe and corrected — ready to upload.
 */
 
-/* -------------------------
-   CONFIG
-------------------------- */
+// ---------- Config ----------
 const LS_COINS = "fenwa:coins";
+const LS_UNLOCK_PREFIX = "fenwa:unlocked:"; // per-book if needed (unused here but handy)
 const STARTER_COINS = 85;
 const DEFAULT_CHAPTER_PRICE = 30;
+// Paste your Paystack public key here to enable real checkout. Keep empty for demo mode.
+const PAYSTACK_PUBLIC_KEY = ""; // e.g. "pk_test_XXXXXXXXXXXX"
 
-// ✅ YOUR PAYSTACK PUBLIC KEY (paste it here)
-const PAYSTACK_PUBLIC_KEY = "pk_test_6101933f805191dca00fe4..."; 
-// Replace ONLY this key ↑ with your full Paystack test key.
-
-
-
-/* -------------------------
-   THEME SYSTEM
-------------------------- */
+// ---------- Theme ----------
 function setTheme(theme){
-  document.documentElement.setAttribute("data-theme", theme);
-  localStorage.setItem("fenwa:theme", theme);
-
-  const t = document.getElementById("themeText");
-  if(t){
-    t.textContent = theme === "dark" ? "🌙 Dark" : "☀️ Light";
-  }
+  document.documentElement.setAttribute('data-theme', theme);
+  localStorage.setItem('fenwa:theme', theme);
+  const t = document.getElementById('themeText');
+  if(t) t.textContent = theme === 'dark' ? '🌙 Dark' : '☀️ Light';
 }
-
 function toggleTheme(){
-  const cur = document.documentElement.getAttribute("data-theme") || "dark";
-  setTheme(cur === "dark" ? "light" : "dark");
+  const cur = document.documentElement.getAttribute('data-theme') || 'dark';
+  setTheme(cur === 'dark' ? 'light' : 'dark');
 }
-
 function initTheme(){
-  const saved = localStorage.getItem("fenwa:theme") || "dark";
+  const saved = localStorage.getItem('fenwa:theme') || 'dark';
   setTheme(saved);
 }
-
 window.toggleTheme = toggleTheme;
 
-
-
-/* -------------------------
-   COINS SYSTEM
-------------------------- */
+// ---------- Coins ----------
 function getCoins(){
-  return parseInt(localStorage.getItem(LS_COINS) || String(STARTER_COINS), 10) || 0;
+  const raw = localStorage.getItem(LS_COINS);
+  if(raw == null) return STARTER_COINS;
+  const v = parseInt(raw, 10);
+  return Number.isNaN(v) ? 0 : v;
 }
-
-function setCoins(n){
-  localStorage.setItem(LS_COINS, String(n));
-
-  document.querySelectorAll(".coin-amount, #coinBadge, #coinBadge2").forEach(el=>{
+function updateCoinDisplays(n){
+  document.querySelectorAll('.coin-amount, #coinBadge, #coinBadge2').forEach(el => {
     if(el) el.textContent = n;
   });
 }
-
-function addCoins(n){
-  setCoins(getCoins() + Number(n));
-  alert(`✅ Added ${n} coins`);
+function setCoins(n){
+  const v = Number(n) || 0;
+  localStorage.setItem(LS_COINS, String(v));
+  updateCoinDisplays(v);
 }
-
+function addCoins(n){
+  const amount = Number(n) || 0;
+  setCoins(getCoins() + amount);
+  // small UX feedback
+  try { alert('✅ Added ' + amount + ' TatiCoin'); } catch(e){}
+}
 function spendCoins(n){
+  const price = Number(n) || 0;
   const bal = getCoins();
-  if(bal < n) return false;
-
-  setCoins(bal - n);
+  if(bal < price) return false;
+  setCoins(bal - price);
   return true;
 }
-
 window.getCoins = getCoins;
 window.setCoins = setCoins;
 window.addCoins = addCoins;
 window.spendCoins = spendCoins;
 
-
-
-/* -------------------------
-   MODAL SYSTEM
-------------------------- */
+// ---------- Buy modal (open / close safe) ----------
 function openBuyModal(){
-  const m = document.getElementById("buyModal");
-  if(!m) return;
-
-  m.hidden = false;
-  m.style.display = "flex";
-
-  document.body.style.overflow = "hidden";
+  const m = document.getElementById('buyModal');
+  if(m){
+    m.hidden = false;
+    m.style.display = 'flex';
+    // prevent background scrolling
+    document.documentElement.style.overflow = 'hidden';
+    document.body.style.overflow = 'hidden';
+  }
 }
-
 function closeBuyModal(){
-  const m = document.getElementById("buyModal");
-  if(!m) return;
-
-  m.hidden = true;
-  m.style.display = "none";
-
-  document.body.style.overflow = "";
+  const m = document.getElementById('buyModal');
+  if(m){
+    m.hidden = true;
+    m.style.display = 'none';
+    document.documentElement.style.overflow = '';
+    document.body.style.overflow = '';
+  }
 }
-
 window.openBuyModal = openBuyModal;
 window.closeBuyModal = closeBuyModal;
 
-
-
-/* -------------------------
-   PAYSTACK CHECKOUT
-------------------------- */
-function buyCoins(packCoins, label, amountKobo=0){
-  // If no Paystack key is added → run demo mode
+// ---------- Payment / Demo ----------
+function buyCoins(packCoins, label, amountKobo = 0){
+  // Demo fallback when PAYSTACK_PUBLIC_KEY not set
   if(!PAYSTACK_PUBLIC_KEY){
     if(confirm(`Demo mode — add ${packCoins} coins locally?`)){
       addCoins(packCoins);
@@ -119,108 +97,113 @@ function buyCoins(packCoins, label, amountKobo=0){
     return;
   }
 
-  // Paystack library missing?
-  if(typeof PaystackPop === "undefined"){
-    alert("Paystack library not loaded. Demo mode will add coins instead.");
+  // If Paystack script not loaded, fallback to demo (safe)
+  if(typeof PaystackPop === 'undefined'){
+    alert('Payment library not loaded. Demo fallback will add coins locally.');
     addCoins(packCoins);
     closeBuyModal();
     return;
   }
 
-  // Real Paystack payment
+  // Paystack inline checkout
   const handler = PaystackPop.setup({
     key: PAYSTACK_PUBLIC_KEY,
-    email: localStorage.getItem("fenwa:user-email") || "buyer@example.com",
+    email: localStorage.getItem('fenwa:user-email') || 'buyer@example.com',
     amount: amountKobo,
-    currency: "NGN",
-    ref: "FENWA_" + Date.now(),
-
-    callback: function (response){
+    currency: 'NGN',
+    ref: 'FENWA_' + Date.now(),
+    callback: function(response){
+      // On success, credit coins locally. In production verify on server.
       addCoins(packCoins);
-      alert("Payment successful! Ref: " + response.reference);
+      alert('✅ Payment successful! Ref: ' + response.reference);
       closeBuyModal();
     },
-
     onClose: function(){
-      // user closed payment popup
+      // user closed checkout
     }
   });
-
   handler.openIframe();
 }
-
 window.buyCoins = buyCoins;
 
-
-
-/* -------------------------
-   VOUCHERS (DEMO)
-------------------------- */
-const VOUCHERS = {
-  "FENWA100": 100,
-  "WELCOME50": 50,
-  "BLESSED150": 150
-};
-
-function redeemVoucher(){
-  const input = document.getElementById("voucherInput");
-  if(!input) return;
-
-  const code = input.value.trim().toUpperCase();
-  if(!code) return alert("Enter a voucher code.");
-
-  const amount = VOUCHERS[code];
-  if(!amount) return alert("Invalid voucher code.");
-
+// ---------- Vouchers (demo) ----------
+const VOUCHERS = { "FENWA100":100, "WELCOME50":50, "BLESSED150":150 };
+function redeemVoucher(code){
+  const c = (code || document.getElementById('voucherInput')?.value || '').trim().toUpperCase();
+  if(!c) return alert('Enter voucher code.');
+  const amount = VOUCHERS[c];
+  if(!amount) return alert('❌ Invalid or used voucher.');
   addCoins(amount);
-  alert(`🎉 Voucher applied: +${amount} coins`);
-
-  input.value = "";
+  if(document.getElementById('voucherInput')) document.getElementById('voucherInput').value = '';
+  closeBuyModal();
 }
-
 window.redeemVoucher = redeemVoucher;
 
-
-
-/* -------------------------
-   DOM READY INITIALIZATION
-------------------------- */
-document.addEventListener("DOMContentLoaded", ()=>{
-
-  // Coins: give first-time users 85 coins
-  if(!localStorage.getItem(LS_COINS)){
-    localStorage.setItem(LS_COINS, String(STARTER_COINS));
-  }
+// ---------- Init (DOM ready) ----------
+document.addEventListener('DOMContentLoaded', () => {
+  // ensure starter coins exist
+  if(!localStorage.getItem(LS_COINS)) localStorage.setItem(LS_COINS, String(STARTER_COINS));
   setCoins(getCoins());
 
-  // Theme
+  // init theme
   initTheme();
 
-  // Buy buttons
-  document.getElementById("buyBtn")?.addEventListener("click", openBuyModal);
-  document.getElementById("buyBtn2")?.addEventListener("click", openBuyModal);
+  // header buttons (if present)
+  document.getElementById('buyBtn')?.addEventListener('click', openBuyModal);
+  document.getElementById('buyBtn2')?.addEventListener('click', openBuyModal);
 
-  // Modal close button
-  document.getElementById("closeBuyModalBtn")?.addEventListener("click", closeBuyModal);
+  // modal wiring (safe references)
+  const modal = document.getElementById('buyModal');
+  const closeBtn = document.getElementById('closeBuyModalBtn');
+  const packs = modal ? Array.from(modal.querySelectorAll('.pack')) : [];
+  const redeemBtn = document.getElementById('redeemBtn');
 
-  // Click outside to close modal
-  const modal = document.getElementById("buyModal");
+  if(modal){ modal.hidden = true; modal.style.display = 'none'; }
+
+  if(closeBtn) closeBtn.addEventListener('click', closeBuyModal);
+
+  // click outside modal to close
   if(modal){
-    modal.addEventListener("click", (e)=>{
+    modal.addEventListener('click', (e) => {
       if(e.target === modal) closeBuyModal();
     });
   }
 
-  // Voucher button
-  document.getElementById("redeemBtn")?.addEventListener("click", redeemVoucher);
+  // ESC key to close modal
+  document.addEventListener('keydown', (e) => {
+    if(e.key === 'Escape') closeBuyModal();
+  });
 
-  // Coin packs
-  document.querySelectorAll(".pack").forEach(btn=>{
-    btn.addEventListener("click", ()=>{
-      const coins = Number(btn.dataset.coins || 0);
-      const kobo = Number(btn.dataset.kobo || 0);
-
+  // packs: attach click handlers
+  packs.forEach(btn => {
+    btn.addEventListener('click', function(){
+      const coins = Number(this.dataset.coins || 0);
+      const kobo = Number(this.dataset.kobo || 0);
+      // if no Paystack key -> demo
+      if(!PAYSTACK_PUBLIC_KEY){ 
+        if(confirm(`Demo mode — add ${coins} coins locally?`)){
+          addCoins(coins);
+          closeBuyModal();
+        }
+        return;
+      }
+      // otherwise call buyCoins to open Paystack
       buyCoins(coins, `${coins} Coins`, kobo);
     });
   });
+
+  // redeem button handler fallback (if present)
+  if(redeemBtn){
+    redeemBtn.addEventListener('click', () => {
+      const code = (document.getElementById('voucherInput')?.value || '').trim().toUpperCase();
+      if(!code) return alert('Enter voucher code.');
+      const demo = { FENWA100:100, WELCOME50:50, BLESSED150:150 };
+      const amount = demo[code];
+      if(!amount) return alert('Invalid voucher code.');
+      addCoins(amount);
+      alert(`🎉 Voucher applied: +${amount} coins`);
+      document.getElementById('voucherInput').value = '';
+      closeBuyModal();
+    });
+  }
 });
