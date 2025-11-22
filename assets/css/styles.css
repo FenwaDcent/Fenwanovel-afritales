@@ -72,3 +72,5 @@ a{color:inherit;text-decoration:none}
 
 /* headings inside the card remain dark and strong */
 .chapter h2 { color: #000 !important; }
+/* hide fetch-debug in production */
+#fetch-debug { display: none !important; }
