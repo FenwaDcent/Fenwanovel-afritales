@@ -3,7 +3,7 @@
    handles unlocking with coins, next flow, and watermark.
 */
 
-const REPO_PREFIX = ''; // keep empty when files are served relative to site root
+const REPO_PREFIX = '/'; // <<--- IMPORTANT: leading slash makes fetch paths absolute (avoids relative-path 404)
 const FREE_CHAPTERS_SET = new Set([1,2,3,4,5,6]); // change as needed
 const DEFAULT_PRICE = 30;
 const LS_UNLOCK = 'fenwa:unlocked'; // usage: fenwa:unlocked:<bookId>
