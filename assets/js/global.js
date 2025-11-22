@@ -1,15 +1,12 @@
 /* assets/js/global.js
-   Site-wide logic: theme toggle, coin store, buy modal, Paystack scaffold
-   Safe and corrected — ready to upload.
+   Site-wide logic: theme toggle, coins, buy modal, demo payment scaffold
 */
 
 // ---------- Config ----------
 const LS_COINS = "fenwa:coins";
-const LS_UNLOCK_PREFIX = "fenwa:unlocked:"; // per-book if needed (unused here but handy)
 const STARTER_COINS = 85;
 const DEFAULT_CHAPTER_PRICE = 30;
-// Paste your Paystack public key here to enable real checkout. Keep empty for demo mode.
-const PAYSTACK_PUBLIC_KEY = ""; // e.g. "pk_test_XXXXXXXXXXXX"
+const PAYSTACK_PUBLIC_KEY = ""; // paste your Paystack public key to enable Paystack
 
 // ---------- Theme ----------
 function setTheme(theme){
@@ -29,83 +26,31 @@ function initTheme(){
 window.toggleTheme = toggleTheme;
 
 // ---------- Coins ----------
-function getCoins(){
-  const raw = localStorage.getItem(LS_COINS);
-  if(raw == null) return STARTER_COINS;
-  const v = parseInt(raw, 10);
-  return Number.isNaN(v) ? 0 : v;
-}
-function updateCoinDisplays(n){
-  document.querySelectorAll('.coin-amount, #coinBadge, #coinBadge2').forEach(el => {
-    if(el) el.textContent = n;
-  });
-}
+function getCoins(){ return parseInt(localStorage.getItem(LS_COINS) || String(STARTER_COINS),10) || 0; }
 function setCoins(n){
-  const v = Number(n) || 0;
-  localStorage.setItem(LS_COINS, String(v));
-  updateCoinDisplays(v);
+  localStorage.setItem(LS_COINS, String(n));
+  document.querySelectorAll('.coin-amount, #coinBadge, #coinBadge2').forEach(el => { if(el) el.textContent = n; });
 }
-function addCoins(n){
-  const amount = Number(n) || 0;
-  setCoins(getCoins() + amount);
-  // small UX feedback
-  try { alert('✅ Added ' + amount + ' TatiCoin'); } catch(e){}
-}
-function spendCoins(n){
-  const price = Number(n) || 0;
-  const bal = getCoins();
-  if(bal < price) return false;
-  setCoins(bal - price);
-  return true;
-}
-window.getCoins = getCoins;
-window.setCoins = setCoins;
-window.addCoins = addCoins;
-window.spendCoins = spendCoins;
+function addCoins(n){ setCoins(getCoins() + Number(n)); alert(`✅ Added ${n} coins`); }
+function spendCoins(n){ const bal = getCoins(); if(bal < n) return false; setCoins(bal - n); return true; }
+window.getCoins = getCoins; window.setCoins = setCoins; window.addCoins = addCoins; window.spendCoins = spendCoins;
 
-// ---------- Buy modal (open / close safe) ----------
-function openBuyModal(){
-  const m = document.getElementById('buyModal');
-  if(m){
-    m.hidden = false;
-    m.style.display = 'flex';
-    // prevent background scrolling
-    document.documentElement.style.overflow = 'hidden';
-    document.body.style.overflow = 'hidden';
-  }
-}
-function closeBuyModal(){
-  const m = document.getElementById('buyModal');
-  if(m){
-    m.hidden = true;
-    m.style.display = 'none';
-    document.documentElement.style.overflow = '';
-    document.body.style.overflow = '';
-  }
-}
-window.openBuyModal = openBuyModal;
-window.closeBuyModal = closeBuyModal;
+// ---------- Buy modal ----------
+function openBuyModal(){ const m = document.getElementById('buyModal'); if(m){ m.hidden = false; m.style.display = 'flex'; document.body.style.overflow = 'hidden'; } }
+function closeBuyModal(){ const m = document.getElementById('buyModal'); if(m){ m.hidden = true; m.style.display = 'none'; document.body.style.overflow = ''; } }
+window.openBuyModal = openBuyModal; window.closeBuyModal = closeBuyModal;
 
 // ---------- Payment / Demo ----------
-function buyCoins(packCoins, label, amountKobo = 0){
-  // Demo fallback when PAYSTACK_PUBLIC_KEY not set
+function buyCoins(packCoins, label, amountKobo=0){
+  // Demo fallback when no Paystack key configured
   if(!PAYSTACK_PUBLIC_KEY){
-    if(confirm(`Demo mode — add ${packCoins} coins locally?`)){
-      addCoins(packCoins);
-      closeBuyModal();
-    }
+    if(confirm(`Demo mode — add ${packCoins} coins locally?`)){ addCoins(packCoins); closeBuyModal(); }
     return;
   }
-
-  // If Paystack script not loaded, fallback to demo (safe)
   if(typeof PaystackPop === 'undefined'){
-    alert('Payment library not loaded. Demo fallback will add coins locally.');
-    addCoins(packCoins);
-    closeBuyModal();
-    return;
+    alert('Payment library not loaded. Demo fallback will add coins.');
+    addCoins(packCoins); closeBuyModal(); return;
   }
-
-  // Paystack inline checkout
   const handler = PaystackPop.setup({
     key: PAYSTACK_PUBLIC_KEY,
     email: localStorage.getItem('fenwa:user-email') || 'buyer@example.com',
@@ -113,14 +58,11 @@ function buyCoins(packCoins, label, amountKobo = 0){
     currency: 'NGN',
     ref: 'FENWA_' + Date.now(),
     callback: function(response){
-      // On success, credit coins locally. In production verify on server.
       addCoins(packCoins);
-      alert('✅ Payment successful! Ref: ' + response.reference);
+      alert('Payment successful. Ref: ' + response.reference);
       closeBuyModal();
     },
-    onClose: function(){
-      // user closed checkout
-    }
+    onClose: function(){}
   });
   handler.openIframe();
 }
@@ -132,27 +74,21 @@ function redeemVoucher(code){
   const c = (code || document.getElementById('voucherInput')?.value || '').trim().toUpperCase();
   if(!c) return alert('Enter voucher code.');
   const amount = VOUCHERS[c];
-  if(!amount) return alert('❌ Invalid or used voucher.');
+  if(!amount) return alert('Invalid or used voucher.');
   addCoins(amount);
   if(document.getElementById('voucherInput')) document.getElementById('voucherInput').value = '';
-  closeBuyModal();
 }
 window.redeemVoucher = redeemVoucher;
 
-// ---------- Init (DOM ready) ----------
+// ---------- DOM ready wiring ----------
 document.addEventListener('DOMContentLoaded', () => {
-  // ensure starter coins exist
   if(!localStorage.getItem(LS_COINS)) localStorage.setItem(LS_COINS, String(STARTER_COINS));
   setCoins(getCoins());
-
-  // init theme
   initTheme();
 
-  // header buttons (if present)
   document.getElementById('buyBtn')?.addEventListener('click', openBuyModal);
-  document.getElementById('buyBtn2')?.addEventListener('click', openBuyModal);
+  document.getElementById('buyBtn2')?.addEventListener('click', openBuyModal); // reader page buy button (if present)
 
-  // modal wiring (safe references)
   const modal = document.getElementById('buyModal');
   const closeBtn = document.getElementById('closeBuyModalBtn');
   const packs = modal ? Array.from(modal.querySelectorAll('.pack')) : [];
@@ -160,45 +96,29 @@ document.addEventListener('DOMContentLoaded', () => {
 
   if(modal){ modal.hidden = true; modal.style.display = 'none'; }
 
-  if(closeBtn) closeBtn.addEventListener('click', closeBuyModal);
-
-  // click outside modal to close
-  if(modal){
-    modal.addEventListener('click', (e) => {
-      if(e.target === modal) closeBuyModal();
-    });
+  if (closeBtn) closeBtn.addEventListener('click', () => closeBuyModal());
+  if (modal){
+    modal.addEventListener('click', (e) => { if (e.target === modal) closeBuyModal(); });
   }
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeBuyModal(); });
 
-  // ESC key to close modal
-  document.addEventListener('keydown', (e) => {
-    if(e.key === 'Escape') closeBuyModal();
-  });
-
-  // packs: attach click handlers
   packs.forEach(btn => {
     btn.addEventListener('click', function(){
       const coins = Number(this.dataset.coins || 0);
       const kobo = Number(this.dataset.kobo || 0);
-      // if no Paystack key -> demo
-      if(!PAYSTACK_PUBLIC_KEY){ 
-        if(confirm(`Demo mode — add ${coins} coins locally?`)){
-          addCoins(coins);
-          closeBuyModal();
-        }
+      if(!PAYSTACK_PUBLIC_KEY){
+        if(confirm(`Demo mode — add ${coins} coins locally?`)){ addCoins(coins); closeBuyModal(); }
         return;
       }
-      // otherwise call buyCoins to open Paystack
       buyCoins(coins, `${coins} Coins`, kobo);
     });
   });
 
-  // redeem button handler fallback (if present)
   if(redeemBtn){
-    redeemBtn.addEventListener('click', () => {
+    redeemBtn.addEventListener('click', function(){
       const code = (document.getElementById('voucherInput')?.value || '').trim().toUpperCase();
       if(!code) return alert('Enter voucher code.');
-      const demo = { FENWA100:100, WELCOME50:50, BLESSED150:150 };
-      const amount = demo[code];
+      const amount = VOUCHERS[code];
       if(!amount) return alert('Invalid voucher code.');
       addCoins(amount);
       alert(`🎉 Voucher applied: +${amount} coins`);
