@@ -1,19 +1,15 @@
 /* assets/js/reader.js
    Reader core: loads books/{bookId}/book.json, fetches chapters (preview/full),
    handles unlocking with coins, next flow, and watermark.
-   Safe and defensive (ready to paste).
 */
 
 const REPO_PREFIX = ''; // keep empty when files are served relative to site root
-const FREE_CHAPTERS_SET = new Set([1,2,3,4,5,6]);
+const FREE_CHAPTERS_SET = new Set([1,2,3,4,5,6]); // change as needed
 const DEFAULT_PRICE = 30;
 const LS_UNLOCK = 'fenwa:unlocked'; // usage: fenwa:unlocked:<bookId>
 
 function dbg(msg){
-  try {
-    const el = document.getElementById('fetch-debug');
-    if(el) el.innerHTML += '<div>' + String(msg) + '</div>';
-  } catch(e){}
+  try { const el = document.getElementById('fetch-debug'); if(el) el.innerHTML += '<div>' + String(msg) + '</div>'; } catch(e){}
   try { console.log('[reader]', msg); } catch(e){}
 }
 
@@ -24,22 +20,13 @@ async function readJSON(path){
   return await r.json();
 }
 
-function getCoinsLocal(){
-  return (typeof window.getCoins === 'function') ? window.getCoins() : parseInt(localStorage.getItem('fenwa:coins')||'0',10) || 0;
-}
-function updateCoinBadges(){
-  const b = getCoinsLocal();
-  document.querySelectorAll('#coinBadge,#coinBadge2,.coin-amount').forEach(el => { if(el) el.textContent = b; });
-}
+function getCoinsLocal(){ return (typeof window.getCoins === 'function') ? window.getCoins() : parseInt(localStorage.getItem('fenwa:coins')||'0',10) || 0; }
+function updateCoinBadges(){ const b = getCoinsLocal(); document.querySelectorAll('#coinBadge,#coinBadge2,.coin-amount').forEach(el => { if(el) el.textContent = b; }); }
 
-function getUnlocked(bookId){
-  try { return JSON.parse(localStorage.getItem(LS_UNLOCK + ':' + bookId) || '[]').map(Number); }
-  catch(e){ return []; }
-}
+function getUnlocked(bookId){ try { return JSON.parse(localStorage.getItem(LS_UNLOCK + ':' + bookId) || '[]').map(Number); } catch(e){ return []; } }
 function setUnlocked(bookId, list){ localStorage.setItem(LS_UNLOCK + ':' + bookId, JSON.stringify(list)); }
 function isUnlocked(bookId, chapterId){ return getUnlocked(bookId).includes(Number(chapterId)); }
 
-// Attach "Next Chapter" footer
 function attachNextFooter(contentEl, currId){
   if(contentEl.querySelector('.next-footer')) return;
   const footer = document.createElement('div');
@@ -48,12 +35,11 @@ function attachNextFooter(contentEl, currId){
   contentEl.appendChild(footer);
 }
 
-// Reveal full chapter (used after unlock or for free chapters)
 async function revealChapter(bookId, chId){
   try {
     const meta = await readJSON(REPO_PREFIX + 'books/' + bookId + '/book.json');
     const ch = meta.chapters.find(c => Number(c.id) === Number(chId));
-    if(!ch){ dbg('revealChapter: not found in book.json -> ' + chId); return; }
+    if(!ch){ dbg('revealChapter: not found ' + chId); return; }
     const path = REPO_PREFIX + 'books/' + bookId + '/' + ch.file;
     const r = await fetch(path, {cache:'no-store'});
     if(!r.ok){ dbg('revealChapter: fetch failed ' + path + ' status ' + r.status); return; }
@@ -73,12 +59,10 @@ async function revealChapter(bookId, chId){
   }
 }
 
-// unlock handler - uses global spendCoins if available, else local coins
 window.unlockChapter = function(bookId, chapterId, price){
   try {
     price = Number(price || DEFAULT_PRICE);
     if(isUnlocked(bookId, chapterId)){ alert('✔ Already unlocked'); return true; }
-    // attempt to use global.spendCoins()
     if(typeof window.spendCoins === 'function'){
       const ok = window.spendCoins(price);
       if(!ok){ alert('Not enough TatiCoin — buy more.'); if(typeof window.openBuyModal==='function') window.openBuyModal(); return false; }
@@ -88,16 +72,9 @@ window.unlockChapter = function(bookId, chapterId, price){
       localStorage.setItem('fenwa:coins', String(bal - price));
       updateCoinBadges();
     }
-    // persist unlock
-    const list = getUnlocked(bookId);
-    list.push(Number(chapterId));
-    setUnlocked(bookId, list);
+    const list = getUnlocked(bookId); list.push(Number(chapterId)); setUnlocked(bookId, list);
     alert('🔓 Chapter ' + chapterId + ' unlocked!');
-    // reveal and scroll
-    revealChapter(bookId, chapterId).then(()=> {
-      const sec = document.getElementById('ch' + chapterId);
-      if(sec) sec.scrollIntoView({behavior:'smooth', block:'start'});
-    });
+    revealChapter(bookId, chapterId).then(()=> { const sec = document.getElementById('ch' + chapterId); if(sec) sec.scrollIntoView({behavior:'smooth', block:'start'}); });
     return true;
   } catch(e){
     dbg('unlockChapter error: ' + e.message);
@@ -106,7 +83,6 @@ window.unlockChapter = function(bookId, chapterId, price){
   }
 };
 
-// nextChapter global function
 window.nextChapter = function(currId){
   try {
     const next = Number(currId) + 1;
@@ -118,7 +94,6 @@ window.nextChapter = function(currId){
       sec.scrollIntoView({behavior:'smooth', block:'start'});
       return;
     }
-    // otherwise prompt unlock flow
     if(confirm(`Unlock chapter ${next} for ${DEFAULT_PRICE} TatiCoin?`)){
       const ok = window.unlockChapter ? window.unlockChapter(bookId, next, DEFAULT_PRICE) : false;
       if(ok) document.getElementById('ch' + next).scrollIntoView({behavior:'smooth'});
@@ -129,7 +104,6 @@ window.nextChapter = function(currId){
   }
 };
 
-// main loader
 async function loadBook(){
   try {
     dbg('loadBook: starting');
@@ -175,7 +149,6 @@ async function loadBook(){
 
       container.appendChild(sec);
 
-      // fetch chapter file and insert preview or full content
       (async (chObj)=>{
         try {
           const chapterPath = REPO_PREFIX + 'books/' + book.id + '/' + chObj.file;
@@ -201,7 +174,6 @@ async function loadBook(){
       })(ch);
     }
 
-    // watermark and buy button wiring
     try {
       const watermark = document.getElementById('tati-watermark');
       if(watermark) watermark.textContent = `Fenwa — ${localStorage.getItem('fenwa:user') || 'reader'} — ${new Date().toLocaleString()}`;
