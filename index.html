@@ -3,26 +3,9 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Fenwanovels – AfriTales</title>
+  <title>FenwaNovel — AfriTales</title>
   <link rel="stylesheet" href="assets/css/styles.css">
 </head>
-  <!-- optional: Paystack inline script if you plan to use live payments -->
-  <!-- <script src="https://js.paystack.co/v1/inline.js"></script> -->
-
-  <!-- Global application script (required) -->
-  <script src="assets/js/global.js"></script>
-
-  <!-- small helper to show initial debug state (remove later) -->
-  <script>
-    // quick sanity checks — open Console (F12) and paste these if you need debug info
-    // (they will run automatically on page load)
-    console.info('fenwa: dom ready — checking app functions');
-    console.info('setCoins function exists? ', typeof setCoins === 'function');
-    console.info('getCoins():', typeof getCoins === 'function' ? getCoins() : 'no getCoins');
-    console.info('buyModal element:', !!document.getElementById('buyModal'));
-  </script>
-</body>
-</html>
 <body>
   <header class="site-header">
     <a class="brand" href="./">Fenwanovels — AfriTales</a>
@@ -47,33 +30,35 @@
           </div>
         </div>
       </article>
-
-      <!-- Add more book-card entries for other books -->
     </section>
   </main>
 
-<!-- BUY COINS MODAL -->
-<div id="buyModal" class="modal" hidden>
-  <div class="modal-card" role="dialog" aria-modal="true" aria-label="Buy Coins">
-    <button class="modal-close" id="closeBuyModalBtn" aria-label="Close modal">✕</button>
-    <h3>Buy Coins</h3>
-    <p>Choose a coin pack or redeem a voucher.</p>
+  <!-- BUY COINS MODAL -->
+  <div id="buyModal" class="modal" hidden>
+    <div class="modal-card" role="dialog" aria-modal="true" aria-label="Buy Coins">
+      <button class="modal-close" id="closeBuyModalBtn" aria-label="Close modal">✕</button>
+      <h3>Buy Coins</h3>
+      <p>Choose a coin pack or redeem a voucher.</p>
 
-    <div class="coins-grid">
-      <button class="pack btn" data-coins="50"  data-kobo="50000">+50 Coins (₦500)</button>
-      <button class="pack btn" data-coins="150" data-kobo="120000">+150 Coins (₦1,200)</button>
-      <button class="pack btn" data-coins="300" data-kobo="200000">+300 Coins (₦2,000)</button>
+      <div class="coins-grid">
+        <button class="pack btn" data-coins="50" data-kobo="50000">+50 Coins (₦500)</button>
+        <button class="pack btn" data-coins="150" data-kobo="120000">+150 Coins (₦1,200)</button>
+        <button class="pack btn" data-coins="300" data-kobo="200000">+300 Coins (₦2,000)</button>
+      </div>
+
+      <div style="text-align:center;margin:8px 0">or</div>
+
+      <label style="display:flex;gap:8px;align-items:center;margin-top:8px">
+        <input id="voucherInput" placeholder="Enter code e.g. FENWA100" style="flex:1;padding:10px;border-radius:8px;border:1px solid rgba(0,0,0,0.08);" />
+        <button id="redeemBtn" class="btn">Redeem</button>
+      </label>
+
+      <p class="small muted" style="margin-top:12px">
+        Demo mode: packs add coins locally unless you paste your Paystack public key in <code>assets/js/global.js</code>.
+      </p>
     </div>
-
-    <div style="text-align:center;margin:8px 0">or</div>
-
-    <label style="display:flex;gap:8px;align-items:center;margin-top:8px">
-      <input id="voucherInput" placeholder="Enter code e.g. FENWA100" style="flex:1;padding:10px;border-radius:8px;border:1px solid rgba(0,0,0,0.08);" />
-      <button id="redeemBtn" class="btn">Redeem</button>
-    </label>
-
-    <p class="small muted" style="margin-top:12px">
-      Demo mode: packs add coins locally unless you paste your Paystack public key in <code>assets/js/global.js</code>.
-    </p>
   </div>
-</div>
+
+  <script src="assets/js/global.js"></script>
+</body>
+</html>
