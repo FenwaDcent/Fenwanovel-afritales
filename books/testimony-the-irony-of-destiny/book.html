@@ -6,7 +6,6 @@
   <title>Testimony: The Irony of Destiny — Reader</title>
   <link rel="stylesheet" href="/assets/css/styles.css">
   <style>
-    /* reader-specific CSS (small, safe) */
     .reader-header{display:flex;align-items:center;gap:12px;padding:12px;border-bottom:1px solid rgba(0,0,0,0.08);background:var(--bg)}
     .chapters{padding:18px;max-width:900px;margin:0 auto}
     .chapter{background:linear-gradient(180deg,#fff,#fbfbfb);padding:16px;border-radius:12px;margin:14px 0;box-shadow:0 6px 18px rgba(0,0,0,0.06)}
@@ -15,10 +14,7 @@
     .next-footer{margin-top:12px;text-align:right}
     .watermark{position:fixed;bottom:8px;right:10px;opacity:0.12;pointer-events:none;font-weight:700}
     .loading-msg{padding:20px;text-align:center;color:var(--muted)}
-    a.back-link{margin-right:8px;color:var(--muted)}
-    .reader-header .header-right{margin-left:auto;display:flex;gap:8px;align-items:center}
-    #fetch-debug{ color:var(--muted); padding:12px; text-align:center; font-size:14px; max-width:900px; margin:10px auto; }
-    .modal-close{ position:absolute; top:12px; right:12px; border:0; background:transparent; color:inherit; font-size:18px; cursor:pointer; padding:6px; }
+    #fetch-debug { color: var(--muted); padding:12px; text-align:center; font-size:14px; }
   </style>
 </head>
 <body>
@@ -39,9 +35,8 @@
     <div id="loading" class="loading-msg">Loading book…</div>
   </main>
 
-  <!-- Buy modal -->
   <div id="buyModal" class="modal" hidden>
-    <div class="modal-card" role="dialog" aria-modal="true" aria-label="Buy Coins" style="position:relative">
+    <div class="modal-card" role="dialog" aria-modal="true" aria-label="Buy Coins">
       <button class="modal-close" id="closeBuyModalBtn" aria-label="Close modal">✕</button>
       <h3>Buy Coins</h3>
       <p>Choose a coin pack or redeem a voucher.</p>
@@ -63,44 +58,18 @@
 
   <div id="tati-watermark" class="watermark" aria-hidden="true"></div>
 
-  <!-- load scripts in order: global then reader -->
   <script src="/assets/js/global.js"></script>
   <script src="/assets/js/reader.js"></script>
 
+  <div id="fetch-debug"></div>
   <script>
-    // helpful fallback message if loading stalls
+    // helpful hint if book.json or chapters missing
     setTimeout(()=>{
       const loading = document.getElementById('loading');
       if(loading && loading.innerText.includes('Loading')){
-        loading.innerHTML = 'Still loading — if this page stays like this, check that <code>/books/testimony-the-irony-of-destiny/book.json</code> and chapter files exist on the server.';
+        loading.innerHTML = 'Still loading — ensure <code>/books/testimony-the-irony-of-destiny/book.json</code> and chapter files exist on the server.';
       }
-    }, 3000);
-  </script>
-
-  <!-- small fetch-debug panel to display fetch status (copy its output if something fails) -->
-  <div id="fetch-debug" aria-hidden="false"></div>
-  <script>
-    (function(){
-      const out = txt => {
-        const el = document.getElementById('fetch-debug');
-        if(el) el.innerHTML += '<div>' + txt + '</div>';
-      };
-      const base = window.location.origin || (location.protocol + '//' + location.host);
-      const bookJson = '/books/testimony-the-irony-of-destiny/book.json';
-      out('Checking paths…');
-      fetch(bookJson, {cache:'no-store'}).then(r=>{
-        out('book.json -> status: ' + r.status);
-        return fetch('/books/testimony-the-irony-of-destiny/chapter-1.html', {cache:'no-store'});
-      }).then(r=>{
-        out('chapter-1.html -> status: ' + r.status);
-        return fetch('/assets/js/reader.js', {cache:'no-store'});
-      }).then(r=>{
-        out('assets/js/reader.js -> status: ' + r.status);
-      }).catch(e=>{
-        out('Fetch error: ' + (e && e.message ? e.message : String(e)));
-        console.error(e);
-      });
-    })();
+    }, 2500);
   </script>
 </body>
 </html>
