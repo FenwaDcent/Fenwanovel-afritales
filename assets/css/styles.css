@@ -54,3 +54,21 @@ a{color:inherit;text-decoration:none}
 
 /* headings inside the card remain dark and strong */
 .chapter h2 { color: #000 !important; }
+
+/* Quick fix: ensure chapter card text is dark on white background */
+.chapter {
+  /* keep your existing white card look */
+  background: linear-gradient(180deg,#fff,#fbfbfb);
+  /* force readable text color inside the white card */
+  color: #111 !important;
+}
+
+/* slightly darker paragraph text for contrast inside card */
+.chapter p,
+.chapter blockquote,
+.chapter .small {
+  color: #222 !important;
+}
+
+/* headings inside the card remain dark and strong */
+.chapter h2 { color: #000 !important; }
