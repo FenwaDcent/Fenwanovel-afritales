@@ -1,14 +1,18 @@
 /* assets/js/global.js
-   Site-wide logic: theme toggle, coins, buy modal, demo payment scaffold
+   Site-wide logic: theme toggle, coin store, buy modal, Paystack scaffold.
+   - Safe demo fallback when Paystack is not available.
+   - DO NOT put your Paystack SECRET key here.
 */
 
-// ---------- Config ----------
 const LS_COINS = "fenwa:coins";
+const LS_UNLOCK_PREFIX = "fenwa:unlocked:";
 const STARTER_COINS = 85;
 const DEFAULT_CHAPTER_PRICE = 30;
-const PAYSTACK_PUBLIC_KEY = ""; // paste your Paystack public key to enable Paystack
 
-// ---------- Theme ----------
+// Put only your Paystack PUBLIC key here. This is safe in frontend.
+const PAYSTACK_PUBLIC_KEY = "pk_test_6101933f805191dca00fe2184fc954cec3b8ec10";
+
+// Theme management
 function setTheme(theme){
   document.documentElement.setAttribute('data-theme', theme);
   localStorage.setItem('fenwa:theme', theme);
@@ -25,7 +29,7 @@ function initTheme(){
 }
 window.toggleTheme = toggleTheme;
 
-// ---------- Coins ----------
+// Coins
 function getCoins(){ return parseInt(localStorage.getItem(LS_COINS) || String(STARTER_COINS),10) || 0; }
 function setCoins(n){
   localStorage.setItem(LS_COINS, String(n));
@@ -35,22 +39,31 @@ function addCoins(n){ setCoins(getCoins() + Number(n)); alert(`✅ Added ${n} co
 function spendCoins(n){ const bal = getCoins(); if(bal < n) return false; setCoins(bal - n); return true; }
 window.getCoins = getCoins; window.setCoins = setCoins; window.addCoins = addCoins; window.spendCoins = spendCoins;
 
-// ---------- Buy modal ----------
-function openBuyModal(){ const m = document.getElementById('buyModal'); if(m){ m.hidden = false; m.style.display = 'flex'; document.body.style.overflow = 'hidden'; } }
-function closeBuyModal(){ const m = document.getElementById('buyModal'); if(m){ m.hidden = true; m.style.display = 'none'; document.body.style.overflow = ''; } }
+// Buy modal open/close
+function openBuyModal(){ const m = document.getElementById('buyModal'); if(m){ m.hidden = false; m.style.display='flex'; document.body.style.overflow='hidden'; } }
+function closeBuyModal(){ const m = document.getElementById('buyModal'); if(m){ m.hidden = true; m.style.display='none'; document.body.style.overflow=''; } }
 window.openBuyModal = openBuyModal; window.closeBuyModal = closeBuyModal;
 
-// ---------- Payment / Demo ----------
+// BuyCoins - uses Paystack inline if key present & PaystackPop loaded, otherwise demo fallback
 function buyCoins(packCoins, label, amountKobo=0){
-  // Demo fallback when no Paystack key configured
+  // If no public key configured, fallback to demo mode
   if(!PAYSTACK_PUBLIC_KEY){
     if(confirm(`Demo mode — add ${packCoins} coins locally?`)){ addCoins(packCoins); closeBuyModal(); }
     return;
   }
+
+  // If Paystack inline script not available, fallback to demo
   if(typeof PaystackPop === 'undefined'){
-    alert('Payment library not loaded. Demo fallback will add coins.');
-    addCoins(packCoins); closeBuyModal(); return;
+    if(confirm('Payment library not loaded (Paystack). Add coins in demo mode?')){
+      addCoins(packCoins);
+      closeBuyModal();
+    } else {
+      alert('Please ensure Paystack inline script is loaded on the page.');
+    }
+    return;
   }
+
+  // Create Paystack handler (test mode)
   const handler = PaystackPop.setup({
     key: PAYSTACK_PUBLIC_KEY,
     email: localStorage.getItem('fenwa:user-email') || 'buyer@example.com',
@@ -58,6 +71,7 @@ function buyCoins(packCoins, label, amountKobo=0){
     currency: 'NGN',
     ref: 'FENWA_' + Date.now(),
     callback: function(response){
+      // On success add coins (server should verify using secret key in production)
       addCoins(packCoins);
       alert('Payment successful. Ref: ' + response.reference);
       closeBuyModal();
@@ -68,7 +82,7 @@ function buyCoins(packCoins, label, amountKobo=0){
 }
 window.buyCoins = buyCoins;
 
-// ---------- Vouchers (demo) ----------
+// Vouchers (demo)
 const VOUCHERS = { "FENWA100":100, "WELCOME50":50, "BLESSED150":150 };
 function redeemVoucher(code){
   const c = (code || document.getElementById('voucherInput')?.value || '').trim().toUpperCase();
@@ -80,14 +94,14 @@ function redeemVoucher(code){
 }
 window.redeemVoucher = redeemVoucher;
 
-// ---------- DOM ready wiring ----------
+// DOM ready: modal + theme + starter coin logic
 document.addEventListener('DOMContentLoaded', () => {
   if(!localStorage.getItem(LS_COINS)) localStorage.setItem(LS_COINS, String(STARTER_COINS));
   setCoins(getCoins());
   initTheme();
 
   document.getElementById('buyBtn')?.addEventListener('click', openBuyModal);
-  document.getElementById('buyBtn2')?.addEventListener('click', openBuyModal); // reader page buy button (if present)
+  document.getElementById('buyBtn2')?.addEventListener('click', openBuyModal);
 
   const modal = document.getElementById('buyModal');
   const closeBtn = document.getElementById('closeBuyModalBtn');
@@ -96,7 +110,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   if(modal){ modal.hidden = true; modal.style.display = 'none'; }
 
-  if (closeBtn) closeBtn.addEventListener('click', () => closeBuyModal());
+  if (closeBtn) closeBtn.addEventListener('click', () => { closeBuyModal(); });
   if (modal){
     modal.addEventListener('click', (e) => { if (e.target === modal) closeBuyModal(); });
   }
@@ -106,6 +120,7 @@ document.addEventListener('DOMContentLoaded', () => {
     btn.addEventListener('click', function(){
       const coins = Number(this.dataset.coins || 0);
       const kobo = Number(this.dataset.kobo || 0);
+      // If no public key, demo; otherwise call buyCoins
       if(!PAYSTACK_PUBLIC_KEY){
         if(confirm(`Demo mode — add ${coins} coins locally?`)){ addCoins(coins); closeBuyModal(); }
         return;
@@ -118,7 +133,8 @@ document.addEventListener('DOMContentLoaded', () => {
     redeemBtn.addEventListener('click', function(){
       const code = (document.getElementById('voucherInput')?.value || '').trim().toUpperCase();
       if(!code) return alert('Enter voucher code.');
-      const amount = VOUCHERS[code];
+      const demo = { FENWA100:100, WELCOME50:50, BLESSED150:150 };
+      const amount = demo[code];
       if(!amount) return alert('Invalid voucher code.');
       addCoins(amount);
       alert(`🎉 Voucher applied: +${amount} coins`);
