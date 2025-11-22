@@ -7,6 +7,8 @@
   --accent:#f4c430;
   --maxw:1024px;
 }
+
+/* light theme overrides */
 html[data-theme="light"]{
   --bg:#ffffff;
   --card:#f6f7f9;
@@ -15,37 +17,57 @@ html[data-theme="light"]{
   --pill:#eceef2;
   --accent:#f4c430;
 }
+
+/* base */
 *{box-sizing:border-box}
 html,body{height:100%;margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial;background:var(--bg);color:var(--text)}
 a{color:inherit;text-decoration:none}
 .container{max-width:var(--maxw);margin:0 auto;padding:18px}
+
+/* header */
 .site-header{display:flex;align-items:center;gap:12px;padding:12px 18px;border-bottom:1px solid rgba(255,255,255,0.03);background:transparent}
 .site-header .brand{font-weight:700}
 .header-right{margin-left:auto;display:flex;gap:8px;align-items:center}
+
+/* buttons / pills */
 .btn{background:var(--accent);border:0;padding:8px 12px;border-radius:10px;color:#000;cursor:pointer;font-weight:600}
 .btn.ghost{background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--text)}
 .coin{font-weight:700}
+
+/* book list */
 .book-list{display:grid;gap:12px}
 .book-card{display:flex;gap:12px;align-items:center;padding:12px;border-radius:12px;background:linear-gradient(180deg,var(--card),#111);box-shadow:0 6px 18px rgba(0,0,0,.06)}
 .cover{width:84px;height:120px;object-fit:cover;border-radius:6px}
 .book-card h2{margin:0;font-size:18px}
 .muted{color:var(--muted);margin:6px 0}
+
+/* modal */
 .modal{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.45);z-index:9999;padding:18px}
 .modal-card{background:var(--card);padding:18px;border-radius:12px;width:92%;max-width:480px;position:relative}
 .modal-close{position:absolute;top:10px;right:10px;border:0;background:transparent;color:inherit;font-size:18px;cursor:pointer}
 .coins-grid{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}
 .pack{padding:8px 12px;border-radius:999px;border:0;background:var(--pill);color:var(--text);cursor:pointer}
 .small{font-size:13px;color:var(--muted)}
+
+/* responsive */
 @media(min-width:700px){ .book-list{grid-template-columns:repeat(2,1fr)} }
-/* Quick fix: ensure chapter card text is dark on white background */
+
+/* =========================
+   Reader / chapter card fixes
+   ========================= */
+
+/* chapter card: white card with dark text regardless of outer theme */
 .chapter {
-  /* keep your existing white card look */
   background: linear-gradient(180deg,#fff,#fbfbfb);
-  /* force readable text color inside the white card */
+  border-radius: 12px;
+  padding: 16px;
+  margin: 14px 0;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+  /* force dark text inside the white card for readability */
   color: #111 !important;
 }
 
-/* slightly darker paragraph text for contrast inside card */
+/* paragraphs, blockquotes and small text slightly darker for contrast */
 .chapter p,
 .chapter blockquote,
 .chapter .small {
@@ -55,29 +77,22 @@ a{color:inherit;text-decoration:none}
 /* headings inside the card remain dark and strong */
 .chapter h2 { color: #000 !important; }
 
-/* Quick fix: ensure chapter card text is dark on white background */
-.chapter {
-  /* keep your existing white card look */
-  background: linear-gradient(180deg,#fff,#fbfbfb);
-  /* force readable text color inside the white card */
-  color: #111 !important;
-}
+/* next-footer alignment */
+.next-footer{margin-top:12px;text-align:right}
 
-/* slightly darker paragraph text for contrast inside card */
-.chapter p,
-.chapter blockquote,
-.chapter .small {
-  color: #222 !important;
-}
+/* watermark */
+.watermark{position:fixed;bottom:8px;right:10px;opacity:0.12;pointer-events:none;font-weight:700}
 
-/* headings inside the card remain dark and strong */
-.chapter h2 { color: #000 !important; }
-/* hide fetch-debug in production */
+/* loading message style */
+.loading-msg{padding:20px;text-align:center;color:var(--muted)}
+
+/* hide debug panel in production */
 #fetch-debug { display: none !important; }
 
-:root { --card-text: #111; }
+/* helpful: ensure scrollbars and other small items still visible in dark mode */
+@media (prefers-color-scheme:dark){
+  .modal-card { background: var(--card); color: var(--text); }
+}
 
-/* ensure white card text is dark even in dark mode */
-.chapter { color: var(--card-text); }
-.chapter p, .chapter blockquote, .chapter .small { color: #222; }
-.chapter h2 { color: #000; }
+/* keep defaults for card text variable if you need to reference */
+:root { --card-text: #111; }
