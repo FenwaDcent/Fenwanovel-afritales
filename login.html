@@ -11,46 +11,56 @@
     <a href="index.html" class="brand">Fenwanovels</a>
   </header>
 
-  <main class="container narrow">
-    <h2>Login</h2>
-    <form id="loginForm" class="card">
-      <label>Email <input type="email" id="loginEmail" required></label>
-      <label>Password <input type="password" id="loginPassword" required></label>
-      <button class="btn primary" type="submit">Login</button>
-      <button class="btn" type="button" id="googleBtn">Sign in with Google</button>
-      <p class="muted">No account? <a href="register.html">Create one</a></p>
-      <p id="loginError" class="error"></p>
-    </form>
+  <main class="page page-auth">
+    <section class="auth-card">
+      <div class="auth-header">
+        <h1 id="auth-title">Welcome back</h1>
+        <p id="auth-subtitle">Log in to continue your reading journey.</p>
+      </div>
+
+      <div class="auth-mode-toggle">
+        <button type="button" class="btn btn-primary" data-auth-mode="login">Login</button>
+        <button type="button" class="btn btn-outline" data-auth-mode="register">Create account</button>
+      </div>
+
+      <form id="auth-form" class="auth-form">
+        <div id="name-field-wrapper" class="form-group" style="display:none;">
+          <label for="display-name">Full name</label>
+          <input id="display-name" type="text" autocomplete="name" placeholder="Your full name">
+        </div>
+
+        <div class="form-group">
+          <label for="email">Email address</label>
+          <input id="email" type="email" autocomplete="email" placeholder="you@example.com" required>
+        </div>
+
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input id="password" type="password" autocomplete="current-password" placeholder="••••••••" required>
+        </div>
+
+        <div id="auth-error" class="alert alert-error" style="display:none;"></div>
+
+        <button id="auth-submit" type="submit" class="btn btn-primary btn-block" data-loading="false">
+          Login
+        </button>
+
+        <div class="auth-or">
+          <span>or</span>
+        </div>
+
+        <button id="google-btn" type="button" class="btn btn-ghost btn-block">
+          <span class="icon-google"></span>
+          Continue with Google
+        </button>
+
+        <p class="auth-note">
+          By continuing, you agree to Fenwanovels’ terms and acknowledge our privacy policy.
+        </p>
+      </form>
+    </section>
   </main>
 
-  <script type="module">
-    import { auth, signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from './firebase.js';
-
-    const form = document.getElementById('loginForm');
-    const err = document.getElementById('loginError');
-    const googleBtn = document.getElementById('googleBtn');
-
-    const params = new URLSearchParams(location.search);
-    const returnTo = params.get('returnTo') || 'index.html';
-
-    form.addEventListener('submit', async (e)=>{
-      e.preventDefault();
-      err.textContent='';
-      try{
-        const email = loginEmail.value.trim();
-        const pwd = loginPassword.value.trim();
-        await signInWithEmailAndPassword(auth, email, pwd);
-        location.href = returnTo;
-      }catch(e){ err.textContent = e.message; }
-    });
-
-    googleBtn.addEventListener('click', async ()=>{
-      try{
-        const provider = new GoogleAuthProvider();
-        await signInWithPopup(auth, provider);
-        location.href = returnTo;
-      }catch(e){ err.textContent = e.message; }
-    });
-  </script>
+  <script type="module" src="assets/js/login.js"></script>
 </body>
 </html>
