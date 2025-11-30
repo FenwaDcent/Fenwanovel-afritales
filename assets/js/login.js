@@ -1,196 +1,150 @@
 // assets/js/login.js
-// Handles login, registration, and Google sign-in for Fenwanovels
+// This file expects firebase.js to be loaded before it.
+// It will wire up buttons/inputs on your login page and handle redirects.
 
-import {
-  auth,
-  signInWithEmailAndPassword,
-  createUserWithEmailAndPassword,
-  GoogleAuthProvider,
-  signInWithPopup,
-  updateProfile
-} from '../../firebase.js';
-
-// DOM elements
-const modeToggleButtons = document.querySelectorAll('[data-auth-mode]');
-const authTitle = document.getElementById('auth-title');
-const authSubtitle = document.getElementById('auth-subtitle');
-
-const nameFieldWrapper = document.getElementById('name-field-wrapper');
-const displayNameInput = document.getElementById('display-name');
-
-const emailInput = document.getElementById('email');
-const passwordInput = document.getElementById('password');
-
-const submitButton = document.getElementById('auth-submit');
-const googleButton = document.getElementById('google-btn');
-
-const errorBox = document.getElementById('auth-error');
-const form = document.getElementById('auth-form');
-
-// Keep track of whether we are in "login" or "register" mode
-let currentMode = 'login';
-
-function setMode(mode) {
-  currentMode = mode;
-
-  modeToggleButtons.forEach(btn => {
-    if (btn.dataset.authMode === mode) {
-      btn.classList.add('btn-primary');
-      btn.classList.remove('btn-outline');
-    } else {
-      btn.classList.remove('btn-primary');
-      btn.classList.add('btn-outline');
-    }
-  });
-
-  if (mode === 'login') {
-    authTitle.textContent = 'Welcome back';
-    authSubtitle.textContent = 'Log in to continue your reading journey.';
-    nameFieldWrapper.style.display = 'none';
-    submitButton.textContent = 'Login';
-  } else {
-    authTitle.textContent = 'Create your account';
-    authSubtitle.textContent = 'Join Fenwanovels and never drop a good story again.';
-    nameFieldWrapper.style.display = 'block';
-    submitButton.textContent = 'Create account';
+(async function(){
+  // Wait until firebase is loaded (simple loop)
+  function waitForFirebase() {
+    return new Promise(resolve => {
+      const interval = setInterval(() => {
+        if(window._firebase && window._firebase.auth){
+          clearInterval(interval);
+          resolve(window._firebase);
+        }
+      }, 50);
+      // after 5s, give up (but still resolve so page doesn't hang)
+      setTimeout(() => resolve(window._firebase), 5000);
+    });
   }
-
-  clearError();
-}
-
-function showError(message) {
-  errorBox.textContent = message;
-  errorBox.style.display = 'block';
-}
-
-function clearError() {
-  errorBox.textContent = '';
-  errorBox.style.display = 'none';
-}
-
-function setLoading(isLoading) {
-  submitButton.disabled = isLoading;
-  googleButton.disabled = isLoading;
-  submitButton.dataset.loading = isLoading ? 'true' : 'false';
-}
-
-// Map Firebase error codes to friendly messages
-function humanError(error) {
-  if (!error || !error.code) return 'Something went wrong. Please try again.';
-
-  switch (error.code) {
-    case 'auth/invalid-email':
-      return 'That email address is not valid.';
-    case 'auth/user-disabled':
-      return 'This account has been disabled.';
-    case 'auth/user-not-found':
-      return 'No user found with this email.';
-    case 'auth/wrong-password':
-      return 'Incorrect password. Please try again.';
-    case 'auth/email-already-in-use':
-      return 'This email is already in use.';
-    case 'auth/weak-password':
-      return 'Password is too weak. Use at least 6 characters.';
-    case 'auth/popup-closed-by-user':
-      return 'Google sign-in popup was closed.';
-    default:
-      return error.message || 'Something went wrong. Please try again.';
-  }
-}
-
-// Save basic user info locally (for navbar / wallet later)
-function rememberUser(user) {
-  if (!user) return;
-  const data = {
-    uid: user.uid,
-    email: user.email || null,
-    displayName: user.displayName || null,
-    photoURL: user.photoURL || null
-  };
-  try {
-    localStorage.setItem('fenwa_user', JSON.stringify(data));
-  } catch (e) {
-    // ignore
-  }
-}
-
-// After successful login / register
-function redirectAfterAuth() {
-  // If we came from a locked chapter, we might store a "redirectTo" later.
-  const redirectTo = sessionStorage.getItem('fenwa_redirect_to') || 'index.html';
-  sessionStorage.removeItem('fenwa_redirect_to');
-  window.location.href = redirectTo;
-}
-
-// Handle form submit
-form.addEventListener('submit', async (event) => {
-  event.preventDefault();
-  clearError();
-  setLoading(true);
-
-  const email = emailInput.value.trim();
-  const password = passwordInput.value;
-
-  if (!email || !password) {
-    showError('Please fill in your email and password.');
-    setLoading(false);
+  const fb = await waitForFirebase();
+  if(!fb || !fb.auth){
+    console.error('Firebase not available - ensure /firebase.js is included as module before this file.');
     return;
   }
+  const { auth, googleProvider, signInWithPopup, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged } = fb;
 
-  try {
-    if (currentMode === 'login') {
-      const cred = await signInWithEmailAndPassword(auth, email, password);
-      rememberUser(cred.user);
-      redirectAfterAuth();
-    } else {
-      const name = displayNameInput.value.trim();
-      if (!name) {
-        showError('Please enter your name.');
-        setLoading(false);
-        return;
-      }
-
-      const cred = await createUserWithEmailAndPassword(auth, email, password);
-      // update display name
-      await updateProfile(cred.user, { displayName: name });
-      rememberUser(cred.user);
-      redirectAfterAuth();
+  // Helper to store small user object so your reader guard sees it
+  function saveFenwaUser(user){
+    // store minimal info: uid + email
+    if(!user) {
+      localStorage.removeItem('fenwa_user');
+      return;
     }
-  } catch (error) {
-    console.error('Auth error', error);
-    showError(humanError(error));
-  } finally {
-    setLoading(false);
+    const obj = { uid: user.uid, email: user.email || null };
+    localStorage.setItem('fenwa_user', JSON.stringify(obj));
   }
-});
 
-// Handle Google sign-in
-googleButton.addEventListener('click', async () => {
-  clearError();
-  setLoading(true);
-
-  try {
-    const provider = new GoogleAuthProvider();
-    const result = await signInWithPopup(auth, provider);
-    rememberUser(result.user);
-    redirectAfterAuth();
-  } catch (error) {
-    console.error('Google sign-in error', error);
-    showError(humanError(error));
-  } finally {
-    setLoading(false);
+  // redirect after login (if any)
+  function doRedirectAfterLogin(){
+    try {
+      const dest = sessionStorage.getItem('fenwa_redirect_to');
+      if(dest){
+        sessionStorage.removeItem('fenwa_redirect_to');
+        window.location.href = dest;
+      } else {
+        // default to homepage
+        window.location.href = '/';
+      }
+    } catch(e){
+      window.location.href = '/';
+    }
   }
-});
 
-// Toggle buttons
-modeToggleButtons.forEach(btn => {
-  btn.addEventListener('click', () => {
-    const mode = btn.dataset.authMode;
-    if (mode && mode !== currentMode) {
-      setMode(mode);
+  // On auth state change: persist user, and redirect if we landed from reader guard
+  onAuthStateChanged(auth, user => {
+    if(user){
+      saveFenwaUser(user);
+      // if we are on login page, redirect back to the target
+      if(window.location.pathname.endsWith('/login.html') || window.location.pathname === '/login'){
+        doRedirectAfterLogin();
+      } else {
+        // not on login page: keep user stored (so reader guard will work)
+        saveFenwaUser(user);
+      }
+    } else {
+      // signed out
+      saveFenwaUser(null);
     }
   });
-});
 
-// Initialize page in login mode by default
-setMode('login');
+  // DOM bindings (you may need to adjust selectors to match your login.html)
+  const emailInput = document.querySelector('input[type="email"]');
+  const passwordInput = document.querySelector('input[type="password"]');
+  const loginBtn = document.getElementById('loginBtn') || document.querySelector('[data-login-btn]');
+  const registerBtn = document.getElementById('registerBtn') || document.querySelector('[data-register-btn]');
+  const googleBtn = document.getElementById('googleBtn') || document.querySelector('[data-google-btn]');
+
+  function showMsg(msg){
+    // fallback simple alert; you can wire to a UI element
+    try {
+      const el = document.getElementById('authMsg');
+      if(el) { el.textContent = msg; return; }
+    } catch(e){}
+    // fallback
+    if(msg) console.log(msg);
+  }
+
+  if(loginBtn){
+    loginBtn.addEventListener('click', async (e) => {
+      e.preventDefault();
+      const email = (emailInput && emailInput.value || '').trim();
+      const password = (passwordInput && passwordInput.value || '').trim();
+      if(!email || !password){ alert('Enter email and password'); return; }
+      try {
+        const cred = await signInWithEmailAndPassword(auth, email, password);
+        // onAuthStateChanged will save user and redirect
+        showMsg('Login successful. Redirecting…');
+      } catch(err){
+        console.error('login error', err);
+        alert('Login failed: ' + (err.message || err));
+      }
+    });
+  }
+
+  if(registerBtn){
+    registerBtn.addEventListener('click', async (e) => {
+      e.preventDefault();
+      const email = (emailInput && emailInput.value || '').trim();
+      const password = (passwordInput && passwordInput.value || '').trim();
+      if(!email || !password){ alert('Enter email and password to create account'); return; }
+      try {
+        const userCred = await createUserWithEmailAndPassword(auth, email, password);
+        // user created and logged in automatically
+        showMsg('Account created. Redirecting…');
+      } catch(err){
+        console.error('register error', err);
+        alert('Registration failed: ' + (err.message || err));
+      }
+    });
+  }
+
+  if(googleBtn){
+    googleBtn.addEventListener('click', async (e) => {
+      e.preventDefault();
+      try {
+        const result = await signInWithPopup(auth, googleProvider);
+        // onAuthStateChanged will handle saving/redirect
+      } catch(err){
+        console.error('google login error', err);
+        alert('Google login failed: ' + (err.message || err));
+      }
+    });
+  }
+
+  // If the page provides a logout link/button with id=logoutBtn, wire it
+  const logoutBtn = document.getElementById('logoutBtn');
+  if(logoutBtn){
+    logoutBtn.addEventListener('click', async (e) => {
+      e.preventDefault();
+      try {
+        await fb.signOut(auth);
+        localStorage.removeItem('fenwa_user');
+        window.location.href = '/';
+      } catch(err){
+        console.error('logout error', err);
+        alert('Logout failed: ' + err.message);
+      }
+    });
+  }
+
+})();
