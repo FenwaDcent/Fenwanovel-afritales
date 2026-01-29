@@ -19,30 +19,44 @@
 
   <p id="errorMsg" style="color:red;"></p>
 
-  <!-- Firebase -->
+  <!-- Firebase (must load first) -->
   <script type="module" src="firebase.js"></script>
 
   <!-- Login logic -->
   <script>
-    const form = document.getElementById("loginForm");
-    const errorMsg = document.getElementById("errorMsg");
+    document.addEventListener("DOMContentLoaded", () => {
 
-    form.addEventListener("submit", async (e) => {
-      e.preventDefault();
+      const form = document.getElementById("loginForm");
+      const errorMsg = document.getElementById("errorMsg");
 
-      const email = document.getElementById("email").value;
-      const password = document.getElementById("password").value;
+      form.addEventListener("submit", async (e) => {
+        e.preventDefault();
 
-      try {
-        const { signInWithEmailAndPassword, auth } = window._firebase;
-        const userCred = await signInWithEmailAndPassword(auth, email, password);
+        if (!window._firebase) {
+          errorMsg.textContent = "Firebase not loaded. Refresh the page.";
+          return;
+        }
 
-        localStorage.setItem("fenwa_user", JSON.stringify(userCred.user));
+        const email = document.getElementById("email").value.trim();
+        const password = document.getElementById("password").value;
 
-        window.location.href = "index.html";
-      } catch (err) {
-        errorMsg.textContent = err.message;
-      }
+        try {
+          const auth = window._firebase.auth;
+          const signIn = window._firebase.signInWithEmailAndPassword;
+
+          const userCredential = await signIn(auth, email, password);
+
+          localStorage.setItem(
+            "fenwa_user",
+            JSON.stringify(userCredential.user)
+          );
+
+          window.location.href = "index.html";
+        } catch (err) {
+          errorMsg.textContent = err.message;
+        }
+      });
+
     });
   </script>
 
