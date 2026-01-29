@@ -1,66 +1,50 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8"/>
-  <meta name="viewport" content="width=device-width,initial-scale=1"/>
-  <title>Login – Fenwanovels</title>
+  <meta charset="utf-8">
+  <title>Login — Fenwanovels</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="assets/css/styles.css">
 </head>
-<body data-theme="dark">
-  <header class="topbar">
-    <a href="index.html" class="brand">Fenwanovels</a>
-  </header>
 
-  <main class="page page-auth">
-    <section class="auth-card">
-      <div class="auth-header">
-        <h1 id="auth-title">Welcome back</h1>
-        <p id="auth-subtitle">Log in to continue your reading journey.</p>
-      </div>
+<body class="auth-page">
 
-      <div class="auth-mode-toggle">
-        <button type="button" class="btn btn-primary" data-auth-mode="login">Login</button>
-        <button type="button" class="btn btn-outline" data-auth-mode="register">Create account</button>
-      </div>
+  <h2>Login to Fenwanovels</h2>
 
-      <form id="auth-form" class="auth-form">
-        <div id="name-field-wrapper" class="form-group" style="display:none;">
-          <label for="display-name">Full name</label>
-          <input id="display-name" type="text" autocomplete="name" placeholder="Your full name">
-        </div>
+  <form id="loginForm">
+    <input type="email" id="email" placeholder="Email" required>
+    <input type="password" id="password" placeholder="Password" required>
+    <button type="submit" class="btn">Login</button>
+  </form>
 
-        <div class="form-group">
-          <label for="email">Email address</label>
-          <input id="email" type="email" autocomplete="email" placeholder="you@example.com" required>
-        </div>
+  <p id="errorMsg" style="color:red;"></p>
 
-        <div class="form-group">
-          <label for="password">Password</label>
-          <input id="password" type="password" autocomplete="current-password" placeholder="••••••••" required>
-        </div>
+  <!-- Firebase -->
+  <script type="module" src="firebase.js"></script>
 
-        <div id="auth-error" class="alert alert-error" style="display:none;"></div>
+  <!-- Login logic -->
+  <script>
+    const form = document.getElementById("loginForm");
+    const errorMsg = document.getElementById("errorMsg");
 
-        <button id="auth-submit" type="submit" class="btn btn-primary btn-block" data-loading="false">
-          Login
-        </button>
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
 
-        <div class="auth-or">
-          <span>or</span>
-        </div>
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
 
-        <button id="google-btn" type="button" class="btn btn-ghost btn-block">
-          <span class="icon-google"></span>
-          Continue with Google
-        </button>
+      try {
+        const { signInWithEmailAndPassword, auth } = window._firebase;
+        const userCred = await signInWithEmailAndPassword(auth, email, password);
 
-        <p class="auth-note">
-          By continuing, you agree to Fenwanovels’ terms and acknowledge our privacy policy.
-        </p>
-      </form>
-    </section>
-  </main>
+        localStorage.setItem("fenwa_user", JSON.stringify(userCred.user));
 
-  <script type="module" src="assets/js/login.js"></script>
+        window.location.href = "index.html";
+      } catch (err) {
+        errorMsg.textContent = err.message;
+      }
+    });
+  </script>
+
 </body>
 </html>
