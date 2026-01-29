@@ -1,4 +1,3 @@
-<script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.31.0/firebase-app.js";
 import {
   getAuth,
@@ -33,5 +32,4 @@ window._firebase = {
   signOut
 };
 
-console.log("🔥 Firebase loaded");
-</script>
+console.log("🔥 Firebase initialized");
