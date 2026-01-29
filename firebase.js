@@ -33,5 +33,5 @@ window._firebase = {
   signOut
 };
 
-console.log("🔥 Firebase connected");
+console.log("🔥 Firebase loaded");
 </script>
