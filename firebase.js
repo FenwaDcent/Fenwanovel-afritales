@@ -32,4 +32,4 @@ window._firebase = {
   signOut
 };
 
-console.log("🔥 Firebase initialized");
+console.log("🔥 Firebase loaded successfully");
