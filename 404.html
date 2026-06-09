@@ -1,15 +1,19 @@
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<html lang="en" data-theme="dark">
 <head>
-  <meta charset="utf-8" />
-  <title>Redirecting…</title>
-  <script>
-    // Redirect all unknown routes back to home (index.html)
-    // so your SPA routing will work on GitHub Pages
-    var redirectPath = window.location.pathname;
-    sessionStorage.setItem("redirectPath", redirectPath);
-    window.location.href = "/";
-  </script>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex">
+  <title>Page not found | Fenwanovels</title>
+  <link rel="stylesheet" href="assets/css/styles.css">
+  <script type="module" src="assets/js/ui.js"></script>
 </head>
-<body></body>
+<body class="error-page">
+  <main class="error-card">
+    <p class="eyebrow">Error 404</p>
+    <h1>This page could not be found.</h1>
+    <p>The address may be incorrect, or the page may have moved.</p>
+    <a class="button primary" href="index.html">Return to the library</a>
+  </main>
+</body>
 </html>
