@@ -1,0 +1,25 @@
+FENWANOVEL REPAIRED BASELINE
+============================
+
+This package is the safe replacement for the conflicting public prototype.
+
+WHAT IT DOES
+- Replaces the broken Script.js and firebase.js architecture.
+- Keeps the live custom domain through CNAME.
+- Provides a responsive professional library and reader.
+- Keeps payments disabled until the secure backend is configured.
+- Publishes only the currently prepared Testimony sample.
+- Shows unfinished manuscripts as editorially pending, not as completed books.
+- Adds automated validation for future GitHub changes.
+
+DO NOT UPLOAD THIS ZIP FILE AS A WEBSITE FILE.
+GitHub Pages does not automatically extract uploaded ZIP archives.
+
+SAFEST METHOD
+1. Upload fenwanovel_one_click_update.py to the repository root.
+2. Open the repository in GitHub Codespaces.
+3. Run: python fenwanovel_one_click_update.py --publish
+4. Open the pull-request link printed by the installer.
+5. Review and merge the pull request.
+
+The installer removes itself before committing. It does not contain payment secrets.

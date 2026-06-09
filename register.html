@@ -1,45 +1,37 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
-  <meta charset="utf-8"/>
-  <meta name="viewport" content="width=device-width,initial-scale=1"/>
-  <title>Create Account – Fenwanovels</title>
-  <link rel="stylesheet" href="style.css">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Create a Fenwanovels AfriTales account.">
+  <title>Create account | Fenwanovels</title>
+  <link rel="stylesheet" href="assets/css/styles.css">
+  <script type="module" src="assets/js/ui.js"></script>
+  <script type="module" src="assets/js/auth-page.js"></script>
 </head>
-<body data-theme="dark">
-  <header class="topbar">
-    <a href="index.html" class="brand">Fenwanovels</a>
+<body class="auth-page" data-auth-mode="register">
+  <a class="skip-link" href="#main-content">Skip to content</a>
+  <header class="simple-header">
+    <a class="brand" href="index.html"><span class="brand-mark" aria-hidden="true">F</span><span><strong>Fenwanovels</strong><small>AfriTales</small></span></a>
+    <button class="icon-button" type="button" data-theme-toggle aria-label="Switch colour theme">Theme</button>
   </header>
-
-  <main class="container narrow">
-    <h2>Create Account</h2>
-    <form id="regForm" class="card">
-      <label>Name <input type="text" id="regName" required></label>
-      <label>Email <input type="email" id="regEmail" required></label>
-      <label>Password <input type="password" id="regPassword" minlength="6" required></label>
-      <button class="btn primary" type="submit">Register</button>
-      <p class="muted">Already have an account? <a href="login.html">Login</a></p>
-      <p id="regError" class="error"></p>
-    </form>
+  <main id="main-content" class="auth-shell">
+    <section class="auth-card" aria-labelledby="auth-title">
+      <p class="eyebrow">Reader account</p>
+      <h1 id="auth-title">Create your account</h1>
+      <p class="muted">Use a valid email address. Passwords must contain at least six characters.</p>
+      <form id="auth-form" novalidate>
+        <label for="name">Display name</label>
+        <input id="name" name="name" type="text" autocomplete="name" minlength="2" maxlength="80" required>
+        <label for="email">Email address</label>
+        <input id="email" name="email" type="email" autocomplete="email" required>
+        <label for="password">Password</label>
+        <input id="password" name="password" type="password" autocomplete="new-password" minlength="6" required>
+        <button class="button primary full-width" type="submit">Create account</button>
+      </form>
+      <p id="auth-status" class="status" role="status" aria-live="polite"></p>
+      <p class="auth-switch">Already registered? <a href="login.html">Log in</a></p>
+    </section>
   </main>
-
-  <script type="module">
-    import { auth, createUserWithEmailAndPassword, updateProfile } from './firebase.js';
-
-    const form = document.getElementById('regForm');
-    const err = document.getElementById('regError');
-
-    form.addEventListener('submit', async (e)=>{
-      e.preventDefault(); err.textContent='';
-      try{
-        const name = regName.value.trim();
-        const email = regEmail.value.trim();
-        const pwd = regPassword.value.trim();
-        const { user } = await createUserWithEmailAndPassword(auth, email, pwd);
-        if(name) await updateProfile(user, { displayName: name });
-        location.href = 'index.html';
-      }catch(e){ err.textContent = e.message; }
-    });
-  </script>
 </body>
 </html>

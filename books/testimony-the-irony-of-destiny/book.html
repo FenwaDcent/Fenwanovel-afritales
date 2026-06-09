@@ -1,97 +1,36 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Testimony: The Irony of Destiny — Reader</title>
-  <link rel="stylesheet" href="/assets/css/styles.css">
-  <style>
-    .reader-header{display:flex;align-items:center;gap:12px;padding:12px;border-bottom:1px solid rgba(0,0,0,0.08);background:var(--bg)}
-    .chapters{padding:18px;max-width:900px;margin:0 auto}
-    .chapter{background:linear-gradient(180deg,#fff,#fbfbfb);padding:16px;border-radius:12px;margin:14px 0;box-shadow:0 6px 18px rgba(0,0,0,0.06); color:#111}
-    .chapter h2{margin:0 0 8px}
-    .small{font-size:13px;color:var(--muted)}
-    .next-footer{margin-top:12px;text-align:right}
-    .watermark{position:fixed;bottom:8px;right:10px;opacity:0.12;pointer-events:none;font-weight:700}
-    .loading-msg{padding:20px;text-align:center;color:var(--muted)}
-    a.back-link{margin-right:8px;color:var(--muted)}
-    #fetch-debug { color: var(--muted); padding:12px; text-align:center; font-size:14px; display:none; }
-  </style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Read Testimony: The Irony of Destiny by Ajibade Vincent Adefenwa.">
+  <title>Testimony: The Irony of Destiny | Fenwanovels</title>
+  <link rel="stylesheet" href="../../assets/css/styles.css">
+  <script type="module" src="../../assets/js/ui.js"></script>
+  <script type="module" src="../../assets/js/reader.js"></script>
 </head>
-<body>
+<body class="reader-page" data-book-base=".">
+  <a class="skip-link" href="#chapter-content">Skip to chapter</a>
   <header class="reader-header">
-    <div style="display:flex;align-items:center">
-      <a class="back-link" href="/index.html">← Back</a>
-      <div id="bookTitle" style="font-weight:700">Loading…</div>
+    <a class="back-link" href="../../index.html">Back to library</a>
+    <div class="reader-title">
+      <span id="reader-book-title">Testimony: The Irony of Destiny</span>
+      <small id="reader-author">Ajibade Vincent Adefenwa</small>
     </div>
-    <div class="header-right">
-      <div class="coin">💰 <span id="coinBadge2">0</span></div>
-      <button id="buyBtn2" class="btn">Buy</button>
-      <button id="themeBtn" class="btn ghost" onclick="toggleTheme()"><span id="themeText">🌙</span></button>
+    <div class="reader-actions">
+      <a class="button secondary compact" href="../../store.html">Coins</a>
+      <button class="icon-button" type="button" data-theme-toggle aria-label="Switch colour theme">Theme</button>
     </div>
   </header>
 
-  <main class="chapters" id="chapters">
-    <div id="loading" class="loading-msg">Loading book…</div>
+  <main class="reader-layout">
+    <aside class="chapter-sidebar" aria-labelledby="contents-heading">
+      <h2 id="contents-heading">Contents</h2>
+      <nav id="chapter-list" class="chapter-list" aria-label="Book chapters"></nav>
+    </aside>
+    <article id="chapter-content" class="chapter-content" tabindex="-1">
+      <div id="reader-status" class="reader-loading" role="status" aria-live="polite">Loading the book...</div>
+    </article>
   </main>
-
-  <div id="buyModal" class="modal" hidden>
-    <div class="modal-card" role="dialog" aria-modal="true" aria-label="Buy Coins">
-      <button class="modal-close" id="closeBuyModalBtn" aria-label="Close modal">✕</button>
-      <h3>Buy Coins</h3>
-      <p>Choose a coin pack or redeem a voucher.</p>
-      <div class="coins-grid">
-        <button class="pack btn" data-coins="50"  data-kobo="50000">+50 Coins (₦500)</button>
-        <button class="pack btn" data-coins="150" data-kobo="120000">+150 Coins (₦1,200)</button>
-        <button class="pack btn" data-coins="300" data-kobo="200000">+300 Coins (₦2,000)</button>
-      </div>
-      <div style="text-align:center;margin:8px 0">or</div>
-      <label style="display:flex;gap:8px;align-items:center">
-        <input id="voucherInput" placeholder="Enter code e.g. FENWA100" style="flex:1;padding:10px;border-radius:8px;border:1px solid rgba(0,0,0,0.08)" />
-        <button id="redeemBtn" class="btn">Redeem</button>
-      </label>
-      <p class="small muted" style="margin-top:12px">
-        Demo mode: packs add coins locally unless you paste your Paystack public key in <code>assets/js/global.js</code>.
-      </p>
-    </div>
-  </div>
-
-  <div id="tati-watermark" class="watermark" aria-hidden="true"></div>
-
-  <!-- load global and reader (absolute paths) -->
-  <script src="/assets/js/global.js"></script>
-  <script src="/assets/js/reader.js"></script>
-
-  <script>
-    // if still showing "Loading…" after 3s show helpful hint
-    setTimeout(()=>{
-      const loading = document.getElementById('loading');
-      if(loading && loading.innerText.includes('Loading')){
-        loading.innerHTML = 'Still loading — ensure <code>/books/testimony-the-irony-of-destiny/book.json</code> and chapter files exist on the server.';
-      }
-    }, 3000);
-  </script>
-
-  <!-- debug helper (hidden by default) -->
-  <div id="fetch-debug"></div>
-  <script>
-    (function(){
-      const out = txt => document.getElementById('fetch-debug').innerHTML += '<div>'+txt+'</div>';
-      const bookJson = '/books/testimony-the-irony-of-destiny/book.json';
-      out('Checking paths...');
-      fetch(bookJson, {cache:'no-store'}).then(r=>{
-        out('book.json -> status: ' + r.status);
-        return fetch('/books/testimony-the-irony-of-destiny/chapter-1.html', {cache:'no-store'});
-      }).then(r=>{
-        out('chapter-1.html -> status: ' + r.status);
-        return fetch('/assets/js/reader.js', {cache:'no-store'});
-      }).then(r=>{
-        out('assets/js/reader.js -> status: ' + r.status);
-      }).catch(e=>{
-        out('Fetch error: ' + (e && e.message ? e.message : String(e)));
-        console.error(e);
-      });
-    })();
-  </script>
 </body>
 </html>

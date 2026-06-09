@@ -1,46 +1,148 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Fenwanovels — AfriTales</title>
-
-  <!-- Relative path: works at root or under repo path -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Read original African fiction on Fenwanovels AfriTales. Discover inspirational fiction, romance, mystery and political drama from African writers.">
+  <meta name="theme-color" content="#17120f">
+  <title>Fenwanovels AfriTales | Original African Fiction</title>
   <link rel="stylesheet" href="assets/css/styles.css">
+  <script type="module" src="assets/js/ui.js"></script>
 </head>
-
 <body>
+  <a class="skip-link" href="#main-content">Skip to content</a>
   <header class="site-header">
-    <div class="brand">Fenwanovels — AfriTales</div>
-
-    <div class="header-right">
-      <div class="coin">💰 <span id="coinBadge">0</span></div>
-      <button id="buyBtn" class="btn">Buy Coins</button>
-      <button class="btn ghost" onclick="toggleTheme()"><span id="themeText">🌙 Dark</span></button>
-      <a href="login.html" class="btn ghost">Login</a>
-    </div>
+    <a class="brand" href="index.html" aria-label="Fenwanovels home">
+      <span class="brand-mark" aria-hidden="true">F</span>
+      <span><strong>Fenwanovels</strong><small>AfriTales</small></span>
+    </a>
+    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-nav" data-nav-toggle>Menu</button>
+    <nav id="primary-nav" class="primary-nav" aria-label="Primary navigation" data-nav>
+      <a aria-current="page" href="index.html">Library</a>
+      <a href="#coming-next">Coming next</a>
+      <a href="store.html">Coins</a>
+      <a data-auth-link href="login.html">Log in</a>
+      <button class="text-button" type="button" data-sign-out hidden>Log out</button>
+      <button class="icon-button" type="button" data-theme-toggle aria-label="Switch colour theme">Theme</button>
+    </nav>
   </header>
 
-  <main class="container">
-    <div class="book-list">
-      <div class="book-card">
-        <!-- relative cover path -->
-        <img src="covers/testimony.jpg" class="cover" alt="Testimony cover" onerror="this.style.display='none'">
-        <div>
-          <h2>Testimony: The Irony of Destiny</h2>
-          <p class="muted">Written by Ajibade Vincent Adefenwa • Inspirational Fiction</p>
-          <div style="margin-top:10px; display:flex; gap:8px;">
-            <a class="btn" href="books/testimony-the-irony-of-destiny/book.html">Read</a>
-            <a class="btn ghost" href="mailto:youremail@example.com">Contact</a>
-          </div>
+  <main id="main-content">
+    <section class="hero container">
+      <div class="hero-copy">
+        <p class="eyebrow">Original African stories</p>
+        <h1>Stories shaped by faith, love, ambition and consequence.</h1>
+        <p class="lead">Discover carefully edited fiction rooted in African places, voices and experiences. Begin with the current release, then follow the editorial queue as new titles are prepared.</p>
+        <div class="button-row">
+          <a class="button primary" href="books/testimony-the-irony-of-destiny/book.html">Start reading</a>
+          <a class="button secondary" href="#coming-next">View upcoming titles</a>
         </div>
       </div>
-    </div>
+      <div class="hero-note" aria-label="Platform information">
+        <span class="stat">6</span>
+        <span>original titles in the launch catalogue</span>
+      </div>
+    </section>
+
+    <section class="container section" aria-labelledby="library-heading">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">Now reading</p>
+          <h2 id="library-heading">Featured release</h2>
+        </div>
+      </div>
+
+      <article class="book-card">
+        <a class="cover-link" href="books/testimony-the-irony-of-destiny/book.html" aria-label="Read Testimony: The Irony of Destiny">
+          <img class="book-cover" src="covers/testimony-the-irony-of-destiny.jpg" alt="Cover of Testimony: The Irony of Destiny" width="720" height="1080">
+        </a>
+        <div class="book-details">
+          <p class="book-category">Inspirational fiction</p>
+          <h3><a href="books/testimony-the-irony-of-destiny/book.html">Testimony: The Irony of Destiny</a></h3>
+          <p class="book-author">By Ajibade Vincent Adefenwa</p>
+          <p>Chioma's ordered life at Osun State University changes as friendship, love and distance test the promises she believed would shape her future.</p>
+          <p class="availability"><strong>4 edited chapters available.</strong> More chapters will appear after editorial approval.</p>
+          <div class="button-row">
+            <a class="button primary" href="books/testimony-the-irony-of-destiny/book.html">Read now</a>
+            <a class="button secondary" href="mailto:contact@fenwanovel.online">Contact the author</a>
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <section id="coming-next" class="container section" aria-labelledby="coming-heading">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">Editorial queue</p>
+          <h2 id="coming-heading">Coming next</h2>
+        </div>
+      </div>
+
+      <div class="catalogue-grid">
+        <article class="catalogue-card">
+          <div class="cover-placeholder cover-night" aria-hidden="true"><span>THE NIGHT<br>THE CHURCH<br>DISAPPEARED</span></div>
+          <div>
+            <p class="book-category">Christian supernatural mystery</p>
+            <h3>The Night the Church Disappeared</h3>
+            <p>A church vanishes at 2:47 a.m., returns with a warning and forces an entire diocese to confront a buried covenant.</p>
+            <span class="editorial-status">Final editorial preparation</span>
+          </div>
+        </article>
+
+        <article class="catalogue-card">
+          <div class="cover-placeholder cover-light" aria-hidden="true"><span>THE LIGHT<br>IN THE SHADOW</span></div>
+          <div>
+            <p class="book-category">Supernatural inspirational fiction</p>
+            <h3>The Light in the Shadow</h3>
+            <p>Mara's search for an answer draws her towards a spiritual conflict that challenges everything she believes about light and darkness.</p>
+            <span class="editorial-status">Ending under development</span>
+          </div>
+        </article>
+
+        <article class="catalogue-card">
+          <div class="cover-placeholder cover-empty" aria-hidden="true"><span>BEFORE YOU<br>DIE EMPTY</span></div>
+          <div>
+            <p class="book-category">Inspirational fiction</p>
+            <h3>Before You Die Empty</h3>
+            <p>Samuel Akinwale rises from a village lesson to public influence, then discovers that success can still leave a life unfulfilled.</p>
+            <span class="editorial-status">Originality and line edit</span>
+          </div>
+        </article>
+
+        <article class="catalogue-card">
+          <div class="cover-placeholder cover-loved" aria-hidden="true"><span>THE GIRL<br>EVERYONE<br>LOVED</span></div>
+          <div>
+            <p class="book-category">Campus romance and suspense</p>
+            <h3>The Girl Everyone Loved</h3>
+            <p>Sesi wants a quiet university life, but affection, rivalry and hidden danger turn her campus into an emotional battlefield.</p>
+            <span class="editorial-status">Volume restructuring</span>
+          </div>
+        </article>
+
+        <article class="catalogue-card">
+          <div class="cover-placeholder cover-money" aria-hidden="true"><span>THE SEASON<br>OF MONEY</span></div>
+          <div>
+            <p class="book-category">Political fiction</p>
+            <h3>The Season of Money</h3>
+            <p>An idealistic reformer enters a political order where hunger, patronage and private bargains often speak louder than law.</p>
+            <span class="editorial-status">Working title and structural edit</span>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="container section trust-section" aria-labelledby="trust-heading">
+      <p class="eyebrow">Publishing standard</p>
+      <h2 id="trust-heading">Edited before release</h2>
+      <p class="lead">Fenwanovels publishes chapters only after structure, continuity, language and formatting have been reviewed. Incomplete drafts remain in the editorial queue instead of being presented as finished books.</p>
+    </section>
   </main>
 
-  <!-- Buy modal markup and other site markup should remain (if you have it). -->
-  <!-- Load scripts with relative paths -->
-  <script src="assets/js/global.js"></script>
-  <script src="assets/js/reader.js"></script>
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <p>&copy; <span data-current-year></span> Fenwanovels AfriTales.</p>
+      <p><a href="mailto:contact@fenwanovel.online">contact@fenwanovel.online</a></p>
+    </div>
+  </footer>
 </body>
 </html>
